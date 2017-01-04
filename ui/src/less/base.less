@@ -1,0 +1,72 @@
+.cover () {
+
+  
+  height: 100%;
+}
+
+.overlay () {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .cover;
+}
+
+html, body, body > div.app {
+
+  .cover;
+}
+
+body {
+
+  background-color: @text-color;
+  color: @body-bg;
+  overflow: hidden;
+  padding-top: @navbar-height;
+  font-size: 15px;
+}
+
+body > div.app {
+
+  &> div.loading-overlay {
+
+    .cover;
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &> div {
+
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 1.5em;
+    }
+  }
+
+  &> div.content {
+
+    .cover;
+  }
+
+  select.form-control {
+
+    font-size: 14px;
+    padding: 4px 4px 4px 0;
+    color: @body-bg;
+    margin: 0;
+  }
+}
+
+.dataTables_filter, .dataTables_paginate {
+   width: 50% !important;
+   float: right !important;
+   text-align: right !important;
+   padding-bottom: 20px !important;
+}
+.dataTables_length, .dataTables_info{
+  position: absolute !important;
+}
