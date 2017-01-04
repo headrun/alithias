@@ -59,10 +59,11 @@ def logout(request):
 
   return HttpResponse("logged out")
 
-@ensure_csrf_cookie
+
 def status(request):
 
   if request.user.is_authenticated():
-    return HttpResponse({"user": getUserData(request.user)})
+    return HttpResponse(getUserData(request.user))
+    #return HttpResponse({"user": getUserData(request.user)})
 
   return HttpResponse("Invalid Login")

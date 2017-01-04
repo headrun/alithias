@@ -7,17 +7,18 @@
 
     function ($q, $http, Session) {
 
+        this.creden = { withCredentials: false };
+
       var deferredStatus = null;
 
       this.login = function (credentials) {
 
         deferredStatus = null;
 
-        return $http.post(endPoint + "/login/", credentials)
+        var login_url_to_fire = 'http://localhost:1122/auth/login/';
+        return $http.post(login_url_to_fire, credentials)
                     .then(function (resp) {
-
           resp = resp.data;
-
           Session.set(resp.result);
         });
       };
@@ -31,7 +32,7 @@
 
       this.logout = function () {
 
-        return $http.get(endPoint + "/logout/").then(function () {
+        return $http.get("http://localhost:1122/auth/logout/").then(function () {
 
           Session.unset();
           deferredStatus = null;
@@ -47,7 +48,9 @@
 
         deferredStatus = $q.defer();
 
-        $http.get(endPoint + "/status/").then(function (resp) {
+        var url_to_fire = 'http://localhost:1122/auth/status/';
+
+        $http.get(url_to_fire,{ withCredentials: true }).then(function (resp) {
 
           resp = resp.data;
 

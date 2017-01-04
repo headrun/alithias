@@ -8,8 +8,8 @@
       // to LOGIN_REDIRECT_STATE
       LOGIN_REDIRECT_STATE = "dashboard";
 
-  angular.module("bootstrap")
-         .config(["$locationProvider", "$stateProvider",
+  var app = angular.module("bootstrap")
+         app.config(["$locationProvider", "$stateProvider",
                   "$httpProvider", "$urlRouterProvider",
 
            function ($lp, $sp, $hp, $urp) {
@@ -37,8 +37,8 @@
 
              $urp.otherwise("/");
 
-             $hp.defaults.xsrfCookieName = "csrftoken";
-             $hp.defaults.xsrfHeaderName = "X-CSRFToken";
+             //$hp.defaults.xsrfCookieName = "csrftoken";
+             //$hp.defaults.xsrfHeaderName = "X-CSRFToken";
            }
          ]).run(["$rootScope", "$state",
                  "Auth", "AUTH_EVENTS",
@@ -70,7 +70,7 @@
                       return;
                     }
 
-                    if (!resp.user) {
+                    if (!resp.userName) {
 
                       $rootScope.$broadcast(AUTH_EVENTS.unAuthorized);
                       return;
@@ -97,4 +97,36 @@
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, goToLogin);
           }
          ]);
+   app.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+  }])
+
+  app.provider('myCSRF',[function(){
+  var headerName = 'X-CSRFToken';
+  var cookieName = 'csrftoken';
+  var allowedMethods = ['GET', 'POST'];
+
+  this.setHeaderName = function(n) {
+    headerName = n;
+  }
+  this.setCookieName = function(n) {
+    cookieName = n;
+  }
+  this.setAllowedMethods = function(n) {
+    allowedMethods = n;
+  }
+  this.$get = ['$cookies', function($cookies){
+    return {
+      'request': function(config) {
+        if(allowedMethods.indexOf(config.method) === -1) {
+          // do something on success
+          config.headers[headerName] = $cookies[cookieName];
+        }
+        return config;
+      }
+    }
+  }];
+}]).config(function($httpProvider) {
+  $httpProvider.interceptors.push('myCSRF');
+}); 
 }(window.angular));

@@ -32,6 +32,7 @@
       this.userId   = data.userId;
       this.userName = data.userName;
       this.email    = data.email;
+      this.session  = data.session;
     };
 
     this.unset = resetSession;
