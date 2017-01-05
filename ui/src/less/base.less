@@ -68,8 +68,32 @@ body > div.app {
    padding-bottom: 20px !important;
 }
 .dataTables_length, .dataTables_info{
-  position: absolute !important;
+    position: absolute !important;
 }
-#DataTables_Table_0_wrapper {
-    font-size: 12px;
+.dataTables_wrapper {
+    font-size: 13px;
 }
+.dataTable > thead > tr > th {
+    padding: @gutter 0px;
+    text-align: center;
+}
+.dataTable > thead > tr {
+    background: @table-head-color;
+    color: @text-color;
+    font-size: 13px;
+}
+.dataTable > tbody > tr > td {
+    text-align: center;
+}
+.page-header{
+    font-size: 25px;
+    font-family: "Segoe UI",Arial,sans-serif;
+    margin-left: 50px;
+    color: #5353a2;
+}
+.form-horizontal {
+    font-size: 13px !important;
+    color: #5f5f5f;
+    font-weight: none !important;
+}
+

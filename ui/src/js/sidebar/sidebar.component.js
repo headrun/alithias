@@ -5,9 +5,9 @@
         .component("sidebar", {
 
            	"templateUrl": "/js/sidebar/sidebar.html",
-           	"controller" : ["$rootScope", "$state", "$filter", "$interval",
+           	"controller" : ["$rootScope", "$state", "$filter", "$interval", "$scope", "$location",
 
-           	function ($rootScope, $state, $filter, $interval) {
+           	function ($rootScope, $state, $filter, $interval, $scope, $location) {
 
                var that = this;
 
@@ -17,6 +17,9 @@
                
                  this.collapsed = !this.collapsed;
                }
+               $scope.getActive = function (path) {
+                    return location.href.indexOf(path) !== -1 ? 'active' : '';
+                }
              }
           ]
 

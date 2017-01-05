@@ -1,60 +1,38 @@
-<h3>Procedure Pricing Details</h3><br>
-<form class="form-horizontal">
+<span class="page-header">Procedure Pricing Details</span><br><br>
+<form class="form-horizontal" ng-submit="submit(param)">
     <div class="form-group">
-      <label class="control-label col-sm-2" for="email">@ProcedureID :</label>
+      <label class="control-label col-sm-3" for="email">Procedure ID :</label>
       <div class="col-sm-4">
-        <select class="form-control">
-          <option value="">sample 1</option>
-          <option value="">sample 2</option>
-          <option value="">sample 3</option>
-          <option value="">sample 4</option>
-          <option value="">sample 5</option>
-          <option value="">sample 6</option>
-        </select>
+          <input type="number" class="form-control" ng-model="param.procedureId">
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">@NetworkID :</label>
+      <label class="control-label col-sm-3" for="pwd">Network ID :</label>
       <div class="col-sm-4">          
-        <select class="form-control">
-          <option value="">sample 1</option>
-          <option value="">sample 2</option>
-          <option value="">sample 3</option>
-          <option value="">sample 4</option>
-          <option value="">sample 5</option>
-          <option value="">sample 6</option>
-        </select>
+          <input type="number" class="form-control" ng-model="param.networkId">
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">@FacilityNPI :</label>
+      <label class="control-label col-sm-3" for="pwd">Facility NPI :</label>
       <div class="col-sm-4">          
-        <select class="form-control">
-          <option value="">sample 1</option>
-          <option value="">sample 2</option>
-          <option value="">sample 3</option>
-          <option value="">sample 4</option>
-          <option value="">sample 5</option>
-          <option value="">sample 6</option>
-        </select>
+          <input type="number" class="form-control" ng-model="param.facilityNpi">
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">@ProcedureCodeFilter :</label>
+      <label class="control-label col-sm-3" for="pwd">Procedure Code Filter :</label>
       <div class="col-sm-4">          
-        <select class="form-control">
-          <option value="">sample 1</option>
-          <option value="">sample 2</option>
-          <option value="">sample 3</option>
-          <option value="">sample 4</option>
-          <option value="">sample 5</option>
-          <option value="">sample 6</option>
-        </select>
+          <input type="text" class="form-control" ng-model="param.procedureCodeFilt">
       </div>
     </div>
     <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-4">
-        <button type="submit" class="btn btn-default">Submit</button>
+      <div class="col-sm-offset-3 col-sm-4">
+        <button type="submit" class="btn btn-success btn-sm">Submit</button>
       </div>
     </div>
 </form>
+
+<hr>
+
+<div>
+    <table ng-if="$ctrl.authorized"  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
+</div>

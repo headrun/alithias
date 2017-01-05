@@ -83,7 +83,7 @@ def dropdown_queries_new(table_info):
     #return HttpResponse(data, content_type='application/json')
     return final_api_list
 
-def procedure_pricing_dropdowns(request):
+def procedure_pricing_dropdowns_old(request):
     dropdown_info = {}
     dropdown_info['Procedures']="ProcedureName"
     dropdown_info['Networks'] = "NetworkName"
@@ -105,8 +105,13 @@ def procedure_pricing_dropdowns(request):
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
-
-
+def proc_pricing_breakdown_dropdowns(request):
+    dropdown_info = {}
+    dropdown_info['Procedures'] = "ProcedureID"
+    dropdown_info['Networks'] = "NetworkID"
+    dd_data = dropdown_queries(dropdown_info)
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
 
 def cmp_network_by_state_dropdowns(request):
     dropdown_info = {}
@@ -171,6 +176,7 @@ def stored_procedure_calling (st_procedure_name,params):
     final_api_list = []
     count = 1
 
+
     for row in tables:
         local_count = 1
         key = 'row_' + str(count)
@@ -184,8 +190,6 @@ def stored_procedure_calling (st_procedure_name,params):
             tb_col = 'col_' + str(local_count)
             if field != None:
                 field = str(field)
-            else:
-                field = "abcd"
             final_api_dict[tb_col] = field
             local_count = local_count+1
             print field
@@ -332,7 +336,6 @@ def procedure_pricing_breakdown_cpt(request):
     try :
         provider_id = request.GET['ProviderID']
     except:
-        #provider_id = 1033140397
         provider_id = 1073626917
 
     params = [provider_id]

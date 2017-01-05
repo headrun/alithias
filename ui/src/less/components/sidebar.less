@@ -62,21 +62,28 @@
 }
 
 .sidebar-nav li a:hover {
+    color: #daa520;
+    font-weight: bold;
+    font-style: italic;
     text-decoration: none;
-    color: #000;
-    background: #07aff7;
 }
 
+.sidebar-nav li a.active {
+    color: #daa520;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: none;
+}
 .sidebar-nav li a:active,
 .sidebar-nav li a:focus {
     text-decoration: none;
 }
 
 .sidebar-nav > .sidebar-brand {
-    height: 45px;
+    height: 38px;
     font-weight: bold;
     color: #000;
-    background: #ccc;
+    background: @table-head-color;
     font-size: 16px;
     line-height: 40px;
 }
@@ -86,11 +93,11 @@
 }
 
 .sidebar-nav > .sidebar-brand a {
-    color: #000;
+    color: @text-color;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
-    color: #000;
+    color: @text-color;
     background: none;
 }
 
