@@ -41,6 +41,27 @@ def dropdown_queries(table_info):
     #return HttpResponse(data, content_type='application/json')
     return final_api_list
 
+
+def admin_dropdown_queries(table_info):
+    connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
+    cursor = connection.cursor()
+    tables_data = {}
+    for table_name,table_val in table_info.iteritems():
+        table_columns = ""
+        for t_colu in table_val:
+            table_columns =table_columns + t_colu
+        if table_columns != "":
+            sql = 'SELECT {0} FROM {1}'.format(table_columns,table_name)
+            cursor.execute(sql)
+            try:
+                rows = cursor.fetchall()
+            except:
+                rows = []
+            tables_data[table_name] = rows
+
+    for row_key,row_value in tables_data.iteritems():
+        pass
+
 def dropdown_queries_new(table_info):
     connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
     cursor = connection.cursor()
@@ -113,18 +134,27 @@ def proc_pricing_breakdown_dropdowns(request):
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
-def cmp_network_by_state_dropdowns(request):
+
+def proc_pricing_episode_dropdowns(request):
     dropdown_info = {}
-    dropdown_info['Companies'] = " CompanyName"
-    dd_data = dropdown_queries(dropdown_info)
+    dropdown_info['Networks'] = ["NetworkName","NetworkID"]
+    dd_data = dropdown_queries_new(dropdown_info)
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
 
-def pr_code_summary_proc_dropdowns(request):
+def cmp_network_by_state_dropdowns(request):
     dropdown_info = {}
-    dropdown_info['Procedures'] = "ProcedureName"
-    dd_data = dropdown_queries(dropdown_info)
+    dropdown_info['Companies'] = ["CompanyName", "CompanyID"]
+    dd_data = dropdown_queries_new(dropdown_info)
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
+
+
+def proc_code_summary_proc_dropdowns(request):
+    dropdown_info = {}
+    dropdown_info['Procedures'] = ["ProcedureName", "ProcedureID"]
+    dd_data = dropdown_queries_new(dropdown_info)
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
@@ -138,6 +168,9 @@ def cost_cmpr_summary_dropdowns(request):
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
+def Procedur_Maintenance_dropdowns(request):
+    dropdown_info = {}
+    pass
 
 
 
@@ -151,7 +184,6 @@ def stored_procedure_calling (st_procedure_name,params):
     stored_procedure_parameters  =[st_procedure_name]
     stored_procedure_parameters = stored_procedure_parameters +params
     st_query  = "exec"
-    #import pdb;pdb.set_trace()
     for i in range(len(stored_procedure_parameters)) :
         if i+1 ==1:
             st_query = st_query + " %s"
@@ -199,9 +231,68 @@ def stored_procedure_calling (st_procedure_name,params):
     table_format = {}
     table_format['data'] = final_api_data
     data = json.dumps(final_api_list)
+
+    #return final_api_list
     return HttpResponse(data, content_type='application/json')
     #return final_api_data
 
+
+def stored_procedure_calling_list (st_procedure_name,params):
+    connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
+    cursor = connection.cursor()
+    #SET NOCOUNT ON;
+    noCount = """ SET NOCOUNT ON; """
+    #noCount = ''
+    stored_procedure_parameters  =[st_procedure_name]
+    stored_procedure_parameters = stored_procedure_parameters +params
+    st_query  = "exec"
+    for i in range(len(stored_procedure_parameters)) :
+        if i+1 ==1:
+            st_query = st_query + " %s"
+        elif i+1==len(stored_procedure_parameters):
+            st_query = st_query + " '%s'"
+        else:
+            st_query = st_query + " '%s',"
+
+    sql = st_query % tuple(stored_procedure_parameters)
+    print sql
+    cursor.execute(noCount+sql)
+    try:
+        tables = cursor.fetchall()
+    except:
+        tables = []
+    strd_data = {}
+    final_api_data = {}
+    strd_data_list = []
+    final_api_list = []
+    count = 1
+
+    for row in tables:
+        local_count = 1
+        key = 'row_' + str(count)
+        strd_data[key] = [row]
+        #final_api_data[key] = {}
+        count = count + 1
+        strd_data_list.append(row)
+        final_api_dict = {}
+        # print row.column_name
+        for field in row:
+            tb_col = 'col_' + str(local_count)
+            if field != None:
+                field = str(field)
+            final_api_dict[tb_col] = field
+            local_count = local_count+1
+            print field
+        final_api_list.append(final_api_dict)
+    connection.close()
+    final_api_data['data']= final_api_list
+    table_format = {}
+    table_format['data'] = final_api_data
+    #data = json.dumps(final_api_list)
+
+    return final_api_list
+    #return HttpResponse(data, content_type='application/json')
+    #return final_api_data
 
 def stored_procedure_calling_new (st_procedure_name,params):
     #cursor = connection.cursor()
@@ -247,29 +338,6 @@ def stored_procedure_calling_new (st_procedure_name,params):
     return strd_data_list
 
 def procedure_pricing(request):
-    """connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;')
-    cursor = connection.cursor()
-    params = (1805, 2019,'',1,'false','WI',184)
-    sql = "exec rptProcedurePricing %s, %s, '%s', %s, %s, %s, '%s'" % params
-    cursor.execute(sql)
-    tables = cursor.fetchall()
-    strd_data = {}
-    count = 1
-    for row in tables:
-        key =  'row_'+str(count)
-        strd_data[key] = [row]
-        count = count+1
-        strd_data_list.append(row)
-        #print row.column_name
-        for field in row:
-            print field"""
-
-    #import pdb;pdb.set_trace()
-    #data = json.dumps(strd_data)
-    #return HttpResponse(data, content_type='application/json')
-
-    #params = (1805, 2019, '', 1, 'false', 'WI', 184)
-    #params = [1805, 2019, '', 1, 'false', 'WI', 184]
 
     try :
         procedure_id = request.GET['ProcedureID']
@@ -342,6 +410,48 @@ def procedure_pricing_breakdown_cpt(request):
     strd_data_list = stored_procedure_calling('rptProviderDetail', params)
     return HttpResponse(strd_data_list)
 
+
+def procedure_pricing_breakdown_cpt(request):
+    """@ProviderNPI"""
+    try :
+        provider_id = request.GET['ProviderID']
+    except:
+        provider_id = 1073626917
+
+    params = [provider_id]
+    strd_data_list = stored_procedure_calling('rptProviderDetail', params)
+    return HttpResponse(strd_data_list)
+
+def provider_pricing_breakdown_cpt(request):
+    """@ProviderNPI"""
+    try :
+        procedure_id = request.GET['ProcedureID']
+    except:
+        #procedure_id = 1901
+        procedure_id = 2303
+    try :
+        network_id = request.GET['NetworkID']
+    except:
+        network_id = 2019
+    try:
+        provider_npi = request.GET['ProviderNPI']
+    except:
+        provider_npi = 1881645364
+    try:
+        cast_cat_code = request.GET['CostCategoryCode']
+    except:
+        cast_cat_code = 'PHYSICIAN'
+    try:
+        facility_prov_npi = request.GET['FacilityProviderNPI']
+    except:
+        facility_prov_npi = 1518993880
+
+
+    params = [procedure_id,network_id,facility_prov_npi,provider_npi,cast_cat_code]
+    strd_data_list = stored_procedure_calling('rptProviderPricingDetail', params)
+    return HttpResponse(strd_data_list)
+
+
 def procedure_pricing_episode(request):
     """@StartDate,@EndDate ,@ProcedureID,@NetworkID,@CompanyID,@FacilityNPI,@PatientID,@FirstDateOfService,@ProcedureCode"""
     start_date,end_date,company_id,patient_id,first_data_service,procedure_code = '','','','','',''
@@ -363,6 +473,8 @@ def procedure_pricing_episode(request):
     strd_data_list = stored_procedure_calling('rptEpisodeDetails', params)
     return HttpResponse(strd_data_list)
 
+
+
 def company_network_by_state(request):
     """CompanyID,State"""
     try:
@@ -371,7 +483,24 @@ def company_network_by_state(request):
         company_id =301
     state = ''
     params = [company_id,state]
-    strd_data_list = stored_procedure_calling('rptCompanyNetworksByState', params)
+
+    #strd_data_list = stored_procedure_calling('rptCompanyNetworksByState', params)
+    strd_data_list = stored_procedure_calling_list('rptCompanyNetworksByState', params)
+    state_name = {}
+    for dict in strd_data_list:
+        if state_name.has_key(dict['col_5']):
+            state_name[dict['col_5']].append(dict)
+        else:
+            state_name[dict['col_5']] = [dict]
+    final_claim_data = {}
+    for st_name,st_values in state_name.iteritems() :
+        claim_count = 0
+        import pdb;pdb.set_trace()
+        for st_value in st_values:
+            claim_count = claim_count+st_value['col_6']
+
+    """import pdb;
+    pdb.set_trace()"""
     return HttpResponse(strd_data_list)
 
 
@@ -428,7 +557,7 @@ def Procedure_Maintenance(request):
     try:
         db_action_type = request.GET['db_action_type']
     except:
-        db_action_type = 'delete'
+        db_action_type = 'insert'
     if db_action_type == 'all':
         params = []
         sp = 'Procedure_SelectAll'
@@ -436,7 +565,7 @@ def Procedure_Maintenance(request):
         try:
             procedure_id = request.GET['ProcedureID']
         except:
-            procedure_id = '1605'
+            procedure_id = '4513'
         params = [procedure_id]
         sp = 'Procedure_Delete'
     elif db_action_type in ['update','insert']:
@@ -445,40 +574,41 @@ def Procedure_Maintenance(request):
         try:
             procedure_id = request.GET['ProcedureID']
         except:
-            procedure_id =''
+            procedure_id ='88888'
         try:
             procedure_name = request.GET['ProcedureName']
         except:
-            procedure_name = ''
+            procedure_name = 'Trail test'
         try:
             is_outpatient = request.GET['IsOutpatient']
         except:
-            is_outpatient = ''
+            is_outpatient = 'true'
         try:
             enabled = request.GET['Enabled']
         except:
-            enabled = ''
+            enabled = 'true'
         try:
             require_facility = request.GET['RequireFacility']
         except:
-            require_facility = ''
+            require_facility = 'false'
         try:
             require_physician = request.GET['RequirePhysician']
         except:
-            require_physician = ''
+            require_physician = 'true'
         try:
             require_anesthesia = request.GET['RequireAnesthesia']
         except:
-            require_anesthesia = ''
+            require_anesthesia = 'true'
         try:
             require_lab = request.GET['RequireLab']
         except:
-            require_lab = ''
+            require_lab = 'false'
         try:
             require_radiology = request.GET['RequireRadiology']
         except:
-            require_radiology = ''
-        params = [procedure_id,procedure_name,is_outpatient,enabled,require_facility,require_physician,require_anesthesia,require_lab,require_radiology]
+            require_radiology = 'false'
+        params = [procedure_id,procedure_name,enabled,is_outpatient,require_facility,require_physician,require_anesthesia,require_lab,require_radiology]
+        #params = [procedure_id, procedure_name,is_outpatient,enabled,require_facility, require_physician,require_anesthesia, require_lab, require_radiology]
         if db_action_type == 'update':
             sp = 'Procedure_Update'
         else:
@@ -490,49 +620,49 @@ def Procedure_Mapping_Maintenance(request):
     try:
         db_action_type = request.GET['db_action_type']
     except:
-        db_action_type = 0
+        db_action_type = 'update'
     if db_action_type == 'all':
         try:
             procedure_id = request.GET['ProcedureID']
         except:
-            procedure_id = ''
+            procedure_id = '4513'
         params = [procedure_id]
         sp = 'ProcedureMapping_SelectAll'
     elif db_action_type == 'delete':
         try:
             mapping_id = request.GET['MappingID']
         except:
-            mapping_id = ''
+            mapping_id = '4513'
         params = [mapping_id]
         sp = 'ProcedureMapping_Delete'
-    elif db_action_type in ['update','delete']:
+    elif db_action_type in ['update','insert']:
         """ProcedureID,ProcedureCode,IsPrimary,IsSecondary"""
         try:
             procedure_id = request.GET['ProcedureID']
         except:
-            procedure_id = ''
+            procedure_id = '4513'
         try:
             procedure_code = request.GET['ProcedureCode']
         except:
-            procedure_code = ''
+            procedure_code = '83037'
         try:
             is_primary = request.GET['IsPrimary']
         except:
-            is_primary = ''
+            is_primary = 'false'
         try:
             is_secondary = request.GET['IsSecondary']
         except:
-            is_secondary = ''
+            is_secondary = 'true'
         try:
             mapping_id = request.GET['MappingID']
         except:
-            mapping_id = ''
+            mapping_id = '1696'
         if db_action_type == 'update':
             sp = 'ProcedureMapping_Update'
-            params = [procedure_id,procedure_code,is_primary,is_secondary]
+            params = [mapping_id, procedure_code, is_primary, is_secondary]
         else:
             sp = 'ProcedureMapping_Insert'
-            params = [mapping_id, procedure_code, is_primary, is_secondary]
+            params = [procedure_id, procedure_code, is_primary, is_secondary]
     strd_data_list = stored_procedure_calling(sp, params)
     return HttpResponse(strd_data_list)
 
@@ -548,11 +678,11 @@ def Provider_Maintenance(request):
         try:
             provider_npi = request.GET['ProviderNPI']
         except:
-            provider_npi = '1679835326'
+            provider_npi = '1750603296'
         try:
             provider_name = request.GET['ProviderName']
         except:
-            provider_name = '13TH STREET PHARMACY LLC new alithias'
+            provider_name = 'LIGHT PRENATAL CARE CENTER '
         try:
             provider_tax_id = request.GET['ProviderTaxID']
         except:
@@ -560,7 +690,7 @@ def Provider_Maintenance(request):
         try:
             provider_type_code = request.GET['ProviderTypeCode']
         except:
-            provider_type_code = 'DMESUPP'
+            provider_type_code = 'PHYSICIAN'
         params = [provider_npi,provider_name,provider_tax_id,provider_type_code]
         sp = 'Provider_Update'
     strd_data_list = stored_procedure_calling(sp, params)
