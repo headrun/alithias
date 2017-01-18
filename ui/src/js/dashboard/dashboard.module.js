@@ -3,6 +3,7 @@
 
   angular.module("dashboard", ["ui.router", "auth", "header", "sidebar", "datatables",
   					"companynetworks", "procedurepricing", "procedurepriceview", 
-  					"procedurepricingdetail", "providerpricingdetail"]);
+  					"procedurepricingdetail", "providerpricingdetail", "procedurecodesummary",
+  					"ppepisodedetails"]);
 
 }(window.angular));

@@ -43,11 +43,28 @@
                    "state"   : {},
                    "stateStr": "{}"
                  },
+                 "procedurecodesummary": {
+
+                   "name"    : "procedurecodesummary",
+                   "fullName": "dashboard.procedurecodesummary",
+                   "text"    : "Procedure Code Summary for Procedure",
+                   "state"   : {},
+                   "stateStr": "{}"
+                 },
+                 "ppepisodedetails": {
+
+                   "name"    : "ppepisodedetails",
+                   "fullName": "dashboard.ppepisodedetails",
+                   "text"    : "Procedure Provider Episode Details",
+                   "state"   : {},
+                   "stateStr": "{}"
+                 },
               };
 
   // If one uses a menu bar, the order of appearance is here
   var pagesOrder = ["companynetworks", "procedurepricing", "procedurepriceview", 
-                  "procedurepricingdetail", "providerpricingdetail"];
+                  "procedurepricingdetail", "providerpricingdetail", "procedurecodesummary",
+                  "ppepisodedetails"];
 
   angular.module("dashboard")
          .component("dashboard", {

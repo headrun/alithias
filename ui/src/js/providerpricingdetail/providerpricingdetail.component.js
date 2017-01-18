@@ -14,6 +14,7 @@
                  this.collapsed = true;
                  vm.authorized = false;
 
+                 $scope.total = '';
                  this.toggleCollapse = function () {
                  
                    this.collapsed = !this.collapsed;
@@ -33,8 +34,9 @@
                               url: that.apiUrl,
                               type: 'GET'
                            })
+                       .withDataProp('data')
                        .withOption('processing', true)
-                       .withOption('serverSide', false)
+                       .withOption('serverSide', true)
                        .withPaginationType('full_numbers');
 
                       vm.dtColumns = [
@@ -48,7 +50,11 @@
                           DTColumnBuilder.newColumn('col_18').withTitle('Discounted Amount'),
                           DTColumnBuilder.newColumn('col_20').withTitle('Discount Source'),
                           DTColumnBuilder.newColumn('col_22').withTitle('Code Cost Factor'),
-                          DTColumnBuilder.newColumn('col_18').withTitle('Factored Cost'),
+                          DTColumnBuilder.newColumn('col_24').withTitle('Factored Cost'),
+                          DTColumnBuilder.newColumn('total').withTitle('Total').renderWith(function(data, type, full, meta) {
+                                vm.total = full.total;
+                                return vm.total;
+                            }).notVisible(),
                           DTColumnBuilder.newColumn('col_1').withTitle('test_1').notVisible(),
                           DTColumnBuilder.newColumn('col_2').withTitle('test_2').notVisible(),
                           DTColumnBuilder.newColumn('col_3').withTitle('test_3').notVisible(),
@@ -63,7 +69,7 @@
                           DTColumnBuilder.newColumn('col_21').withTitle('test_12').notVisible(),
                           DTColumnBuilder.newColumn('col_23').withTitle('test_13').notVisible(),
                           DTColumnBuilder.newColumn('col_24').withTitle('test_14').notVisible(),
-                          DTColumnBuilder.newColumn('col_25').withTitle('test_15').notVisible(),
+                          //DTColumnBuilder.newColumn('col_25').withTitle('test_15').notVisible(),
                       ];
                   }
                }

@@ -280,7 +280,7 @@ def stored_procedure_calling_list (st_procedure_name,params):
             tb_col = 'col_' + str(local_count)
             if field != None:
                 field = str(field)
-            final_api_dict[tb_col] = field
+            final_api_dict[tb_col] = field.strip()
             local_count = local_count+1
             print field
         final_api_list.append(final_api_dict)
@@ -372,7 +372,12 @@ def procedure_pricing(request):
 
     params = [procedure_id,network_id, procedure_code_filter, enforce_req, in_network, state, user_id]
     #params = [1119, 2010, '', 1, 'false', 'WI', 184]
-    strd_data_list = stored_procedure_calling('rptProcedurePricing', params)
+    strd_data_list = stored_procedure_calling_list('rptProcedurePricing', params)
+    column_names = ['col_6','col_7','col_8','col_9','col_10','col_11','col_24','col_25','col_26']
+    new_data_list = adding_dollar(strd_data_list, column_names)
+    data = json.dumps(new_data_list['dollar_col'])
+    return HttpResponse(data, content_type='application/json')
+
     return HttpResponse(strd_data_list)
 
 
@@ -395,8 +400,11 @@ def procedure_pricing_breakdown(request):
     except:
         procedure_code_filter = ''
     params = [procedure_id,network_id,facility_npi,procedure_code_filter]
-    strd_data_list = stored_procedure_calling('rptProcedurePricingDetail', params)
-    return HttpResponse(strd_data_list)
+    strd_data_list = stored_procedure_calling_list('rptProcedurePricingDetail', params)
+    column_names = ['col_7']
+    new_data_list = adding_dollar(strd_data_list, column_names)
+    data = json.dumps(new_data_list['dollar_col'])
+    return HttpResponse(data, content_type='application/json')
 
 
 def procedure_pricing_breakdown_cpt(request):
@@ -448,9 +456,57 @@ def provider_pricing_breakdown_cpt(request):
 
 
     params = [procedure_id,network_id,facility_prov_npi,provider_npi,cast_cat_code]
-    strd_data_list = stored_procedure_calling('rptProviderPricingDetail', params)
-    return HttpResponse(strd_data_list)
+    strd_data_list = stored_procedure_calling_list('rptProviderPricingDetail', params)
+    #import pdb;pdb.set_trace()
+    factor_claim_data = {}
+    column_names = ['col_24','col_18','col_12']
+    """cost_count = 0
+    new_data_list = []
+    for data_dict in strd_data_list:
+        cost_count = cost_count + float(data_dict['col_24'])
+        local_dict = {}
+        for dt_key,dt_value in data_dict.iteritems():
+            if dt_key in ['col_24','col_18','col_12']:
+                local_dict[dt_key] = '$'+str(dt_value)
+            else:
+                local_dict[dt_key] = dt_value
+        new_data_list.append(local_dict)"""
 
+    final_factor_cost = []
+    new_data_list = adding_dollar(strd_data_list,column_names)
+    for n_dict in new_data_list['dollar_col']:
+        round_value = float('%.2f' % round(float(new_data_list['cost_count']), 2))
+        n_dict['total'] = '$'+str(round_value)
+        final_factor_cost.append(n_dict)
+
+    factor_claim_data['data'] = final_factor_cost
+    #factor_claim_data['total'] = cost_count
+    data = json.dumps(factor_claim_data)
+    return HttpResponse(data, content_type='application/json')
+    #return HttpResponse(strd_data_list)
+
+def adding_dollar (strd_data_list,column_names):
+    cost_count = 0
+    new_data_list = []
+    for data_dict in strd_data_list:
+        if data_dict.has_key('col_24'):
+            cost_count = cost_count + float(data_dict['col_24'])
+        local_dict = {}
+        for dt_key, dt_value in data_dict.iteritems():
+            if dt_key in column_names:
+                #import pdb;pdb.set_trace()
+                if dt_value == None:
+                    accuracy_agg = 0
+                else:
+                    accuracy_agg = float('%.2f' % round(float(dt_value), 2))
+                local_dict[dt_key] = '$' + str(accuracy_agg)
+            else:
+                local_dict[dt_key] = dt_value
+        new_data_list.append(local_dict)
+    result = {}
+    result ['dollar_col'] = new_data_list
+    result ['cost_count'] = cost_count
+    return result
 
 def procedure_pricing_episode(request):
     """@StartDate,@EndDate ,@ProcedureID,@NetworkID,@CompanyID,@FacilityNPI,@PatientID,@FirstDateOfService,@ProcedureCode"""
@@ -470,9 +526,55 @@ def procedure_pricing_episode(request):
         #facility_npi = 1013995521
         facility_npi = 1861447179
     params = [start_date,end_date,procedure_id,network_id,company_id,facility_npi,patient_id,first_data_service,procedure_code]
-    strd_data_list = stored_procedure_calling('rptEpisodeDetails', params)
-    return HttpResponse(strd_data_list)
+    #strd_data_list = stored_procedure_calling('rptEpisodeDetails', params)
+    #import pdb;pdb.set_trace()
+    strd_data_list = stored_procedure_calling_list('rptEpisodeDetails', params)
+    epi_name = {}
+    for epi_dict in strd_data_list:
+        epi_code = epi_dict['col_6']
+        if epi_name.has_key(epi_code):
+            if epi_name[epi_code].has_key(epi_dict['col_19']):
+                epi_name[epi_code][epi_dict['col_19']].append(epi_dict)
+            else:
+                epi_name[epi_code][epi_dict['col_19']] = [epi_dict]
+        else:
+            epi_name[epi_code] = {}
+            epi_name[epi_code][epi_dict['col_19']] = [epi_dict]
 
+        final_epi_details = []
+        for ep_cc_key, ep_cc_value in epi_name.iteritems():
+            ep_cc_dict = {}
+            ep_cc_rtl_total = 0
+            ep_cc_allowed_total = 0
+            ep_cc_code = 'trail'
+            ep_cc_list = []
+            for cc_key, cc_values in ep_cc_value.iteritems():
+                cc_dict = {}
+                cc_retail_total = 0
+                cc_allowed_total = 0
+                for csct_dict in cc_values:
+                    rt_amt = float('%.2f' % round(float(csct_dict['col_7']), 2))
+                    allowd_amt = float('%.2f' % round(float(csct_dict['col_8']), 2))
+                    cc_retail_total = cc_retail_total + rt_amt
+                    cc_allowed_total = cc_allowed_total + allowd_amt
+                    epi_key = str(csct_dict['col_6']) + str(csct_dict['col_10'])
+                cc_dict['facility_type'] = cc_key
+                cc_dict['csct_data'] = cc_values
+                cc_dict['csct_retail_total'] = str(cc_retail_total)
+                ep_cc_rtl_total = ep_cc_rtl_total + cc_retail_total
+                cc_dict['csct_allowed_total'] = str(cc_allowed_total)
+                ep_cc_allowed_total = ep_cc_allowed_total + cc_allowed_total
+                ep_cc_list.append(cc_dict)
+            ep_cc_dict['epi_key'] = epi_key
+            ep_cc_dict['epi_data'] = ep_cc_list
+            ep_cc_dict['epi_retail_total'] = str(ep_cc_rtl_total)
+            ep_cc_dict['epi_allowed_total'] = str(ep_cc_allowed_total)
+            final_epi_details.append(ep_cc_dict)
+
+    data = json.dumps(final_epi_details)
+    return HttpResponse(data, content_type='application/json')
+    #for costcat_key,costcat_values in epi_name.iteritems():
+    #return HttpResponse(strd_data_list)
 
 
 def company_network_by_state(request):
@@ -495,14 +597,58 @@ def company_network_by_state(request):
     final_claim_data = {}
     for st_name,st_values in state_name.iteritems() :
         claim_count = 0
-        import pdb;pdb.set_trace()
         for st_value in st_values:
-            claim_count = claim_count+st_value['col_6']
+            claim_count = claim_count+int(st_value['col_6'])
+        final_claim_data[st_name] = st_values
+        final_claim_data[st_name+'_total'] = claim_count
 
     """import pdb;
     pdb.set_trace()"""
-    return HttpResponse(strd_data_list)
+    data = json.dumps(final_claim_data)
 
+    #return final_api_list
+    return HttpResponse(data, content_type='application/json')
+    # return final_api_data
+    #return HttpResponse(strd_data_list)
+
+
+def company_network_by_state_new(request):
+    """CompanyID,State"""
+    try:
+        company_id = request.GET['CompanyID']
+    except:
+        company_id =301
+    state = ''
+    params = [company_id,state]
+
+    #strd_data_list = stored_procedure_calling('rptCompanyNetworksByState', params)
+    strd_data_list = stored_procedure_calling_list('rptCompanyNetworksByState', params)
+    state_name = {}
+    for dict in strd_data_list:
+        if state_name.has_key(dict['col_5']):
+            state_name[dict['col_5']].append(dict)
+        else:
+            state_name[dict['col_5']] = [dict]
+    final_claim_data = {}
+    final_claim_list = []
+    for st_name,st_values in state_name.iteritems() :
+        claim_count = 0
+        state_dict = {}
+        for st_value in st_values:
+            claim_count = claim_count+int(st_value['col_6'])
+        final_claim_data[st_name] = st_values
+        final_claim_data[st_name+'_total'] = claim_count
+        state_dict['state_name'] = st_name
+        state_dict['state_data'] = st_values
+        state_dict['state_total'] = claim_count
+        final_claim_list.append(state_dict)
+
+    data = json.dumps(final_claim_list)
+
+    #return final_api_list
+    return HttpResponse(data, content_type='application/json')
+    # return final_api_data
+    #return HttpResponse(strd_data_list)
 
 def pr_code_summary(request):
     """ProcedureID,CompanyID,ProviderTypeCode"""
@@ -513,26 +659,32 @@ def pr_code_summary(request):
     try :
         procedure_id = request.GET['ProcedureID']
     except:
+        procedure_id = 2604
         #procedure_id = 1901
-        procedure_id = 2901
+        #procedure_id = 2901
     try:
         pr_type_code = request.GET['ProviderTypeCode']
     except:
         pr_type_code = ''
     state = ''
-    params = [procedure_id,'',pr_type_code]
+    params = [procedure_id,0,pr_type_code]
     strd_data_list = stored_procedure_calling('rptProcedureCodeSummaryForProcedure', params)
     return HttpResponse(strd_data_list)
+
 def cost_compariosn_summary(request):
     """CompanyID,SourceZIP,MilesRadius,UserID,Year,MemberPopulation"""
     try:
         company_id = request.GET['CompanyID']
     except:
-        company_id = ''
+        #company_id = ''
+        company_id = 1094
+        #company_id = 1
     try:
         source_zip = request.GET['SourceZIP']
     except:
-        source_zip = 53081
+        #source_zip = 53081
+        source_zip = 53711
+        #source_zip = 53715
     try:
         miles_radius = request.GET['MilesRadius']
     except:
@@ -541,16 +693,20 @@ def cost_compariosn_summary(request):
         user_id = request.GET['UserID']
     except:
         user_id = 184
+        #user_id = 0
     try:
         year = request.GET['Year']
     except:
-        year = 2013
+        #year = 2013
+        year = 2016
     try:
         member_population = request.GET['MemberPopulation']
     except:
         member_population = 0
+        #member_population = 1000
     params = [company_id,source_zip,miles_radius,user_id,year,member_population]
-    strd_data_list = stored_procedure_calling('rptProcedureCostComparisonSummaryProjection2', params)
+    #strd_data_list = stored_procedure_calling('rptProcedureCostComparisonSummaryProjection2', params)
+    strd_data_list = stored_procedure_calling('rptProcedureCostComparisonSummaryProjection3', params)
     return HttpResponse(strd_data_list)
 
 def Procedure_Maintenance(request):

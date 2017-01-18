@@ -1,10 +1,10 @@
 ;(function (angular) {
   "use strict";
 
-  	angular.module("companynetworks")
-        .component("companynetworks", {
+  	angular.module("ppepisodedetails")
+        .component("ppepisodedetails", {
 
-           	"templateUrl": "/js/companynetworks/companynetworks.html",
+           	"templateUrl": "/js/ppepisodedetails/ppepisodedetails.html",
            	"controller" : [ "$http", "$scope", "Session", "$state", "$rootScope", "DTOptionsBuilder", "DTColumnBuilder",
            	
            		function ($http, $scope, Session, $state, $rootScope, DTOptionsBuilder, DTColumnBuilder) {
@@ -21,17 +21,17 @@
                      this.collapsed = !this.collapsed;
                    }
 
-                 $http({method: "GET", url: "http://localhost:1122/api/cmp_network_by_state_dropdowns/"})
+                 $http({method: "GET", url: "http://localhost:1122/api/proc_pricing_episode_dropdowns/"})
                     .then(function(response){
-                        that.companies = response.data[0].table_Companies;
+                        that.networks = response.data[0].table_Networks;
                     });
 
                  $scope.submit = function(param){
                     $('#loadingDiv').show();
-                    that.companyId = param.companyId ? param.companyId : '';
+                    that.networkId = param.networkId ? param.networkId : '';
 
                     vm.authorized = true;
-                    that.apiUrl = 'http://localhost:1122/api/company_network_by_state_new/?CompanyID='+that.companyId;
+                    that.apiUrl = 'http://localhost:1122/api/procedure_pricing_episode/?CompanyID='+that.networkId;
 
                     $http({method: "GET", url: that.apiUrl})
                     .then(function(response){

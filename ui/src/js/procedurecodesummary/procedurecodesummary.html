@@ -1,10 +1,10 @@
-<span class="page-header">Company Networks By State</span><br><br><br>
+<span class="page-header">Procedure Code Summary for Procedure</span><br><br><br>
 <form class="form-horizontal" ng-submit="submit(param)">
     <div class="form-group">
-      <label class="control-label col-sm-3" for="email">Company:</label>
+      <label class="control-label col-sm-3" >Procedure:</label>
       <div class="col-sm-4">
-        <select class="form-control" ng-model="param.companyId">
-            <option ng-repeat="x in $ctrl.companies" value="{{x.id}}">{{x.name}}</option>
+        <select class="form-control" ng-model="param.ProcedureID">
+            <option ng-repeat="x in $ctrl.procedures" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
     </div>
@@ -20,6 +20,9 @@
 <hr>
 
 <div>
+    <table ng-if="$ctrl.authorized"  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
+</div>
+<!--<div>
     <div class="row" ng-if="$ctrl.authorized" ng-repeat="row in $ctrl.companyData">
         <div class="col-md-3" style="text-align: center; padding-top: 10px;">
             <strong>State Name</strong> : {{row.state_name}}
@@ -47,4 +50,4 @@
         <div class="col-md-1"></div>
     </div>
     <br>
-</div>
+</div>-->
