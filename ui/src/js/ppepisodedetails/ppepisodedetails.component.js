@@ -21,22 +21,33 @@
                      this.collapsed = !this.collapsed;
                    }
 
-                 $http({method: "GET", url: "http://localhost:1122/api/proc_pricing_episode_dropdowns/"})
+                 $http({method: "GET", url: domainName+"api/proc_pricing_episode_dropdowns/"})
                     .then(function(response){
                         that.networks = response.data[0].table_Networks;
                     });
+
+                 this.subLinkFun = function(ProcedureID, FacilityNPI, PatientID, firstDateOfService){
+                    var url = domainName+'api/epi_rev_code/?ProcedureID='+ProcedureID+'&FacilityNPI='+FacilityNPI+'&PatientID='+PatientID+'&firstDateOfService='+firstDateOfService;
+                    $rootScope.epi_rev_form_det = { 'ProcedureID': ProcedureID,
+                                                      'FacilityNPI': FacilityNPI,
+                                                      'PatientID': PatientID,
+                                                      'firstDateOfService': firstDateOfService,
+                                                      'url': url
+                                                    };
+                    window.location.href = '/#!/episoderevenuecode';
+                 }
 
                  $scope.submit = function(param){
                     $('#loadingDiv').show();
                     that.networkId = param.networkId ? param.networkId : '';
 
                     vm.authorized = true;
-                    that.apiUrl = 'http://localhost:1122/api/procedure_pricing_episode/?CompanyID='+that.networkId;
+                    that.apiUrl = domainName+'api/procedure_pricing_episode/?networkId='+that.networkId;
 
                     $http({method: "GET", url: that.apiUrl})
                     .then(function(response){
-                        //console.log(response);
-                        that.companyData = response.data;
+                        console.log(response);
+                        that.NetworkData = response.data;
                         $('#loadingDiv').hide();
                     });
                   }

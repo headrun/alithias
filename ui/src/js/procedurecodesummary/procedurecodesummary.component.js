@@ -21,7 +21,7 @@
                      this.collapsed = !this.collapsed;
                    }
 
-                 $http({method: "GET", url: "http://localhost:1122/api/proc_code_summary_proc_dropdowns/"})
+                 $http({method: "GET", url: domainName+"api/proc_code_summary_proc_dropdowns/"})
                     .then(function(response){
                         that.procedures = response.data[0].table_Procedures;
                     });
@@ -31,7 +31,7 @@
 
                     vm.authorized = true;
                     //that.apiUrl = 'http://localhost:1122/api/pr_code_summary/?ProcedureID='+that.ProcedureID;
-                    that.apiUrl = 'http://localhost:1122/api/pr_code_summary/?ProcedureID=2604';
+                    that.apiUrl = domainName+'api/pr_code_summary/?ProcedureID=2604';
 
                     vm.dtOptions = DTOptionsBuilder.newOptions()
                        .withOption('ajax', {

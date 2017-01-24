@@ -59,12 +59,28 @@
                    "state"   : {},
                    "stateStr": "{}"
                  },
+                 "costcompsummary": {
+
+                   "name"    : "costcompsummary",
+                   "fullName": "dashboard.costcompsummary",
+                   "text"    : "Cost Comparison Summary",
+                   "state"   : {},
+                   "stateStr": "{}"
+                 },
+                 "episoderevenuecode": {
+
+                   "name"    : "episoderevenuecode",
+                   "fullName": "dashboard.episoderevenuecode",
+                   "text"    : "Episode Revenue Code",
+                   "state"   : {},
+                   "stateStr": "{}"
+                 },
               };
 
   // If one uses a menu bar, the order of appearance is here
   var pagesOrder = ["companynetworks", "procedurepricing", "procedurepriceview", 
                   "procedurepricingdetail", "providerpricingdetail", "procedurecodesummary",
-                  "ppepisodedetails"];
+                  "ppepisodedetails", "costcompsummary", "episoderevenuecode"];
 
   angular.module("dashboard")
          .component("dashboard", {

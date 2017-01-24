@@ -27,12 +27,43 @@
     <div class="form-group">        
       <div class="col-sm-offset-3 col-sm-4">
         <button type="submit" class="btn btn-success btn-sm">Submit</button>
+        <span id="loadingDiv" style="display:none"> Loading...</span>
       </div>
     </div>
 </form>
 
 <hr>
 
-<div>
+<!--<div>
     <table ng-if="$ctrl.authorized"  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
+</div>-->
+<div ng-if="$ctrl.authorized" style="font-family: verdana">
+    {{$ctrl.ProcedureID}}
+    {{$ctrl.NetworkID}}
+    <div class="row" ng-repeat="data in $ctrl.resp">
+        <div class="col-md-12">
+            <div style="color: green; font-weight: bold; text-align: center"><h4>{{data.category_name}} Provider</h4></div><br>
+            <table class="table table-striped" >
+                <thead>
+                  <tr>
+                    <th>NPI</th>
+                    <th>Provider</th>
+                    <th>City</th>
+                    <th>Provider Type</th>
+                    <th>Episode Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="body_data in data.category_data">
+                    <td>{{body_data.col_6}}</td>
+                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(body_data.col_6, data.category_name)">{{body_data.col_1}}</p></td>
+                    <td>{{body_data.col_2}}</td>
+                    <td>{{body_data.col_3}}</td>
+                    <td>${{body_data.col_7}}</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
 </div>

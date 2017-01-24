@@ -1,0 +1,82 @@
+<span class="page-header">Cost Comparison Summary</span><br><br><br>
+<form class="form-horizontal" ng-submit="submit(param)">
+    <div class="form-group">
+      <label class="control-label col-sm-3">Company:</label>
+      <div class="col-sm-4">
+        <input type="number" class="form-control" ng-model="param.companyId">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">Source Zip:</label>
+      <div class="col-sm-4">
+        <input type="number" class="form-control" ng-model="param.sourceZip">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">Miles Radius:</label>
+      <div class="col-sm-4">
+        <input type="number" class="form-control" ng-model="param.milesRadius">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">Year :</label>
+      <div class="col-sm-4">
+        <select ng-model="param.year" class="form-control">
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-4">
+        <button type="submit" class="btn btn-success btn-sm">Submit</button>
+          &nbsp;&nbsp;<span id="loadingDiv" style="display:none"> Loading...</span>
+      </div>
+    </div>
+</form>
+
+
+<hr>
+<!--ng-if="$ctrl.authorized"   ng-repeat="row in $ctrl.NetworkData"-->
+<div ng-if="$ctrl.authorized" style="font-family: verdana">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped" >
+                <thead>
+                  <tr>
+                    <th>Procedure</th>
+                    <th>Episodes</th>
+                    <th>Average Charge(30 Miles)</th>
+                    <th>Estimated Total Cost</th>
+                    <th>Low Cost(30 Miles)</th>
+                    <th>Total Cost(30 Miles)</th>
+                    <th>Potential Savings(30 Miles)</th>
+                    <th>Low Cost Provider (30 Miles)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td>{{body_data.col_5}}</td>
+                    <td>{{body_data.col_7}}</td>
+                    <td>${{body_data.col_8}}</td>
+                    <td>${{body_data.col_18}}</td>
+                    <td>{{body_data.col_17}}</td>
+                    <td>${{body_data.col_19}}</td>
+                    <td>${{body_data.col_21}}</td>
+                    <td>{{body_data.col_13 +', ' + body_data.col_14}}</td>
+                  </tr>
+                  <tr class="success">
+                      <td colspan="3"><strong>Grand Total</strong></td>
+                      <td colspan="2"><strong>${{$ctrl.costData.cmp_estimated}}</strong></td>
+                      <td><strong>${{$ctrl.costData.cmp_total_cost}}</strong></td>
+                      <td colspan="2"><strong>${{$ctrl.costData.cmp_pt_saving}}</strong></td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+</div>

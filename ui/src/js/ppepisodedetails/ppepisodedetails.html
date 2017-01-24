@@ -18,33 +18,57 @@
 
 
 <hr>
-
-<div>
-    <div class="row" ng-if="$ctrl.authorized" ng-repeat="row in $ctrl.companyData">
-        <div class="col-md-3" style="text-align: center; padding-top: 10px;">
-            <strong>State Name</strong> : {{row.state_name}}
-        </div>
-        <div class="col-md-8">
-            <table class="table table-bordered table-striped" >
+<!--ng-if="$ctrl.authorized"   ng-repeat="row in $ctrl.NetworkData"-->
+<div ng-if="$ctrl.authorized" ng-repeat="row in $ctrl.NetworkData" style="font-family: verdana">
+    <center><h4 style="color: #3587a5;"><strong>Episode Key : </strong> {{row.epi_key}} </h4></center><br>
+    <div class="row" ng-repeat="data in row.epi_data">
+        <div class="col-md-12">
+            <div><h4><strong style="background: #3587a5;padding: 5px; color: #fff;">Cost Category :</strong> {{data.csct_type}} </h4></div>
+            <table class="table table-striped" >
                 <thead>
                   <tr>
+                    <th>NPI</th>
+                    <th>Provider</th>
+                    <th>Provider Type</th>
                     <th>Network</th>
-                    <th>Claim Count</th>
+                    <th>Procedure Code</th>
+                    <th>Modifier1</th>
+                    <th>Modifier2</th>
+                    <th>Revenue Code</th>
+                    <th>Mapping</th>
+                    <th>Units</th>
+                    <th>Retail Amount</th>
+                    <th>Allowed Amount</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="body_data in row.state_data">
+                  <tr ng-repeat="body_data in data.csct_data">
+                    <td>{{body_data.col_12}}</td>
+                    <td>{{body_data.col_1}}</td>
+                    <td>{{body_data.col_2}}</td>
                     <td>{{body_data.col_4}}</td>
-                    <td>{{body_data.col_6}}</td>
+                    <td>{{body_data.col_13}}</td>
+                    <td>{{body_data.col_15}}</td>
+                    <td>{{body_data.col_16}}</td>
+                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(body_data.col_12,body_data.col_10, body_data.col_11, body_data.col_13)">{{body_data.col_14}}</p></td>
+                    <td>{{body_data.col_20}}</td>
+                    <td>{{body_data.col_9}}</td>
+                    <td>{{body_data.col_7}}</td>
+                    <td>{{body_data.col_8}}</td>
                   </tr>
-                  <tr class="success">
-                    <td> <strong>Total</strong></td>
-                    <td>{{row.state_total}}</td>
+                  <tr>
+                      <td colspan="10"><strong>Total {{data.csct_type}}</strong></td>
+                      <td><strong>{{data.csct_retail_total}}</strong></td>
+                      <td><strong>{{data.csct_allowed_total}}</strong></td>
+                  </tr>
+                  <tr>
+                      <td colspan="10"><strong>Episode Totals</strong></td>
+                      <td><strong>{{row.epi_retail_total}}</strong></td>
+                      <td><strong>{{row.epi_allowed_total}}</strong></td>
                   </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-md-1"></div>
     </div>
     <br>
 </div>

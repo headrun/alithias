@@ -1,10 +1,10 @@
 ;(function (angular) {
   "use strict";
 
-  	angular.module("companynetworks")
-        .component("companynetworks", {
+  	angular.module("costcompsummary")
+        .component("costcompsummary", {
 
-           	"templateUrl": "/js/companynetworks/companynetworks.html",
+           	"templateUrl": "/js/costcompsummary/costcompsummary.html",
            	"controller" : [ "$http", "$scope", "Session", "$state", "$rootScope", "DTOptionsBuilder", "DTColumnBuilder",
            	
            		function ($http, $scope, Session, $state, $rootScope, DTOptionsBuilder, DTColumnBuilder) {
@@ -21,22 +21,21 @@
                      this.collapsed = !this.collapsed;
                    }
 
-                 $http({method: "GET", url: domainName+"api/cmp_network_by_state_dropdowns/"})
-                    .then(function(response){
-                        that.companies = response.data[0].table_Companies;
-                    });
-
                  $scope.submit = function(param){
                     $('#loadingDiv').show();
                     that.companyId = param.companyId ? param.companyId : '';
+                    that.sourceZip = param.sourceZip ? param.sourceZip : '';
+                    that.milesRadius = param.milesRadius ? param.milesRadius : '';
+                    that.year = param.year ? param.year : '';
 
-                    vm.authorized = true;
-                    that.apiUrl = domainName+'api/company_network_by_state_new/?CompanyID='+that.companyId;
+                    that.apiUrl = domainName+'api/cost_comparison_summary/?CompanyID='+that.companyId+'&SourceZIP='+that.sourceZip+'&MilesRadius='+that.milesRadius+'&Year='+that.year;
 
                     $http({method: "GET", url: that.apiUrl})
                     .then(function(response){
-                        //console.log(response);
-                        that.companyData = response.data;
+                        vm.authorized = true;
+                        //console.log(response.data[0]);
+                        that.costData = response.data[0];
+                        console.log(that.costData);
                         $('#loadingDiv').hide();
                     });
                   }

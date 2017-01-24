@@ -1,0 +1,72 @@
+<span class="page-header">Episode Revenue Code Details</span><br><br><br>
+<form class="form-horizontal" ng-submit="submit(param)">
+    <div class="form-group">
+      <label class="control-label col-sm-3">Procedure:</label>
+      <div class="col-sm-4">
+        <input type="number" class="form-control" ng-model="param.procedureId">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">Facility NPI:</label>
+      <div class="col-sm-4">
+        <input type="number" class="form-control" ng-model="param.facilityNpi">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">Patient ID:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" ng-model="param.patientID">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">First Date Of Service :</label>
+      <div class="col-sm-3">
+          <input type="date" class="form-control" ng-model="param.firstDateOfService">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-4">
+        <button type="submit" class="btn btn-success btn-sm">Submit</button>
+          &nbsp;&nbsp;<span id="loadingDiv" style="display:none"> Loading...</span>
+      </div>
+    </div>
+</form>
+
+<hr>
+<!--ng-if="$ctrl.authorized"   ng-repeat="row in $ctrl.NetworkData"-->
+<div ng-if="$ctrl.authorized" style="font-family: verdana">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped" >
+                <thead>
+                  <tr>
+                    <th>Rev Code</th>
+                    <th>Description</th>
+                    <th>Modifier1</th>
+                    <th>Modifier2</th>
+                    <th>Cost Category</th>
+                    <th>Billed Amount</th>
+                    <th>Allowed Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="body_data in $ctrl.revData.revenue_data">
+                    <td>{{body_data.col_12}}</td>
+                    <td>{{body_data.col_13}}</td>
+                    <td>{{body_data.col_8}}</td>
+                    <td>{{body_data.col_9}}</td>
+                    <td>{{body_data.col_14}}</td>
+                    <td>${{body_data.col_10}}</td>
+                    <td>${{body_data.col_11}}</td>
+                  </tr>
+                  <tr class="success">
+                      <td colspan="5"><strong>Grand Total</strong></td>
+                      <td><strong>${{$ctrl.revData.total_ald_amount}}</strong></td>
+                      <td><strong>${{$ctrl.revData.total_bil_amount}}</strong></td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+</div>

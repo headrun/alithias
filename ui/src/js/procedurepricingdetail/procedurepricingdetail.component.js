@@ -19,15 +19,28 @@
                    this.collapsed = !this.collapsed;
                  }
 
+                 this.subLinkFun = function(providerNpi, category){
+                    //var url = 'http://localhost:2222/api/provider_pricing_breakdown_cpt/';
+                    var url = domainName+'api/provider_pricing_breakdown_cpt/?ProviderID='+providerNpi+'&ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&CostCategoryCode='+category+'&FacilityProviderNPI='+that.FacilityNPI;
+                    $rootScope.pro_pric_det_form_det = { 'providerNpi': providerNpi, 'category': category, 'procedureID': that.ProcedureID, 'networkID': that.NetworkID, 'url': url, 'facilityNPI': that.FacilityNPI };
+                    window.location.href = '/#!/providerpricingdetail';
+                 }
+
+                 if($rootScope.pro_pric_det_form_det != '' && typeof($rootScope.pro_pric_det_form_det) != 'undefined'){
+                    console.log($rootScope.pro_pric_det_form_det);
+                    loadDatatable($rootScope.pro_pric_det_form_det.url);
+                 }
+
                  $scope.submit = function(param){
+                    $('#loadingDiv').show();
                     that.ProcedureID = param.procedureId ? param.procedureId : '';
                     that.NetworkID = param.networkId ? param.networkId : '';
                     that.FacilityNPI = param.facilityNpi ? param.facilityNpi : '';
                     that.ProcedureCodeFilter = param.procedureCodeFilt ? param.procedureCodeFilt : '';
 
-                    vm.authorized = true;
-                    that.apiUrl = 'http://localhost:1122/api/procedure_pricing_breakdown/?ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&FacilityNPI='+that.FacilityNPI+'&ProcedureCodeFilter='+that.ProcedureCodeFilter;
-                    vm.dtOptions = DTOptionsBuilder.newOptions()
+                    that.apiUrl = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&FacilityNPI='+that.FacilityNPI+'&ProcedureCodeFilter='+that.ProcedureCodeFilter;
+                    loadDatatable(that.apiUrl);
+                    /*vm.dtOptions = DTOptionsBuilder.newOptions()
                        .withOption('ajax', {
                               url: that.apiUrl,
                               type: 'GET'
@@ -48,7 +61,17 @@
                           DTColumnBuilder.newColumn('col_9').withTitle('sample ids').notVisible(),
                           DTColumnBuilder.newColumn('col_10').withTitle('sample ids').notVisible(),
                           DTColumnBuilder.newColumn('col_11').withTitle('sample ids').notVisible(),
-                      ];
+                      ];*/
+                  }
+
+                  function loadDatatable(url){
+                    $http({method: "GET", url: url})
+                    .then(function(response){
+                        vm.authorized = true;
+                        console.log(response);
+                        that.resp = response.data;
+                        $('#loadingDiv').hide();
+                    });
                   }
                }
             ]

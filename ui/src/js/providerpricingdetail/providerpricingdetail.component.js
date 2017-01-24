@@ -20,18 +20,34 @@
                    this.collapsed = !this.collapsed;
                  }
 
+                 if($rootScope.Prov_pric_form_det != '' && typeof($rootScope.Prov_pric_form_det) != 'undefined'){
+                    console.log($rootScope.Prov_pric_form_det);
+                    vm.authorized = true;
+                    loadDatatable($rootScope.Prov_pric_form_det.url);
+                    //param['procedureId'] = $rootScope.Prov_pric_form_det.procedureID;
+                    $('#procedureId').val($rootScope.Prov_pric_form_det.procedureID);
+                    $('#providerNpi').val($rootScope.Prov_pric_form_det.providerNpi);
+                    $('#networkId').val($rootScope.Prov_pric_form_det.networkID);
+                    $('#costcategorycode').val($rootScope.Prov_pric_form_det.category);
+                    $('#facelityprovidernpi').val($rootScope.Prov_pric_form_det.facilityNPI);
+                 }
+
                  $scope.submit = function(param){
-                    that.providerNpi = param.procedureId ? param.providerNpi : '';
+                    that.providerNpi = param.providerNpi ? param.providerNpi : '';
                     that.ProcedureID = param.procedureId ? param.procedureId : '';
                     that.NetworkID = param.networkId ? param.networkId : '';
                     that.CostCategoryCode = param.costcategorycode ? param.costcategorycode : '';
                     that.FacilityProviderNPI = param.facelityprovidernpi ? param.facelityprovidernpi : '';
 
                     vm.authorized = true;
-                    that.apiUrl = 'http://localhost:1122/api/provider_pricing_breakdown_cpt/?ProviderID='+that.providerNpi+'&ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&CostCategoryCode='+that.CostCategoryCode+'&FacilityProviderNPI='+that.FacilityProviderNPI;
+                    that.apiUrl = domainName+'api/provider_pricing_breakdown_cpt/?ProviderID='+that.providerNpi+'&ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&CostCategoryCode='+that.CostCategoryCode+'&FacilityProviderNPI='+that.FacilityProviderNPI;
+                    loadDatatable(that.apiUrl);
+                  }
+
+                  function loadDatatable(url){
                     vm.dtOptions = DTOptionsBuilder.newOptions()
                        .withOption('ajax', {
-                              url: that.apiUrl,
+                              url: url,
                               type: 'GET'
                            })
                        .withDataProp('data')
@@ -71,6 +87,8 @@
                           DTColumnBuilder.newColumn('col_24').withTitle('test_14').notVisible(),
                           //DTColumnBuilder.newColumn('col_25').withTitle('test_15').notVisible(),
                       ];
+                      return;
+
                   }
                }
             ]

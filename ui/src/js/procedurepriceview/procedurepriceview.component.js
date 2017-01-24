@@ -5,9 +5,9 @@
         .component("procedurepriceview", {
 
            	"templateUrl": "/js/procedurepriceview/procedurepriceview.html",
-           	"controller" : [ "$http", "$scope", "Session", "$state", "$rootScope", "DTOptionsBuilder", "DTColumnBuilder",
+           	"controller" : [ "$http", "$scope", "Session", "$state", "$rootScope", "DTOptionsBuilder", "DTColumnBuilder","$compile",
 
-              function ($http, $scope, Session, $state, $rootScope, DTOptionsBuilder, DTColumnBuilder) {
+              function ($http, $scope, Session, $state, $rootScope, DTOptionsBuilder, DTColumnBuilder, $compile) {
                    var that = this;
                    var vm = this;
 
@@ -20,12 +20,22 @@
                      this.collapsed = !this.collapsed;
                    }
 
-                 $http({method: "GET", url: "http://localhost:1122/api/proc_pricing_dropdowns/"})
+                 $http({method: "GET", url: domainName+"api/proc_pricing_dropdowns/"})
                     .then(function(response){
                         that.states = response.data[0]['states'];
                         that.networks = response.data[0]['table_Networks'];
                         that.procedures = response.data[0]['table_Procedures'];
                     });
+
+                 this.subLinkFun = function(ProcedureID, networkId, FacilityNPI){
+                    var url = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+ProcedureID+'&NetworkID='+networkId+'&FacilityNPI='+FacilityNPI;
+                    $rootScope.pro_pric_det_form_det = { 'ProcedureID': ProcedureID,
+                                                      'FacilityNPI': FacilityNPI,
+                                                      'NetworkID': networkId,
+                                                      'url': url
+                                                    };
+                    window.location.href = '/#!/procedurepricingdetail';
+                 }
 
                  $scope.submit = function(param){
                     that.networkId = param.networkName ? param.networkName : '';
@@ -34,7 +44,7 @@
                     that.requirements = param.requirements ? true : false;
 
                     vm.authorized = true;
-                    that.apiUrl = 'http://localhost:1122/api/procedure_pricing/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&EnforceRequirements='+that.requirements+'&state='+that.stateID
+                    that.apiUrl = domainName+'api/procedure_pricing/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&EnforceRequirements='+that.requirements+'&state='+that.stateID
                         vm.dtOptions = DTOptionsBuilder.newOptions()
                            .withOption('ajax', {
                                   url: that.apiUrl,
@@ -42,6 +52,10 @@
                                })
                            .withOption('processing', true)
                            .withOption('serverSide', false)
+                           .withOption('createdRow', function(row) {
+                              // Recompiling so we can bind Angular directive to the DT
+                              $compile(angular.element(row).contents())($scope);
+                           })
                            .withPaginationType('full_numbers');
 
                           vm.dtColumns = [
@@ -49,6 +63,12 @@
                               DTColumnBuilder.newColumn('col_1').withTitle('Facility'),
                               DTColumnBuilder.newColumn('col_2').withTitle('City'),
                               DTColumnBuilder.newColumn('col_4').withTitle('Facility Type'),
+                              DTColumnBuilder.newColumn('col_30').withTitle('Breakdown').renderWith(function(col_30, col_5) {
+                                return '<p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun('+that.procedureID+','+that.networkId+','+col_5+')">'+col_30+'</p>'
+                              }),
+                              DTColumnBuilder.newColumn('col_31').withTitle('Episode').renderWith(function(col_31, col_5) {
+                                return '<p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun('+that.procedureID+','+that.networkId+','+col_5+')">'+col_31+'</p>'
+                              }),
                               DTColumnBuilder.newColumn('col_24').withTitle('Min Total'),
                               DTColumnBuilder.newColumn('col_25').withTitle('Likely Total'),
                               DTColumnBuilder.newColumn('col_26').withTitle('Max Total'),

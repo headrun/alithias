@@ -5,6 +5,7 @@
                                "dashboard", "sidebar", "companynetworks", 
                                "procedurepricing", "procedurepriceview", "datatables",
                                "procedurepricingdetail", "providerpricingdetail", "ngCookies",
-                               "procedurecodesummary", "ppepisodedetails"]);
+                               "procedurecodesummary", "ppepisodedetails", "costcompsummary",
+                               "episoderevenuecode"]);
 
 }(window.angular));
