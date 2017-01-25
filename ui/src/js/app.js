@@ -3,7 +3,7 @@
 
   angular.module("bootstrap", ["ui.router", "auth", "login",
                                "dashboard", "sidebar", "companynetworks", 
-                               "procedurepricing", "procedurepriceview", "datatables",
+                               "proceduremaintenance", "procedurepriceview", "datatables",
                                "procedurepricingdetail", "providerpricingdetail", "ngCookies",
                                "procedurecodesummary", "ppepisodedetails", "costcompsummary",
                                "episoderevenuecode"]);

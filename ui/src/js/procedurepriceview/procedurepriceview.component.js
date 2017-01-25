@@ -27,25 +27,31 @@
                         that.procedures = response.data[0]['table_Procedures'];
                     });
 
-                 this.subLinkFun = function(ProcedureID, networkId, FacilityNPI){
-                    var url = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+ProcedureID+'&NetworkID='+networkId+'&FacilityNPI='+FacilityNPI;
-                    $rootScope.pro_pric_det_form_det = { 'ProcedureID': ProcedureID,
+                 this.subLinkFun = function(FacilityNPI){
+                    var url = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&FacilityNPI='+FacilityNPI;
+                    $rootScope.pro_pric_det_form_det = { 'ProcedureID': that.procedureID,
                                                       'FacilityNPI': FacilityNPI,
-                                                      'NetworkID': networkId,
+                                                      'NetworkID': that.networkId,
                                                       'url': url
                                                     };
                     window.location.href = '/#!/procedurepricingdetail';
                  }
 
                  $scope.submit = function(param){
+                    $('#loadingDiv').show();
                     that.networkId = param.networkName ? param.networkName : '';
                     that.procedureID = param.procedureName ? param.procedureName : '';
                     that.stateID = param.stateName ? param.stateName : '';
                     that.requirements = param.requirements ? true : false;
 
-                    vm.authorized = true;
-                    that.apiUrl = domainName+'api/procedure_pricing/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&EnforceRequirements='+that.requirements+'&state='+that.stateID
-                        vm.dtOptions = DTOptionsBuilder.newOptions()
+                    that.apiUrl = domainName+'api/procedure_pricing/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&EnforceRequirements='+that.requirements+'&state='+that.stateID;
+                    $http({method: "GET", url: that.apiUrl})
+                    .then(function(response){
+                        vm.authorized = true;
+                        $('#loadingDiv').hide();
+                        that.data = response.data;
+                    });
+                        /*vm.dtOptions = DTOptionsBuilder.newOptions()
                            .withOption('ajax', {
                                   url: that.apiUrl,
                                   type: 'GET'
@@ -94,7 +100,7 @@
                               DTColumnBuilder.newColumn('col_27').withTitle('ID26').notVisible(),
                               DTColumnBuilder.newColumn('col_28').withTitle('Network').notVisible(),
                               DTColumnBuilder.newColumn('col_29').withTitle('ID28').notVisible(),
-                          ];
+                          ];*/
                  }
               }
             ]

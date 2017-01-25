@@ -27,11 +27,11 @@
                     });
 
                  $scope.submit = function(param){
-                    //that.ProcedureID = param.ProcedureID ? param.ProcedureID : '';
+                    that.ProcedureID = param.ProcedureID ? param.ProcedureID : '';
 
                     vm.authorized = true;
                     //that.apiUrl = 'http://localhost:1122/api/pr_code_summary/?ProcedureID='+that.ProcedureID;
-                    that.apiUrl = domainName+'api/pr_code_summary/?ProcedureID=2604';
+                    that.apiUrl = domainName+'api/pr_code_summary/?ProcedureID='+that.ProcedureID;
 
                     vm.dtOptions = DTOptionsBuilder.newOptions()
                        .withOption('ajax', {
@@ -57,8 +57,7 @@
                           DTColumnBuilder.newColumn('col_11').withTitle('sample ids').notVisible(),
                           DTColumnBuilder.newColumn('col_13').withTitle('sample ids').notVisible(),
                           DTColumnBuilder.newColumn('col_14').withTitle('sample ids').notVisible(),
-                          DTColumnBuilder.newColumn('col_15').withTitle('sample ids').notVisible(),
-                          DTColumnBuilder.newColumn('$$hashKey').withTitle('sample ids').notVisible()
+                          DTColumnBuilder.newColumn('col_15').withTitle('sample ids').notVisible()
                       ];
                   }
 	            }	

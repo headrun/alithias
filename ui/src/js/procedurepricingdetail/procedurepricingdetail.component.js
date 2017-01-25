@@ -10,7 +10,6 @@
               function ($http, $scope, Session, $state, $rootScope, DTOptionsBuilder, DTColumnBuilder) {
                  var that = this;
                  var vm = this;
-
                  this.collapsed = true;
                  vm.authorized = false;
 
@@ -21,22 +20,25 @@
 
                  this.subLinkFun = function(providerNpi, category){
                     //var url = 'http://localhost:2222/api/provider_pricing_breakdown_cpt/';
-                    var url = domainName+'api/provider_pricing_breakdown_cpt/?ProviderID='+providerNpi+'&ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&CostCategoryCode='+category+'&FacilityProviderNPI='+that.FacilityNPI;
-                    $rootScope.pro_pric_det_form_det = { 'providerNpi': providerNpi, 'category': category, 'procedureID': that.ProcedureID, 'networkID': that.NetworkID, 'url': url, 'facilityNPI': that.FacilityNPI };
+                    var url = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+providerNpi+'&ProcedureID='+$scope.procedureId+'&NetworkID='+$scope.networkId+'&CostCategoryCode='+category+'&FacilityProviderNPI='+$scope.facilityNpi;
+                    $rootScope.pro_pric_det_form_det = { 'providerNpi': providerNpi, 'category': category, 'procedureID': $scope.procedureId, 'networkID': $scope.networkId, 'url': url, 'facilityNPI': $scope.facilityNpi };
                     window.location.href = '/#!/providerpricingdetail';
                  }
 
                  if($rootScope.pro_pric_det_form_det != '' && typeof($rootScope.pro_pric_det_form_det) != 'undefined'){
                     console.log($rootScope.pro_pric_det_form_det);
+                    $scope.procedureId = $rootScope.pro_pric_det_form_det.ProcedureID;
+                    $scope.networkId   = $rootScope.pro_pric_det_form_det.NetworkID;
+                    $scope.facilityNpi   = $rootScope.pro_pric_det_form_det.FacilityNPI;
                     loadDatatable($rootScope.pro_pric_det_form_det.url);
                  }
 
-                 $scope.submit = function(param){
+                 $scope.submit = function(){
                     $('#loadingDiv').show();
-                    that.ProcedureID = param.procedureId ? param.procedureId : '';
-                    that.NetworkID = param.networkId ? param.networkId : '';
-                    that.FacilityNPI = param.facilityNpi ? param.facilityNpi : '';
-                    that.ProcedureCodeFilter = param.procedureCodeFilt ? param.procedureCodeFilt : '';
+                    that.ProcedureID = $scope.procedureId ? $scope.procedureId : '';
+                    that.NetworkID = $scope.networkId ? $scope.networkId : '';
+                    that.FacilityNPI = $scope.facilityNpi ? $scope.facilityNpi : '';
+                    that.ProcedureCodeFilter = $scope.procedureCodeFilt ? $scope.procedureCodeFilt : '';
 
                     that.apiUrl = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&FacilityNPI='+that.FacilityNPI+'&ProcedureCodeFilter='+that.ProcedureCodeFilter;
                     loadDatatable(that.apiUrl);

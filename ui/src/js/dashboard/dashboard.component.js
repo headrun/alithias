@@ -11,11 +11,11 @@
                    "state"   : {},
                    "stateStr": "{}"
                  },
-                 "procedurepricing": {
+                 "proceduremaintenance": {
 
-                   "name"    : "procedurepricing",
-                   "fullName": "dashboard.procedurepricing",
-                   "text"    : "procedure Pricing",
+                   "name"    : "proceduremaintenance",
+                   "fullName": "dashboard.proceduremaintenance",
+                   "text"    : "Procedure Maintenance",
                    "state"   : {},
                    "stateStr": "{}"
                  },
@@ -78,7 +78,7 @@
               };
 
   // If one uses a menu bar, the order of appearance is here
-  var pagesOrder = ["companynetworks", "procedurepricing", "procedurepriceview", 
+  var pagesOrder = ["companynetworks", "proceduremaintenance", "procedurepriceview", 
                   "procedurepricingdetail", "providerpricingdetail", "procedurecodesummary",
                   "ppepisodedetails", "costcompsummary", "episoderevenuecode"];
 

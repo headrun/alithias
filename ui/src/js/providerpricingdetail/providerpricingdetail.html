@@ -1,33 +1,33 @@
 <span class="page-header">Provider Pricing Detail</span><br><br>
-<form class="form-horizontal" ng-submit="submit(param)">
+<form class="form-horizontal" ng-submit="submit()">
     <div class="form-group">
       <label class="control-label col-sm-3">Procedure ID :</label>
       <div class="col-sm-4">
-        <input type="number" class="form-control" id="procedureId" ng-model="param.procedureId">
+        <input type="text" class="form-control" id="procedureId" ng-model="procedureId">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3">Network ID :</label>
       <div class="col-sm-4">          
-          <input type="number" class="form-control" id="networkId" ng-model="param.networkId">
+          <input type="text" class="form-control" id="networkId" ng-model="networkId">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3" >Provider NPI :</label>
       <div class="col-sm-4">          
-        <input type="number" class="form-control" id="providerNpi" ng-model="param.providerNpi">
+        <input type="text" class="form-control" id="providerNpi" ng-model="providerNpi">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3" >Cost Category Code :</label>
       <div class="col-sm-4">          
-        <input type="text" class="form-control" id="costcategorycode" ng-model="param.costcategorycode">
+        <input type="text" class="form-control" id="costcategorycode" ng-model="costcategorycode">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3" for="pwd">Facility Provider NPI :</label>
       <div class="col-sm-4">          
-        <input type="text" class="form-control" id="facelityprovidernpi" ng-model="param.facelityprovidernpi">
+        <input type="text" class="form-control" id="facelityprovidernpi" ng-model="facelityprovidernpi">
       </div>
     </div>
     <div class="form-group">        
@@ -37,10 +37,52 @@
     </div>
 </form>
 
-
-<div ng-if="$ctrl.authorized">{{$ctrl.total}}</div>
 <hr>
 
-<div>
-    <table ng-if="$ctrl.authorized"  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
+<div ng-if="$ctrl.authorized" style="font-family: verdana">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped" >
+                <thead>
+                  <tr class="responseTable">
+                    <th>Code</th>
+                    <th>Code Description</th>
+                    <th>Episode Count</th>
+                    <th>Retail Price</th>
+                    <th>Price Date</th>
+                    <th>Price Source</th>
+                    <th>Discount Percentage</th>
+                    <th>Discounted Amount</th>
+                    <th>Discount Source</th>
+                    <th>Code Cost Factor</th>
+                    <th>Factored Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="body_data in $ctrl.resp.data">
+                    <td>{{body_data.col_9}}</td>
+                    <td>{{body_data.col_11}}</td>
+                    <td>{{body_data.col_7}}</td>
+                    <td>{{body_data.col_12}}</td>
+                    <td>{{body_data.col_13}}</td>
+                    <td>{{body_data.col_15}}</td>
+                    <td>{{body_data.col_17}}</td>
+                    <td>{{body_data.col_18}}</td>
+                    <td>{{body_data.col_20}}</td>
+                    <td>{{body_data.col_22}}</td>
+                    <td>{{body_data.col_24}}</td>
+                  </tr>
+                  <tr class="success">
+                    <td colspan="7"></td>
+                    <td colspan="3"><strong>Typical Provider Episode Cost:</strong></td>
+                    <td><strong>{{$ctrl.resp.factor_total}}</strong></td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
 </div>
+<!--<div>
+    <table ng-if="$ctrl.authorized"  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
+</div>-->

@@ -20,32 +20,41 @@
                    this.collapsed = !this.collapsed;
                  }
 
-                 if($rootScope.Prov_pric_form_det != '' && typeof($rootScope.Prov_pric_form_det) != 'undefined'){
-                    console.log($rootScope.Prov_pric_form_det);
+                 if($rootScope.pro_pric_det_form_det != '' && typeof($rootScope.pro_pric_det_form_det) != 'undefined'){
+                    console.log($rootScope.pro_pric_det_form_det);
+                    $('#loadingDiv').show();
                     vm.authorized = true;
-                    loadDatatable($rootScope.Prov_pric_form_det.url);
-                    //param['procedureId'] = $rootScope.Prov_pric_form_det.procedureID;
-                    $('#procedureId').val($rootScope.Prov_pric_form_det.procedureID);
-                    $('#providerNpi').val($rootScope.Prov_pric_form_det.providerNpi);
-                    $('#networkId').val($rootScope.Prov_pric_form_det.networkID);
-                    $('#costcategorycode').val($rootScope.Prov_pric_form_det.category);
-                    $('#facelityprovidernpi').val($rootScope.Prov_pric_form_det.facilityNPI);
+                    $scope.providerNpi = $rootScope.pro_pric_det_form_det.providerNpi;
+                    $scope.procedureId = $rootScope.pro_pric_det_form_det.procedureID;
+                    $scope.networkId   = $rootScope.pro_pric_det_form_det.networkID;
+                    $scope.costcategorycode = $rootScope.pro_pric_det_form_det.category;
+                    $scope.facelityprovidernpi = $rootScope.pro_pric_det_form_det.facilityNPI;
+                    loadDatatable($rootScope.pro_pric_det_form_det.url);
                  }
 
-                 $scope.submit = function(param){
-                    that.providerNpi = param.providerNpi ? param.providerNpi : '';
-                    that.ProcedureID = param.procedureId ? param.procedureId : '';
-                    that.NetworkID = param.networkId ? param.networkId : '';
-                    that.CostCategoryCode = param.costcategorycode ? param.costcategorycode : '';
-                    that.FacilityProviderNPI = param.facelityprovidernpi ? param.facelityprovidernpi : '';
+                 $scope.submit = function(){
+                    $('#loadingDiv').show();
+                    that.providerNpi = $scope.providerNpi ? $scope.providerNpi : '';
+                    that.ProcedureID = $scope.procedureId ? $scope.procedureId : '';
+                    that.NetworkID = $scope.networkId ? $scope.networkId : '';
+                    that.CostCategoryCode = $scope.costcategorycode ? $scope.costcategorycode : '';
+                    that.FacilityProviderNPI = $scope.facelityprovidernpi ? $scope.facelityprovidernpi : '';
 
                     vm.authorized = true;
-                    that.apiUrl = domainName+'api/provider_pricing_breakdown_cpt/?ProviderID='+that.providerNpi+'&ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&CostCategoryCode='+that.CostCategoryCode+'&FacilityProviderNPI='+that.FacilityProviderNPI;
+                    that.apiUrl = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+that.providerNpi+'&ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&CostCategoryCode='+that.CostCategoryCode+'&FacilityProviderNPI='+that.FacilityProviderNPI;
                     loadDatatable(that.apiUrl);
                   }
 
                   function loadDatatable(url){
-                    vm.dtOptions = DTOptionsBuilder.newOptions()
+
+                    $http({method: "GET", url: url})
+                    .then(function(response){
+                        vm.authorized = true;
+                        console.log(response);
+                        that.resp = response.data;
+                        $('#loadingDiv').hide();
+                    });
+                    /*vm.dtOptions = DTOptionsBuilder.newOptions()
                        .withOption('ajax', {
                               url: url,
                               type: 'GET'
@@ -87,7 +96,8 @@
                           DTColumnBuilder.newColumn('col_24').withTitle('test_14').notVisible(),
                           //DTColumnBuilder.newColumn('col_25').withTitle('test_15').notVisible(),
                       ];
-                      return;
+                      return;*/
+
 
                   }
                }

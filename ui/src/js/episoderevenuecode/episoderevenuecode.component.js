@@ -23,27 +23,23 @@
 
                  if($rootScope.epi_rev_form_det != '' && typeof($rootScope.epi_rev_form_det) != 'undefined'){
                     console.log($rootScope.epi_rev_form_det);
-                    //loadDatatable($rootScope.epi_rev_form_det.url);
-                    loadDatatable(domainName+'api/epi_rev_code/');
-                    //param['procedureId'] = $rootScope.Prov_pric_form_det.procedureID;
-                    /*$(document).ready(function(){
-                        $('#procedureId').val($rootScope.Prov_pric_form_det.procedureID);
-                        $('#providerNpi').val($rootScope.Prov_pric_form_det.providerNpi);
-                        $('#networkId').val($rootScope.Prov_pric_form_det.networkID);
-                        $('#costcategorycode').val($rootScope.Prov_pric_form_det.category);
-                        $('#facelityprovidernpi').val($rootScope.Prov_pric_form_det.facilityNPI);
-                    });*/
+
+                    $scope.procedureId = $rootScope.epi_rev_form_det.ProcedureID;
+                    $scope.facilityNpi = $rootScope.epi_rev_form_det.FacilityNPI;
+                    $scope.patientID = $rootScope.epi_rev_form_det.PatientID;
+                    $scope.firstDateOfService = $rootScope.epi_rev_form_det.firstDateOfService;
+                    loadDatatable($rootScope.epi_rev_form_det.url);
                  }
 
-                 $scope.submit = function(param){
+                 $scope.submit = function(){
                     $('#loadingDiv').show();
-                    that.ProcedureID = param.procedureId ? param.procedureId : '';
-                    that.FacilityNPI = param.facilityNpi ? param.facilityNpi : '';
-                    that.PatientID = param.patientID ? param.patientID : '';
-                    that.firstDateOfService = param.firstDateOfService ? param.firstDateOfService : '';
+                    that.ProcedureID = $scope.procedureId ? $scope.procedureId : '';
+                    that.FacilityNPI = $scope.facilityNpi ? $scope.facilityNpi : '';
+                    that.PatientID = $scope.patientID ? $scope.patientID : '';
+                    that.firstDateOfService = $scope.firstDateOfService ? $scope.firstDateOfService : '';
 
-                    //that.apiUrl = 'http://localhost:2222/api/epi_rev_code/?ProcedureID='+that.ProcedureID+'&FacilityNPI='+that.FacilityNPI+'&PatientID='+that.PatientID+'&firstDateOfService='+that.firstDateOfService;
-                    that.apiUrl = domainName+'api/epi_rev_code/?ProcedureID='+that.ProcedureID+'&FacilityNPI='+that.FacilityNPI+'&PatientID='+that.PatientID;
+                    that.apiUrl = 'http://localhost:2222/api/epi_rev_code/?ProcedureID='+that.ProcedureID+'&FacilityNPI='+that.FacilityNPI+'&PatientID='+that.PatientID+'&firstDateOfService='+that.firstDateOfService;
+                    //that.apiUrl = domainName+'api/epi_rev_code/?ProcedureID='+that.ProcedureID+'&FacilityNPI='+that.FacilityNPI+'&PatientID='+that.PatientID;
                     loadDatatable(that.apiUrl)
                   }
 

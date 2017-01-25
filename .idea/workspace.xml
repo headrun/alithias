@@ -2,19 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33e1e4d1-4c65-42ad-8e20-a411a08e93b2" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/src/js/procedurepricing/procedurepricing.component.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/src/js/procedurepricing/procedurepricing.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/src/js/procedurepricing/procedurepricing.module.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/db.sqlite3" afterPath="$PROJECT_DIR$/backend/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/api/urls.py" afterPath="$PROJECT_DIR$/backend/api/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/api/views.py" afterPath="$PROJECT_DIR$/backend/api/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/app.css" afterPath="$PROJECT_DIR$/ui/src/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/index.html" afterPath="$PROJECT_DIR$/ui/src/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/app.js" afterPath="$PROJECT_DIR$/ui/src/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/companynetworks/companynetworks.component.js" afterPath="$PROJECT_DIR$/ui/src/js/companynetworks/companynetworks.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/core/auth/auth.js" afterPath="$PROJECT_DIR$/ui/src/js/core/auth/auth.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/costcompsummary/costcompsummary.html" afterPath="$PROJECT_DIR$/ui/src/js/costcompsummary/costcompsummary.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/dashboard/dashboard.component.js" afterPath="$PROJECT_DIR$/ui/src/js/dashboard/dashboard.component.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/dashboard/dashboard.module.js" afterPath="$PROJECT_DIR$/ui/src/js/dashboard/dashboard.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/header/header.html" afterPath="$PROJECT_DIR$/ui/src/js/header/header.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/login/login.html" afterPath="$PROJECT_DIR$/ui/src/js/login/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.component.js" afterPath="$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.component.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.html" afterPath="$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.component.js" afterPath="$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.component.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.html" afterPath="$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/procedurecodesummary/procedurecodesummary.component.js" afterPath="$PROJECT_DIR$/ui/src/js/procedurecodesummary/procedurecodesummary.component.js" />
@@ -27,8 +28,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/sidebar/sidebar.html" afterPath="$PROJECT_DIR$/ui/src/js/sidebar/sidebar.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/js/sidebar/sidebar.module.js" afterPath="$PROJECT_DIR$/ui/src/js/sidebar/sidebar.module.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/less/base.less" afterPath="$PROJECT_DIR$/ui/src/less/base.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/less/components/header.less" afterPath="$PROJECT_DIR$/ui/src/less/components/header.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/src/less/components/login.less" afterPath="$PROJECT_DIR$/ui/src/less/components/login.less" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,109 +45,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="ppepisodedetails.component.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.component.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="procedurecodesummary.component.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/src/js/procedurecodesummary/procedurecodesummary.component.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="procedurepricingdetail.component.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.component.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="74" column="19" lean-forward="true" selection-start-line="74" selection-start-column="19" selection-end-line="74" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="procedurepriceview.component.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepriceview/procedurepriceview.component.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="70" column="30" lean-forward="false" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="procedurepricingdetail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="episoderevenuecode.component.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.component.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="41" column="59" lean-forward="false" selection-start-line="41" selection-start-column="59" selection-end-line="41" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/api/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="620" column="51" lean-forward="false" selection-start-line="620" selection-start-column="51" selection-end-line="620" selection-end-column="51" />
+            <state relative-caret-position="146">
+              <caret line="592" column="11" lean-forward="false" selection-start-line="592" selection-start-column="11" selection-end-line="592" selection-end-column="11" />
               <folding>
-                <element signature="e#247#1374#0" expanded="false" />
-                <element signature="e#1421#2123#0" expanded="false" />
-                <element signature="e#2167#3669#0" expanded="false" />
-                <element signature="e#3721#4043#0" expanded="false" />
-                <element signature="e#4091#4493#0" expanded="false" />
-                <element signature="e#4546#4796#0" expanded="false" />
-                <element signature="e#4848#5070#0" expanded="false" />
-                <element signature="e#5400#5629#0" expanded="false" />
-                <element signature="e#8883#10743#0" expanded="false" />
-                <element signature="e#10810#12210#0" expanded="false" />
-                <element signature="e#12250#13702#0" expanded="false" />
-                <element signature="e#13755#14609#0" expanded="false" />
-                <element signature="e#14658#15968#0" expanded="false" />
-                <element signature="e#16021#16285#0" expanded="false" />
-                <element signature="e#16338#16602#0" expanded="false" />
-                <element signature="e#16653#18504#0" expanded="false" />
-                <element signature="e#18559#19354#0" expanded="false" />
-                <element signature="e#22662#23750#0" expanded="false" />
-                <element signature="e#23800#25076#0" expanded="false" />
-                <element signature="e#25112#25704#0" expanded="false" />
-                <element signature="e#25748#28210#0" expanded="false" />
-                <element signature="e#28252#30473#0" expanded="false" />
-                <element signature="e#30523#32147#0" expanded="false" />
-                <element signature="e#32188#33149#0" expanded="false" />
+                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#263#1390#0" expanded="false" />
+                <element signature="e#1437#2139#0" expanded="false" />
+                <element signature="e#2183#3685#0" expanded="false" />
+                <element signature="e#3737#4059#0" expanded="false" />
+                <element signature="e#4562#4812#0" expanded="false" />
+                <element signature="e#5483#5712#0" expanded="false" />
+                <element signature="e#9247#11107#0" expanded="false" />
+                <element signature="e#11174#12574#0" expanded="false" />
+                <element signature="e#12614#14066#0" expanded="false" />
+                <element signature="e#14119#14973#0" expanded="false" />
+                <element signature="e#15022#16377#0" expanded="false" />
+                <element signature="e#16430#16694#0" expanded="false" />
+                <element signature="e#16747#17011#0" expanded="false" />
+                <element signature="e#17062#18999#0" expanded="false" />
+                <element signature="e#23791#24879#0" expanded="false" />
+                <element signature="e#24928#26204#0" expanded="false" />
+                <element signature="e#26240#26832#0" expanded="false" />
+                <element signature="e#26876#29456#0" expanded="false" />
+                <element signature="e#29498#31727#0" expanded="false" />
+                <element signature="e#31777#33401#0" expanded="false" />
+                <element signature="e#33442#34408#0" expanded="false" />
+                <element signature="e#34441#36690#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ppepisodedetails.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backend/api/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="50" column="49" lean-forward="true" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
-              <folding>
-                <element signature="n#style#0;n#p#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="103">
+              <caret line="9" column="41" lean-forward="false" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="41" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -157,9 +93,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>procedure_pricing</find>
-      <find>def dropdown_queries</find>
-      <find>procedure_pricing_breakdown</find>
       <find>procedureId</find>
       <find>provider</find>
       <find>provider_</find>
@@ -170,7 +103,6 @@
       <find>sidebar-brand</find>
       <find>pr_code_summary_proc_dropdowns</find>
       <find>cmp_network_by_state_dropdowns</find>
-      <find>def stored_procedure_calling</find>
       <find>def company</find>
       <find>def provide</find>
       <find>def com</find>
@@ -185,8 +117,12 @@
       <find>logo-container</find>
       <find>compan</find>
       <find>first_date</find>
-      <find>subLinkFun</find>
       <find>def store</find>
+      <find>subLinkFun</find>
+      <find>def procedure_pri</find>
+      <find>procedure_pricing_breakdown</find>
+      <find>provider_pricing_breakdown_cpt</find>
+      <find>def stored_procedure_calling</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -220,7 +156,6 @@
         <option value="$PROJECT_DIR$/ui/src/js/dashboard/dashboard.module.js" />
         <option value="$PROJECT_DIR$/ui/src/js/dashboard/dashboard.component.js" />
         <option value="$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.html" />
-        <option value="$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.html" />
         <option value="$PROJECT_DIR$/ui/src/js/providerpricingdetail/providerpricingdetail.html" />
         <option value="$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.html" />
         <option value="$PROJECT_DIR$/ui/src/index.html" />
@@ -229,11 +164,12 @@
         <option value="$PROJECT_DIR$/ui/src/js/costcompsummary/costcompsummary.component.js" />
         <option value="$PROJECT_DIR$/ui/src/js/procedurecodesummary/procedurecodesummary.component.js" />
         <option value="$PROJECT_DIR$/ui/src/js/providerpricingdetail/providerpricingdetail.component.js" />
+        <option value="$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.component.js" />
+        <option value="$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.component.js" />
+        <option value="$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.html" />
         <option value="$PROJECT_DIR$/ui/src/less/base.less" />
         <option value="$PROJECT_DIR$/ui/src/js/procedurepriceview/procedurepriceview.html" />
         <option value="$PROJECT_DIR$/ui/src/js/procedurepriceview/procedurepriceview.component.js" />
-        <option value="$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.component.js" />
-        <option value="$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.component.js" />
         <option value="$PROJECT_DIR$/backend/api/views.py" />
       </list>
     </option>
@@ -300,6 +236,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alithias_dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alithias_dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="less" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -494,7 +452,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dcube_setup/alithias" />
   </component>
   <component name="RunManager" selected="Python.manage">
     <configuration default="false" name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -674,15 +632,15 @@
     <frame x="1" y="1" width="1362" height="718" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23214285" sideWeight="0.76115483" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23214285" sideWeight="0.76155716" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34423408" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34423408" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.049913943" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23214285" sideWeight="0.23884514" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29259896" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23214285" sideWeight="0.23844282" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -878,14 +836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/api/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="15" column="65" lean-forward="false" selection-start-line="15" selection-start-column="65" selection-end-line="15" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ui/src/js/sidebar/sidebar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -982,14 +932,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/src/less/base.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="74" column="25" lean-forward="false" selection-start-line="74" selection-start-column="25" selection-end-line="74" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ui/src/js/providerpricingdetail/providerpricingdetail.component.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
@@ -1005,14 +947,6 @@
           <folding>
             <marker date="1484748291171" expanded="false" signature="1034:1072" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurecodesummary/procedurecodesummary.component.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1032,38 +966,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepriceview/procedurepriceview.html">
+    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepriceview/procedurepriceview.component.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-          <folding>
-            <element signature="n#div#2;n#form#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="50" column="49" lean-forward="true" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        <state relative-caret-position="143">
+          <caret line="34" column="64" lean-forward="true" selection-start-line="34" selection-start-column="64" selection-end-line="34" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepriceview/procedurepriceview.component.js">
+    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.component.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="70" column="30" lean-forward="false" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
+        <state relative-caret-position="1166">
+          <caret line="74" column="19" lean-forward="true" selection-start-line="74" selection-start-column="19" selection-end-line="74" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurecodesummary/procedurecodesummary.component.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1076,6 +998,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepriceview/procedurepriceview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="135" column="96" lean-forward="false" selection-start-line="135" selection-start-column="96" selection-end-line="135" selection-end-column="96" />
+          <folding>
+            <element signature="n#div#2;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#0;n#td#4;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#0;n#td#5;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/src/less/base.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="101" column="30" lean-forward="false" selection-start-line="101" selection-start-column="30" selection-end-line="101" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="31" column="10" lean-forward="true" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ui/src/js/episoderevenuecode/episoderevenuecode.component.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
@@ -1084,43 +1034,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/src/js/procedurepricingdetail/procedurepricingdetail.component.js">
+    <entry file="file://$PROJECT_DIR$/ui/src/js/ppepisodedetails/ppepisodedetails.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
-          <caret line="74" column="19" lean-forward="true" selection-start-line="74" selection-start-column="19" selection-end-line="74" selection-end-column="19" />
+          <caret line="50" column="49" lean-forward="true" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/api/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="9" column="41" lean-forward="false" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/api/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="620" column="51" lean-forward="false" selection-start-line="620" selection-start-column="51" selection-end-line="620" selection-end-column="51" />
+        <state relative-caret-position="146">
+          <caret line="592" column="11" lean-forward="false" selection-start-line="592" selection-start-column="11" selection-end-line="592" selection-end-column="11" />
           <folding>
-            <element signature="e#247#1374#0" expanded="false" />
-            <element signature="e#1421#2123#0" expanded="false" />
-            <element signature="e#2167#3669#0" expanded="false" />
-            <element signature="e#3721#4043#0" expanded="false" />
-            <element signature="e#4091#4493#0" expanded="false" />
-            <element signature="e#4546#4796#0" expanded="false" />
-            <element signature="e#4848#5070#0" expanded="false" />
-            <element signature="e#5400#5629#0" expanded="false" />
-            <element signature="e#8883#10743#0" expanded="false" />
-            <element signature="e#10810#12210#0" expanded="false" />
-            <element signature="e#12250#13702#0" expanded="false" />
-            <element signature="e#13755#14609#0" expanded="false" />
-            <element signature="e#14658#15968#0" expanded="false" />
-            <element signature="e#16021#16285#0" expanded="false" />
-            <element signature="e#16338#16602#0" expanded="false" />
-            <element signature="e#16653#18504#0" expanded="false" />
-            <element signature="e#18559#19354#0" expanded="false" />
-            <element signature="e#22662#23750#0" expanded="false" />
-            <element signature="e#23800#25076#0" expanded="false" />
-            <element signature="e#25112#25704#0" expanded="false" />
-            <element signature="e#25748#28210#0" expanded="false" />
-            <element signature="e#28252#30473#0" expanded="false" />
-            <element signature="e#30523#32147#0" expanded="false" />
-            <element signature="e#32188#33149#0" expanded="false" />
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#263#1390#0" expanded="false" />
+            <element signature="e#1437#2139#0" expanded="false" />
+            <element signature="e#2183#3685#0" expanded="false" />
+            <element signature="e#3737#4059#0" expanded="false" />
+            <element signature="e#4562#4812#0" expanded="false" />
+            <element signature="e#5483#5712#0" expanded="false" />
+            <element signature="e#9247#11107#0" expanded="false" />
+            <element signature="e#11174#12574#0" expanded="false" />
+            <element signature="e#12614#14066#0" expanded="false" />
+            <element signature="e#14119#14973#0" expanded="false" />
+            <element signature="e#15022#16377#0" expanded="false" />
+            <element signature="e#16430#16694#0" expanded="false" />
+            <element signature="e#16747#17011#0" expanded="false" />
+            <element signature="e#17062#18999#0" expanded="false" />
+            <element signature="e#23791#24879#0" expanded="false" />
+            <element signature="e#24928#26204#0" expanded="false" />
+            <element signature="e#26240#26832#0" expanded="false" />
+            <element signature="e#26876#29456#0" expanded="false" />
+            <element signature="e#29498#31727#0" expanded="false" />
+            <element signature="e#31777#33401#0" expanded="false" />
+            <element signature="e#33442#34408#0" expanded="false" />
+            <element signature="e#34441#36690#0" expanded="false" />
           </folding>
         </state>
       </provider>

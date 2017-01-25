@@ -1,8 +1,9 @@
 ;(function (angular) {
   "use strict";
 
-  angular.module("sidebar", ["ui.router", "procedurepricing", "companynetworks", 
+  angular.module("sidebar", ["ui.router", "proceduremaintenance", "companynetworks", 
   							"procedurepriceview", "procedurepricingdetail", 
-  							"providerpricingdetail", "ppepisodedetails", "costcompsummary"]);
+  							"providerpricingdetail", "ppepisodedetails", "costcompsummary",
+  							"episoderevenuecode"]);
 
 }(window.angular));

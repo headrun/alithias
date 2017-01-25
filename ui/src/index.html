@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <!-- vendor styles -->
     <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <!-- application specific styles -->
     <link rel="stylesheet" href="app.css"/>
     <link rel="stylesheet" href="/libs/angular-datatables/dist/css/angular-datatables.css">
@@ -15,7 +16,7 @@
       <div ui-view autoscroll="false" class="content">
       </div>
       <!-- Loading overlay, which block screen unless everything is rendered -->
-      <div ng-if="loading" class="loading-overlay">
+      <div align="center" ng-if="loading" class="loading-overlay">
         <div><span>Loading...</span></div>
       </div>
     </div>
@@ -60,10 +61,6 @@
     <script src="/js/companynetworks/companynetworks.module.js"></script>
     <script src="/js/companynetworks/companynetworks.component.js"></script>
 
-    <!-- Company Networks Module -->
-    <script src="/js/procedurepricing/procedurepricing.module.js"></script>
-    <script src="/js/procedurepricing/procedurepricing.component.js"></script>
-
     <!-- Procedure Price view Module -->
     <script src="/js/procedurepriceview/procedurepriceview.module.js"></script>
     <script src="/js/procedurepriceview/procedurepriceview.component.js"></script>
@@ -91,6 +88,10 @@
     <!-- Episode Revenue Code -->
     <script src="/js/episoderevenuecode/episoderevenuecode.module.js"></script>
     <script src="/js/episoderevenuecode/episoderevenuecode.component.js"></script>
+
+    <!-- Episode Revenue Code -->
+    <script src="/js/proceduremaintenance/proceduremaintenance.module.js"></script>
+    <script src="/js/proceduremaintenance/proceduremaintenance.component.js"></script>
 
     <!-- APP -->
     <script src="/js/app.js"></script>

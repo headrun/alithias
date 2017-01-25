@@ -24,11 +24,12 @@
                  $http({method: "GET", url: domainName+"api/proc_pricing_episode_dropdowns/"})
                     .then(function(response){
                         that.networks = response.data[0].table_Networks;
+                        that.procedures = response.data[0].table_Procedures
                     });
 
-                 this.subLinkFun = function(ProcedureID, FacilityNPI, PatientID, firstDateOfService){
-                    var url = domainName+'api/epi_rev_code/?ProcedureID='+ProcedureID+'&FacilityNPI='+FacilityNPI+'&PatientID='+PatientID+'&firstDateOfService='+firstDateOfService;
-                    $rootScope.epi_rev_form_det = { 'ProcedureID': ProcedureID,
+                 this.subLinkFun = function(FacilityNPI, PatientID, firstDateOfService){
+                    var url = domainName+'api/epi_rev_code/?ProcedureID='+$scope.procedureId+'&FacilityNPI='+FacilityNPI+'&PatientID='+PatientID+'&firstDateOfService='+firstDateOfService;
+                    $rootScope.epi_rev_form_det = { 'ProcedureID': $scope.procedureId,
                                                       'FacilityNPI': FacilityNPI,
                                                       'PatientID': PatientID,
                                                       'firstDateOfService': firstDateOfService,
@@ -37,12 +38,20 @@
                     window.location.href = '/#!/episoderevenuecode';
                  }
 
-                 $scope.submit = function(param){
+                 this.linkToProvider = function(providerNPI, costCategory){
+                    var url = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+providerNPI+'&ProcedureID='+$scope.procedureId+'&NetworkID='+$scope.networkId+'&CostCategoryCode='+costCategory+'&FacilityProviderNPI='+$scope.facelitynpi;
+                    $rootScope.pro_pric_det_form_det = { 'providerNpi': providerNPI, 'category': costCategory, 'procedureID': $scope.procedureId, 'networkID': $scope.networkId, 'url': url, 'facilityNPI': $scope.facelitynpi };
+                    window.location.href = '/#!/providerpricingdetail';
+                 }
+
+                 $scope.submit = function(){
                     $('#loadingDiv').show();
-                    that.networkId = param.networkId ? param.networkId : '';
+                    that.networkId = $scope.networkId ? $scope.networkId : '';
+                    that.procedureId = $scope.procedureId ? $scope.procedureId : '';
+                    that.facelitynpi = $scope.facelitynpi ? $scope.facelitynpi : '';
 
                     vm.authorized = true;
-                    that.apiUrl = domainName+'api/procedure_pricing_episode/?networkId='+that.networkId;
+                    that.apiUrl = domainName+'api/procedure_pricing_episode/?networkId='+that.networkId+'&ProcedureID='+that.procedureId+'&FacilityNPI='+that.facelitynpi;
 
                     $http({method: "GET", url: that.apiUrl})
                     .then(function(response){

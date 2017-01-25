@@ -2,7 +2,7 @@
   "use strict";
 
   angular.module("dashboard", ["ui.router", "auth", "header", "sidebar", "datatables",
-  					"companynetworks", "procedurepricing", "procedurepriceview", 
+  					"companynetworks", "proceduremaintenance", "procedurepriceview", 
   					"procedurepricingdetail", "providerpricingdetail", "procedurecodesummary",
   					"ppepisodedetails", "costcompsummary", "episoderevenuecode"]);
 
