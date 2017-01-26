@@ -22,6 +22,11 @@
                       console.log(response);
                         that.pMaintenanceData = response.data;
                     });
+                  $(document).ready(function() {
+                   setTimeout(function(){ 
+                      $('#example').DataTable();
+                   }, 1300);
+                  });  
                }
             ]
         });
