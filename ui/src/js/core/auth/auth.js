@@ -15,7 +15,7 @@
 
         deferredStatus = null;
 
-        var login_url_to_fire = 'http://localhost:2222/auth/login/';
+        var login_url_to_fire = domainName+'auth/login/';
         return $http.post(login_url_to_fire, credentials)
                     .then(function (resp) {
           resp = resp.data;
@@ -32,7 +32,7 @@
 
       this.logout = function () {
 
-        return $http.get("http://localhost:2222/auth/logout/").then(function () {
+        return $http.get(domainName+"auth/logout/").then(function () {
 
           Session.unset();
           deferredStatus = null;
@@ -48,7 +48,7 @@
 
         deferredStatus = $q.defer();
 
-        var url_to_fire = 'http://localhost:2222/auth/status/';
+        var url_to_fire = domainName+'auth/status/';
 
         $http.get(url_to_fire,{ withCredentials: true }).then(function (resp) {
 

@@ -4,6 +4,6 @@
   angular.module("sidebar", ["ui.router", "proceduremaintenance", "companynetworks", 
   							"procedurepriceview", "procedurepricingdetail", 
   							"providerpricingdetail", "ppepisodedetails", "costcompsummary",
-  							"episoderevenuecode"]);
+  							"episoderevenuecode", "providermaintenance"]);
 
 }(window.angular));

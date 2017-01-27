@@ -4,7 +4,7 @@
       <label class="control-label col-sm-3" >Procedure:</label>
       <div class="col-sm-4">
         <select class="form-control" ng-model="param.ProcedureID">
-            <option ng-repeat="x in $ctrl.procedures" value="{{x.id}}">{{x.name}}</option>
+            <option ng-repeat="x in $ctrl.procedures | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
     </div>
