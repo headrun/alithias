@@ -215,6 +215,9 @@ def stored_procedure_calling (st_procedure_name,params):
     #sql = "update providers_test SET ProviderName='New train' where ProviderNPI='1003814377'"
     #sql = "select * from procedures_test where ProcedureID='88888'"
     #sql = "delete from procedures_test where ProcedureID='88888'"
+    if "Provider_SelectAll" in sql:
+        sql = "select top 1000.* from providers_test where PracticeAddressState = 'WI'"
+        #sql = "select * from providers_test where PracticeAddressState = 'WI'"
     print sql
     #import pdb;pdb.set_trace()
     cursor.execute(noCount+sql)
@@ -461,8 +464,8 @@ def procedure_pricing_breakdown(request):
     strd_data_list = stored_procedure_calling_list('rptProcedurePricingDetail', params)
     facility_name = {}
     for dict in strd_data_list:
-        epi_cost = float('%.2f' % round(float(dict['col_7']), 2))
-        epi_cost = format(epi_cost, '0,.1f')
+        epi_cost = float('%.2f' % round(float(dict['col_7']), 0))
+        epi_cost = format(epi_cost, '0,.2f')
         dict['col_7'] = str(epi_cost)
         if facility_name.has_key(dict['col_5']):
             facility_name[dict['col_5']].append(dict)
@@ -549,12 +552,12 @@ def provider_pricing_breakdown_cpt(request):
     new_data_list = adding_dollar(strd_data_list,column_names)
     round_value =0
     for n_dict in new_data_list['dollar_col']:
-        round_value = float('%.2f' % round(float(new_data_list['cost_count']), 2))
+        round_value = float('%.2f' % round(float(new_data_list['cost_count']), 0))
         n_dict['total'] = '$'+str(round_value)
         final_factor_cost.append(n_dict)
 
     factor_claim_data['data'] = final_factor_cost
-    round_value = format(round_value, '0,.1f')
+    round_value = format(round_value, '0,.2f')
     factor_claim_data['factor_total'] = '$'+str(round_value)
     #factor_claim_data['total'] = cost_count
     data = json.dumps(factor_claim_data)
@@ -572,10 +575,12 @@ def adding_dollar (strd_data_list,column_names):
             if dt_key in column_names:
                 #import pdb;pdb.set_trace()
                 if dt_value == None:
-                    accuracy_agg = 0
+                    accuracy_agg = 0.00
+                    accuracy_agg = float('%.2f' % round(float(accuracy_agg), 0))
+                    accuracy_agg = format(accuracy_agg, '0,.2f')
                 else:
-                    accuracy_agg = float('%.2f' % round(float(dt_value), 2))
-                    accuracy_agg = format(accuracy_agg, '0,.1f')
+                    accuracy_agg = float('%.2f' % round(float(dt_value), 0))
+                    accuracy_agg = format(accuracy_agg, '0,.2f')
                 local_dict[dt_key] = '$' + str(accuracy_agg)
             else:
                 local_dict[dt_key] = dt_value
@@ -606,6 +611,7 @@ def procedure_pricing_episode(request):
     #import pdb;pdb.set_trace()
     strd_data_list = stored_procedure_calling_list('rptEpisodeDetails', params)
     epi_name = {}
+    final_epi_details = []
     for epi_dict in strd_data_list:
         epi_code = epi_dict['col_6']
         if epi_name.has_key(epi_code):
@@ -631,30 +637,30 @@ def procedure_pricing_episode(request):
                 for csct_dict in cc_values:
                     if ',' in str(csct_dict['col_7']):
                         csct_dict['col_7'] = str(csct_dict['col_7']).replace(',','')
-                    rt_amt = float('%.2f' % round(float(csct_dict['col_7']), 2))
+                    rt_amt = float('%.2f' % round(float(csct_dict['col_7']), 0))
                     csct_dict['col_7'] = str(rt_amt)
                     if ',' not in str(rt_amt):
-                        csct_dict['col_7'] = str(format(rt_amt, '0,.1f'))
+                        csct_dict['col_7'] = str(format(rt_amt, '0,.2f'))
                     if ',' in str(csct_dict['col_8']):
                         csct_dict['col_8'] = str(csct_dict['col_8']).replace(',','')
-                    allowd_amt = float('%.2f' % round(float(csct_dict['col_8']), 2))
+                    allowd_amt = float('%.2f' % round(float(csct_dict['col_8']), 0))
                     csct_dict['col_8'] = str(allowd_amt)
                     if ',' not in str(allowd_amt):
-                        csct_dict['col_8'] = str(format(allowd_amt, '0,.1f'))
+                        csct_dict['col_8'] = str(format(allowd_amt, '0,.2f'))
                     cc_retail_total = cc_retail_total + rt_amt
                     cc_allowed_total = cc_allowed_total + allowd_amt
                     epi_key = str(csct_dict['col_6']) + str(csct_dict['col_10'])
                 cc_dict['csct_type'] = cc_key
                 cc_dict['csct_data'] = cc_values
-                cc_dict['csct_retail_total'] = str(format(cc_retail_total, '0,.1f'))
+                cc_dict['csct_retail_total'] = str(format(cc_retail_total, '0,.2f'))
                 ep_cc_rtl_total = ep_cc_rtl_total + cc_retail_total
-                cc_dict['csct_allowed_total'] = str(format(cc_allowed_total, '0,.1f'))
+                cc_dict['csct_allowed_total'] = str(format(cc_allowed_total, '0,.2f'))
                 ep_cc_allowed_total = ep_cc_allowed_total + cc_allowed_total
                 ep_cc_list.append(cc_dict)
             ep_cc_dict['epi_key'] = epi_key
             ep_cc_dict['epi_data'] = ep_cc_list
-            ep_cc_dict['epi_retail_total'] = str(format(ep_cc_rtl_total, '0,.1f'))
-            ep_cc_dict['epi_allowed_total'] = str(format(ep_cc_allowed_total, '0,.1f'))
+            ep_cc_dict['epi_retail_total'] = str(format(ep_cc_rtl_total, '0,.2f'))
+            ep_cc_dict['epi_allowed_total'] = str(format(ep_cc_allowed_total, '0,.2f'))
             final_epi_details.append(ep_cc_dict)
 
     data = json.dumps(final_epi_details)
@@ -752,8 +758,23 @@ def pr_code_summary(request):
         pr_type_code = ''
     state = ''
     params = [procedure_id,0,pr_type_code]
-    strd_data_list = stored_procedure_calling('rptProcedureCodeSummaryForProcedure', params)
-    return HttpResponse(strd_data_list)
+    strd_data_list = stored_procedure_calling_list('rptProcedureCodeSummaryForProcedure', params)
+    final_data_list = []
+    for pr_dict in strd_data_list:
+        avg_amt = float('%.2f' % round(float(pr_dict['col_10']), 0))
+        min_amt = float('%.2f' % round(float(pr_dict['col_8']), 0))
+        max_amt = float('%.2f' % round(float(pr_dict['col_9']), 0))
+        pr_dict['col_8'] = str(format(min_amt, '0,.2f'))
+        pr_dict['col_9'] = str(format(max_amt, '0,.2f'))
+        pr_dict['col_10'] = str(format(avg_amt, '0,.2f'))
+        per_col = float(pr_dict['col_6']) * 100
+        per_col = float('%.2f' % round(per_col, 0))
+        pr_dict['col_6'] = str(format(per_col, '0,.0f'))
+        pr_dict['col_8'] = str(format(min_amt, '0,.2f'))
+        final_data_list.append(pr_dict)
+    data = json.dumps(final_data_list)
+    return HttpResponse(data, content_type='application/json')
+    #return HttpResponse(strd_data_list)
 
 def cost_comparison_summary(request):
     """CompanyID,SourceZIP,MilesRadius,UserID,Year,MemberPopulation"""
@@ -798,23 +819,28 @@ def cost_comparison_summary(request):
     cmp_total_cost = 0
     cmp_pt_saving = 0
     for cst_dict in strd_data_list:
-        avg_total = float('%.2f' % round(float(cst_dict['col_8']), 2))
-        cst_dict['col_8'] = str(format(avg_total, '0,.1f'))
+        avg_total = float('%.2f' % round(float(cst_dict['col_8']), 0))
+        cst_dict['col_8'] = str(format(avg_total, '0,.2f'))
         cst_dict['col_7'] = int(float(cst_dict['col_7']))
-        est_total = float('%.2f' % round(float(cst_dict['col_18']), 2))
-        cst_dict['col_18'] = str(format(est_total, '0,.1f'))
+        est_total = float('%.2f' % round(float(cst_dict['col_18']), 0))
+        cst_dict['col_18'] = str(format(est_total, '0,.2f'))
+        """import pdb;pdb.set_trace()
+        if ',' not in str(cst_dict['col_17']):
+            low_total = float('%.2f' % round(float(cst_dict['col_17']), 0))
+            cst_dict['col_17'] = str(format(low_total, '0,.2f'))"""
+        cst_dict['col_17'] = str(cst_dict['col_17'].split('.')[0] + '.00')
         cmp_estimated = cmp_estimated + est_total
-        tl_cost = float('%.2f' % round(float(cst_dict['col_19']), 2))
-        cst_dict['col_19'] = str(format(tl_cost, '0,.1f'))
+        tl_cost = float('%.2f' % round(float(cst_dict['col_19']), 0))
+        cst_dict['col_19'] = str(format(tl_cost, '0,.2f'))
         cmp_total_cost = cmp_total_cost + tl_cost
-        pt_cost = float('%.2f' % round(float(cst_dict['col_21']), 2))
-        cst_dict['col_21'] = str(format(tl_cost, '0,.1f'))
+        pt_cost = float('%.2f' % round(float(cst_dict['col_21']), 0))
+        cst_dict['col_21'] = str(format(tl_cost, '0,.2f'))
         cmp_pt_saving = cmp_pt_saving + pt_cost
         #claim_count = claim_count + int(cst_dict['col_6'])
     final_cmp_data['cmp_data'] = strd_data_list
-    final_cmp_data['cmp_estimated'] = str(format(cmp_estimated, '0,.1f'))
-    final_cmp_data['cmp_total_cost'] = str(format(cmp_total_cost, '0,.1f'))
-    final_cmp_data['cmp_pt_saving'] = str(format(cmp_pt_saving, '0,.1f'))
+    final_cmp_data['cmp_estimated'] = str(format(cmp_estimated, '0,.2f'))
+    final_cmp_data['cmp_total_cost'] = str(format(cmp_total_cost, '0,.2f'))
+    final_cmp_data['cmp_pt_saving'] = str(format(cmp_pt_saving, '0,.2f'))
     final_cmp_list.append(final_cmp_data)
     data = json.dumps(final_cmp_list)
     # return final_api_list
@@ -835,13 +861,13 @@ def Procedure_Maintenance(request):
             procedure_id = '888888'
         params = [procedure_id]
         sp = 'Procedure_Delete'
-    elif db_action_type in ['update','insert']:
+    elif db_action_type in ['update','create']:
         """ProcedureID,ProcedureName,IsOutpatient,Enabled,RequireFacility,RequirePhysician
         ,RequireAnesthesia,RequireLab,RequireRadiology"""
         try:
             procedure_id = request.GET['ProcedureID']
         except:
-            procedure_id ='888888'
+            procedure_id ='45454545'
         try:
             procedure_name = request.GET['ProcedureName']
         except:
@@ -849,11 +875,11 @@ def Procedure_Maintenance(request):
         try:
             is_outpatient = request.GET['IsOutpatient']
         except:
-            is_outpatient = 1
+            is_outpatient = 0
         try:
             enabled = request.GET['Enabled']
         except:
-            enabled = 1
+            enabled = 0
         try:
             require_facility = request.GET['RequireFacility']
         except:
@@ -865,7 +891,7 @@ def Procedure_Maintenance(request):
         try:
             require_anesthesia = request.GET['RequireAnesthesia']
         except:
-            require_anesthesia = 1
+            require_anesthesia = 0
         try:
             require_lab = request.GET['RequireLab']
         except:
@@ -902,7 +928,7 @@ def Procedure_Mapping_Maintenance(request):
             mapping_id = '4513'
         params = [mapping_id]
         sp = 'ProcedureMapping_Delete'
-    elif db_action_type in ['update','insert']:
+    elif db_action_type in ['update','create']:
         """ProcedureID,ProcedureCode,IsPrimary,IsSecondary"""
         try:
             procedure_id = request.GET['ProcedureID']
@@ -919,7 +945,7 @@ def Procedure_Mapping_Maintenance(request):
         try:
             is_secondary = request.GET['IsSecondary']
         except:
-            is_secondary = 'true'
+            is_secondary = 'false'
         try:
             mapping_id = request.GET['MappingID']
         except:
