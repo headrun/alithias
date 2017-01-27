@@ -46,10 +46,16 @@
                   function loadDatatable(url){
                     $http({method: "GET", url: url})
                     .then(function(response){
-                        vm.authorized = true;
                         console.log(response.data);
-                        that.revData = response.data[0];
-                        $('#loadingDiv').hide();
+                        if (response.data.length > 0) {
+                          vm.authorized = true;
+                          that.revData = response.data[0];
+                          $('#loadingDiv').hide();
+                          $('#notFound').hide();
+                        }else{
+                          $('#loadingDiv').hide();
+                          $('#notFound').show();
+                        }
                     });
                   }
 	            }	

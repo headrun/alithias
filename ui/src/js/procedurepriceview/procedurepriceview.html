@@ -93,7 +93,7 @@
 <!--<div>
     <table ng-if="$ctrl.authorized"  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover table-striped"></table>
 </div> -->
-
+<center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
 <div ng-if="$ctrl.authorized" style="font-family: verdana">
     <div class="row">
         <div class="col-md-12">
@@ -133,7 +133,7 @@
                     <td>{{resp.col_2}}</td>
                     <td>{{resp.col_4}}</td>
                     <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(resp.col_5)">{{resp.col_30}}</p></td>
-                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(resp.col_5)">{{resp.col_31}}</p></td>
+                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkEpi(resp.col_5)">{{resp.col_31}}</p></td>
                     <td>{{resp.col_24}}</td>
                     <td>{{resp.col_25}}</td>
                     <td>{{resp.col_26}}</td>

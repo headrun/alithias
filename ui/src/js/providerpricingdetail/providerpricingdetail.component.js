@@ -20,10 +20,15 @@
                    this.collapsed = !this.collapsed;
                  }
 
+                 $http({method: "GET", url: domainName+"api/proc_pricing_episode_dropdowns/"})
+                    .then(function(response){
+                        that.networks = response.data[0].table_Networks;
+                        that.procedures = response.data[0].table_Procedures
+                    });
+
                  if($rootScope.pro_pric_det_form_det != '' && typeof($rootScope.pro_pric_det_form_det) != 'undefined'){
                     console.log($rootScope.pro_pric_det_form_det);
                     $('#loadingDiv').show();
-                    vm.authorized = true;
                     $scope.providerNpi = $rootScope.pro_pric_det_form_det.providerNpi;
                     $scope.procedureId = $rootScope.pro_pric_det_form_det.procedureID;
                     $scope.networkId   = $rootScope.pro_pric_det_form_det.networkID;
@@ -40,7 +45,6 @@
                     that.CostCategoryCode = $scope.costcategorycode ? $scope.costcategorycode : '';
                     that.FacilityProviderNPI = $scope.facelityprovidernpi ? $scope.facelityprovidernpi : '';
 
-                    vm.authorized = true;
                     that.apiUrl = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+that.providerNpi+'&ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&CostCategoryCode='+that.CostCategoryCode+'&FacilityProviderNPI='+that.FacilityProviderNPI;
                     loadDatatable(that.apiUrl);
                   }
@@ -49,10 +53,16 @@
 
                     $http({method: "GET", url: url})
                     .then(function(response){
-                        vm.authorized = true;
                         console.log(response);
-                        that.resp = response.data;
-                        $('#loadingDiv').hide();
+                        if (response.data.length > 0) {
+                          vm.authorized = true;
+                          that.resp = response.data;
+                          $('#loadingDiv').hide();
+                          $('#notFound').hide();
+                        }else{
+                          $('#loadingDiv').hide();
+                          $('#notFound').show();
+                        }
                     });
                     /*vm.dtOptions = DTOptionsBuilder.newOptions()
                        .withOption('ajax', {

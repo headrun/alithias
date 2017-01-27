@@ -32,7 +32,8 @@
 
 
 <hr>
-<!--ng-if="$ctrl.authorized"   ng-repeat="row in $ctrl.NetworkData"-->
+
+<center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
 <div ng-if="$ctrl.authorized" ng-repeat="row in $ctrl.NetworkData" style="font-family: verdana">
     <h5 style="color: #3587a5;"><strong>Episode Key : </strong> {{row.epi_key}} </h5>
     <div class="row" ng-repeat="data in row.epi_data">

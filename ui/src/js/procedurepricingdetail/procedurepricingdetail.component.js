@@ -18,6 +18,12 @@
                    this.collapsed = !this.collapsed;
                  }
 
+                 $http({method: "GET", url: domainName+"api/proc_pricing_episode_dropdowns/"})
+                    .then(function(response){
+                        that.networks = response.data[0].table_Networks;
+                        that.procedures = response.data[0].table_Procedures
+                    });
+
                  this.subLinkFun = function(providerNpi, category){
                     //var url = 'http://localhost:2222/api/provider_pricing_breakdown_cpt/';
                     var url = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+providerNpi+'&ProcedureID='+$scope.procedureId+'&NetworkID='+$scope.networkId+'&CostCategoryCode='+category+'&FacilityProviderNPI='+$scope.facilityNpi;
