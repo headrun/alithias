@@ -72,13 +72,26 @@
                       ];*/
                   }
 
+                  that.printDiv = function(divName) {
+                      var w=window.open();
+                      w.document.write($('#'+divName).html());
+                      w.print();
+                      w.close();
+                  }
+
                   function loadDatatable(url){
                     $http({method: "GET", url: url})
                     .then(function(response){
-                        vm.authorized = true;
                         console.log(response);
-                        that.resp = response.data;
-                        $('#loadingDiv').hide();
+                        if (response.data.length > 0) {
+                          vm.authorized = true;
+                          that.resp = response.data;
+                          $('#loadingDiv').hide();
+                          $('#notFound').hide();
+                        }else{
+                          $('#loadingDiv').hide();
+                          $('#notFound').show();
+                        }
                     });
                   }
                }

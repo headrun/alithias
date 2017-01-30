@@ -49,12 +49,19 @@
                     loadDatatable(that.apiUrl);
                   }
 
+                  that.printDiv = function(divName) {
+                      var w=window.open();
+                      w.document.write($('#'+divName).html());
+                      w.print();
+                      w.close();
+                  }
+
                   function loadDatatable(url){
 
                     $http({method: "GET", url: url})
                     .then(function(response){
                         console.log(response);
-                        if (response.data.length > 0) {
+                        if (response.data.data.length > 0) {
                           vm.authorized = true;
                           that.resp = response.data;
                           $('#loadingDiv').hide();

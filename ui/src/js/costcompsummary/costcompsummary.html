@@ -42,7 +42,14 @@
 <hr>
 <!--ng-if="$ctrl.authorized"   ng-repeat="row in $ctrl.NetworkData"-->
 <div ng-if="$ctrl.authorized" style="font-family: verdana">
-    <div class="row">
+    <div style="margin-left: 17px;">
+      <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#costCompSymTab').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
+);">PDF</button>
+      <button class="btn btn-warning btn-sm" target="_blank" onClick ="$('#costCompSymTab').tableExport({type:'excel',escape:'false'});">Excel</button>
+      <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('costCompSymTab')">Print</button>
+    </div>
+  <br><br>
+    <div class="row" id="costCompSymTab">
         <div class="col-md-12">
             <table class="table table-striped" >
                 <thead>

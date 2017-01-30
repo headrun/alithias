@@ -39,6 +39,13 @@
                         $('#loadingDiv').hide();
                     });
                   }
+
+                  that.printDiv = function(divName) {
+                      var w=window.open();
+                      w.document.write($('#'+divName).html());
+                      w.print();
+                      w.close();
+                  }
 	            }	
            	]
         });

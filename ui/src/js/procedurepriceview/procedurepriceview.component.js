@@ -48,6 +48,13 @@
                     window.location.href = '/#!/ppepisodedetails';
                  }
 
+                 that.printDiv = function(divName) {
+                      var w=window.open();
+                      w.document.write($('#'+divName).html());
+                      w.print();
+                      w.close();
+                  }
+
                  $scope.submit = function(param){
                     $('#loadingDiv').show();
                     that.networkId = param.networkName ? param.networkName : '';
@@ -62,6 +69,14 @@
                           vm.authorized = true;
                           $('#loadingDiv').hide();
                           that.data = response.data;
+                          setTimeout(function(){ 
+                              $('#proPriceViewTable').DataTable({
+                                  dom: 'Bfrtip',
+                                  buttons: [
+                                      'excel', 'pdf', 'print'
+                                  ]
+                              });
+                          }, 200);
                           $('#notFound').hide();
                         }else{
                           $('#loadingDiv').hide();
@@ -69,6 +84,7 @@
                         }
                         
                     });
+
                         /*vm.dtOptions = DTOptionsBuilder.newOptions()
                            .withOption('ajax', {
                                   url: that.apiUrl,

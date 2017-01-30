@@ -10,6 +10,7 @@
               function ($http, $scope, Session, $state, $rootScope, DTOptionsBuilder, 
                         DTColumnBuilder, $compile) {
                  var that = this;
+                 var vm = this;
 
                  this.collapsed = true;
 
@@ -25,11 +26,9 @@
                       if (response.statusText == "OK") {
                         that.pMaintenanceData = response.data;
 
-                        $(document).ready(function() {
                            setTimeout(function(){ 
                               $('#example').DataTable();
                            }, 300);
-                        });
                       }
                 });
                 
@@ -99,8 +98,68 @@
                 //Get procedure mapping maintenance data
                 that.getProcMapData = function(maintenance){
                    var url = domainName+"api/Procedure_Mapping_Maintenance/?db_action_type=all&ProcedureID="+maintenance.col_1;
+
                    $scope.ProcIDForSubMap = maintenance.col_1;
-                   $http({method: "GET", url: url})
+                   
+
+                   vm.dtOptions = DTOptionsBuilder.newOptions()
+                       .withOption('ajax', {
+                              url: url,
+                              type: 'GET'
+                           })
+                       .withOption('processing', true)
+                       .withOption('createdRow', function(row, data, dataIndex) {
+                              $compile(angular.element(row).contents())($scope);
+                          })
+                          .withOption('headerCallback', function(header) {
+                              if (!vm.headerCompiled) {
+                                  vm.headerCompiled = true;
+                                  $compile(angular.element(header).contents())($scope);
+                              }
+                          })
+                       .withOption('serverSide', false)
+                       .withOption('lengthMenu', [5, 10, 25, 50])
+                       .withPaginationType('full_numbers');
+
+                    vm.authenticated = true;
+                    vm.dtColumns = [
+                          DTColumnBuilder.newColumn('col_3').withTitle('Procedure Code'),
+                          DTColumnBuilder.newColumn('col_6').withTitle('Is Primary').renderWith(function(col_6) {
+                                var check = col_6 == "True" ? "checked" : "";
+                                return '<input type="checkbox" style="zoom:1.2" value="" '+ check +'>';
+                            }),
+                          DTColumnBuilder.newColumn('col_7').withTitle('Is Secondary').renderWith(function(col_7) {
+                                var check = col_7 == "True" ? "checked" : "";
+                                return '<input type="checkbox" style="zoom:1.2" value="" '+ check +'>';
+                            }),
+                          DTColumnBuilder.newColumn('col_18').withTitle('Actions').renderWith(function(data, type, full, meta) {
+                                var delParms = full.col_1+',"delete"';
+                                var params = '"update",'+full.col_3+','+full.col_2+','+full.col_1+',"'+full.col_6+'","'+full.col_7+'"';
+                                var content = '<button type="button" class="btn btn-warning btn-xs" ng-click=$ctrl.procMapEditModal('+params+')>Edit</button>&nbsp;'+
+                                              '<button type="button" class="btn btn-danger btn-xs" ng-click=$ctrl.deleteProcMapModal('+delParms+') >Delete</button>';          
+                                return content;
+                            }),
+                          DTColumnBuilder.newColumn('col_1').withTitle('test_1').notVisible(),
+                          DTColumnBuilder.newColumn('col_2').withTitle('test_2').notVisible(),
+                          DTColumnBuilder.newColumn('col_3').withTitle('test_3').notVisible(),
+                          DTColumnBuilder.newColumn('col_4').withTitle('test_4').notVisible(),
+                          DTColumnBuilder.newColumn('col_5').withTitle('test_5').notVisible(),
+                          DTColumnBuilder.newColumn('col_9').withTitle('test_6').notVisible(),
+                          DTColumnBuilder.newColumn('col_8').withTitle('test_7').notVisible(),
+                          DTColumnBuilder.newColumn('col_10').withTitle('test_8').notVisible(),
+                          DTColumnBuilder.newColumn('col_11').withTitle('test_9').notVisible(),
+                          DTColumnBuilder.newColumn('col_13').withTitle('test_10').notVisible(),
+                          DTColumnBuilder.newColumn('col_14').withTitle('test_11').notVisible(),
+                          DTColumnBuilder.newColumn('col_15').withTitle('test_12').notVisible(),
+                          DTColumnBuilder.newColumn('col_16').withTitle('test_13').notVisible(),
+                          DTColumnBuilder.newColumn('col_17').withTitle('test_14').notVisible(),
+                        ];  
+                        $('#editProcMapDiv').hide();
+                        $('#procMapModal').modal('show');
+                      //var tableContent = '<table ng-if="$ctrl.authenticated" datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>';
+                      //var compiledData = $compile(angular.element(tableContent))($scope);
+                        //$('#procMapTableDiv').html(compiledData);
+                   /*$http({method: "GET", url: url})
                       .then(function(response){
                         console.log(response);
                             //that.ProcMapData = response.data;
@@ -130,8 +189,9 @@
                                                 '</td>'+
                                                 '</tr>';
                             }
-                            $('#procMapTableDiv').html(content+tabFooter);
                             $compile(content)($scope);
+                            $('#procMapTableDiv').html(content+tabFooter);
+                            
                             $('#procMapModal').modal('show');
                             setTimeout(function(){ 
                                $('#procMapTable'+maintenance.col_1).DataTable({
@@ -147,19 +207,23 @@
                                });
                             }, 500);
                         }
-                    });
+                    });*/
                 }
 
-                $scope.procMapEditModal = function(type, maintenance){
+                that.procMapEditModal = function(type, col_3, col_2, col_1, col_6, col_7){
                   $scope.mapType = type;
                   if (type == "update") {
-                    $scope.editProcMapCode = maintenance.col_3;
-                    $scope.editProcMapProId = maintenance.col_2;
-                    $scope.editProcMapId = maintenance.col_1;
-                    $scope.editProcMapPrimary = maintenance.col_6;
-                    $scope.editProcMapSecndry = maintenance.col_7;
+                    $scope.editProcMapCode = col_3;
+                    $scope.editProcMapProId = col_2;
+                    $scope.editProcMapId = col_1;
+                    $scope.editProcMapPrimary = col_6;
+                    $scope.editProcMapSecndry = col_7;
                   }else{
                     $scope.editProcMapProId = $scope.ProcIDForSubMap;
+                    $scope.editProcMapCode = "";
+                    $scope.editProcMapId = "";
+                    $scope.editProcMapPrimary = "";
+                    $scope.editProcMapSecndry = "";
                   }
                   $('#editProcMapDiv').show('slow');
                 }
@@ -188,10 +252,10 @@
                     });
                 }
 
-                that.deleteProcMapModal = function(data, type){
+                that.deleteProcMapModal = function(col_1, type){
                   var r = confirm("Are you Sure ! You want to delete ?");
                   if (r == true) {
-                    $scope.mappingId = data.col_1;
+                    $scope.mappingId = col_1;
                     $scope.type = type;
 
                     var url = domainName+"api/Procedure_Mapping_Maintenance/?db_action_type="+$scope.type+"&MappingID="+$scope.mappingId;
@@ -200,8 +264,10 @@
                       .then(function(response){
                           console.log(response);
                           if (response.statusText == "OK") {
-                            $('.mappingmsgDiv').html('<div class="alert alert-success"><span class="close" data-dismiss="alert" aria-label="close">×</span> Mapping Deleted Successfully</div>');
-                              that.dismissDiv
+                            $('.mappingmsgDiv').html('<div class="alert alert-success"><span class="close" data-dismiss="alert" aria-label="close">×</span> Mapping Deleted Successfully. Please wait until page refresh.</div>');
+                            setTimeout(function(){ 
+                                window.location.reload(1);
+                             }, 1500);
                           }else{
                             $('.mappingmsgDiv').html('<div class="alert alert-danger"><span class="close" data-dismiss="alert" aria-label="close">×</span> Something went wrong while Deleting</div>');
                           }
