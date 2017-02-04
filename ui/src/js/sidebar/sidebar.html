@@ -2,21 +2,21 @@
 <div id="sidebar-wrapper">
     <ul class="sidebar-nav">
 
-        <li class="sidebar-brand">
+        <li class="sidebar-brand" ng-if ="$ctrl.user_type == 'Alithias_Admin'">
             <a href="#">
                 <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
                 Admin
             </a>
         </li>
-        <li>
+        <li ng-if ="$ctrl.user_type == 'Alithias_Admin'">
             <a ng-class="{ 'active': getActive('proceduremaintenance') }" ui-sref=".proceduremaintenance">Procedure Maintenance</a>
         </li>
-        <li>
+        <li ng-if ="$ctrl.user_type == 'Alithias_Admin'">
             <a ng-class="{ 'active': getActive('providermaintenance') }" ui-sref=".providermaintenance">Provider Maintenance</a>
         </li>
-        <li><br></li>
+        <li ng-if ="$ctrl.user_type == 'Alithias_Admin'"><br></li>
         <li class="sidebar-brand">
-            <a href="#">
+            <a>
                 <i class="fa fa-file-text fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
                 Recent Reports
             </a>

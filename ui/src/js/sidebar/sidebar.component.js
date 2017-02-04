@@ -13,6 +13,8 @@
 
                this.collapsed = true;
 
+               this.user_type = $rootScope.user.user_type;
+
                this.toggleCollapse = function () {
                
                  this.collapsed = !this.collapsed;

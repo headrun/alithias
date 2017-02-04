@@ -11,7 +11,8 @@
 
         "userId"  : null,
         "userName": null,
-        "email"   : null
+        "email"   : null,
+        "user_type": null
       });
     }
 
@@ -23,7 +24,8 @@
 
         "userId"  : this.userId,
         "userName": this.userName,
-        "email"   : this.email
+        "email"   : this.email,
+        "user_type": this.user_type
       };
     };
 
@@ -32,6 +34,7 @@
       this.userId   = data.userId;
       this.userName = data.userName;
       this.email    = data.email;
+      this.user_type= data.user_type;
       this.session  = data.session;
     };
 

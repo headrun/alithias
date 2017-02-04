@@ -106,6 +106,8 @@
                // Storing user data in scope
                this.user = Session.get();
 
+               $rootScope.user = Session.get();
+
 
                // Loading scree will be shown when its true
                this.isLoading = true;

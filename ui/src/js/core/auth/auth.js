@@ -19,6 +19,7 @@
         return $http.post(login_url_to_fire, credentials)
                     .then(function (resp) {
           resp = resp.data;
+
           Session.set(resp.result);
         });
       };

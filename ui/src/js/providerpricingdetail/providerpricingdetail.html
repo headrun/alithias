@@ -27,7 +27,13 @@
     <div class="form-group">
       <label class="control-label col-sm-3" >Cost Category Code :</label>
       <div class="col-sm-4">          
-        <input type="text" class="form-control" id="costcategorycode" ng-model="costcategorycode">
+        <select class="form-control" ng-model="costcategorycode">
+            <option value="ANESTHESIA">ANESTHESIA</option>
+            <option value="PHYSICIAN">PHYSICIAN</option>
+            <option value="FACILITY">FACILITY</option>
+            <option value="LAB">LAB</option>
+            <option value="RADIOLOGY">RADIOLOGY</option>
+        </select>
       </div>
     </div>
     <div class="form-group">

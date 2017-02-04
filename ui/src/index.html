@@ -9,6 +9,7 @@
     <!-- application specific styles -->
     <link rel="stylesheet" href="app.css"/>
     <link rel="stylesheet" href="/libs/angular-datatables/dist/css/angular-datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
   </head>
 
   <body>
@@ -16,8 +17,8 @@
       <div ui-view autoscroll="false" class="content">
       </div>
       <!-- Loading overlay, which block screen unless everything is rendered -->
-      <div align="center" ng-if="loading" class="loading-overlay">
-        <div><span>Loading...</span></div>
+      <div align="center" ng-if="loading" class="loading-overlay" style="padding-left: 45%;">
+        <div ><span>Loading...</span></div>
       </div>
     </div>
 
@@ -112,6 +113,7 @@
     <script src="/js/tableExport.js"></script>
     <script src="/js/jquery.base64.js"></script>
     <script src="/js/jspdf/libs/base64.js"></script>
-    <script src="/js/jspdf/libs/sprintf.js"></script>
+    <script src="/js/jspdf/libs/sprintf.js"></script> 
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
   </body>
 </html>

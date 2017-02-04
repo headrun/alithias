@@ -70,11 +70,9 @@
                           $('#loadingDiv').hide();
                           that.data = response.data;
                           setTimeout(function(){ 
-                              $('#proPriceViewTable').DataTable({
-                                  dom: 'Bfrtip',
-                                  buttons: [
-                                      'excel', 'pdf', 'print'
-                                  ]
+                              $('#contentTable').DataTable({
+                                  fixedHeader: true,
+                                  "lengthMenu": [[8, 25, 50, -1], [8, 25, 50, "All"]]
                               });
                           }, 200);
                           $('#notFound').hide();
