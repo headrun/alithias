@@ -13,7 +13,9 @@
 
                this.collapsed = true;
 
-               this.user_type = $rootScope.user.user_type;
+               this.user_data = JSON.parse(localStorage.userData || null);
+
+               this.user_type = this.user_data != null ? this.user_data.user_type : "";
 
                this.toggleCollapse = function () {
                

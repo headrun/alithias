@@ -106,9 +106,6 @@
                // Storing user data in scope
                this.user = Session.get();
 
-               $rootScope.user = Session.get();
-
-
                // Loading scree will be shown when its true
                this.isLoading = true;
 
@@ -206,9 +203,17 @@
 
              angular.forEach(pagesOrder, function (page) {
 
+               var url = page;
+
+               if (page === "procedurepricingdetail" || page === "ppepisodedetails" ||
+                   page === "providerpricingdetail") {
+
+                 url += "?data";
+               }
+
                $sp.state("dashboard." + page, {
 
-                 "url"     : page,
+                 "url"     : url,
                  "template": "<" + page + "></" + page +">",
                  "authRequired": true
                });

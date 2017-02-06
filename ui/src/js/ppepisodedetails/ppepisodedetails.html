@@ -34,56 +34,73 @@
 <hr>
 
 <center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
-<div ng-if="$ctrl.authorized" ng-repeat="row in $ctrl.NetworkData" style="font-family: verdana">
-    <h5 style="color: #3587a5;"><strong>Episode Key : </strong> {{row.epi_key}} </h5>
-    <div class="row" ng-repeat="data in row.epi_data">
-        <div class="col-md-12">
-            <div><h5><strong>Cost Category :</strong> {{data.csct_type}} </h5></div>
-            <table class="table table-striped" >
-                <thead>
-                  <tr class="responseTable">
-                    <th>NPI</th>
-                    <th>Provider</th>
-                    <th>Provider Type</th>
-                    <th>Network</th>
-                    <th>Procedure Code</th>
-                    <th>Modifier1</th>
-                    <th>Modifier2</th>
-                    <th>Revenue Code</th>
-                    <th>Mapping</th>
-                    <th>Units</th>
-                    <th>Retail Amount</th>
-                    <th>Allowed Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="body_data in data.csct_data">
-                    <td>{{body_data.col_12}}</td>
-                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.linkToProvider(body_data.col_12,data.csct_type)">{{body_data.col_1}}</p></td>
-                    <td>{{body_data.col_2}}</td>
-                    <td>{{body_data.col_4}}</td>
-                    <td>{{body_data.col_13}}</td>
-                    <td>{{body_data.col_15}}</td>
-                    <td>{{body_data.col_16}}</td>
-                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(body_data.col_12, body_data.col_10, body_data.col_11)">{{body_data.col_14}}</p></td>
-                    <td>{{body_data.col_20}}</td>
-                    <td>{{body_data.col_9}}</td>
-                    <td>${{body_data.col_7}}</td>
-                    <td>${{body_data.col_8}}</td>
-                  </tr>
-                  <tr>
-                      <td colspan="10"><strong>Total {{data.csct_type}}</strong></td>
-                      <td><strong>${{data.csct_retail_total}}</strong></td>
-                      <td><strong>${{data.csct_allowed_total}}</strong></td>
-                  </tr>
-                  <tr class="success">
-                      <td colspan="10"><strong>Episode Totals</strong></td>
-                      <td><strong>${{row.epi_retail_total}}</strong></td>
-                      <td><strong>${{row.epi_allowed_total}}</strong></td>
-                  </tr>
-                </tbody>
-            </table>
+
+<div ng-if="$ctrl.authorized">
+  <div style="margin-left: 17px;">
+      <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#ppEpisodeData').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
+);">PDF</button>
+      <button class="btn btn-warning btn-sm" target="_blank" onClick ="$('#ppEpisodeData').tableExport({type:'excel',escape:'false'});">Excel</button>
+      <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('ppEpisodeData')">Print</button>
+  </div>
+  <br>
+
+  <div id="ppEpisodeData">
+    <div ng-repeat="row in $ctrl.NetworkData" style="font-family: verdana">
+        <h5 style="color: #3587a5;"><strong>Episode Key : </strong> {{row.epi_key}} </h5>
+        <div class="row" ng-repeat="data in row.epi_data">
+            <div class="col-md-12">
+                <div><h5><strong>Cost Category :</strong> {{data.csct_type}} </h5></div>
+                <table class="table table-striped" >
+                    <thead>
+                      <tr class="responseTable">
+                        <th>NPI</th>
+                        <th>Provider</th>
+                        <th>Provider Type</th>
+                        <th>Network</th>
+                        <th>Procedure Code</th>
+                        <th>Modifier1</th>
+                        <th>Modifier2</th>
+                        <th>Revenue Code</th>
+                        <th>Mapping</th>
+                        <th>Units</th>
+                        <th>Retail Amount</th>
+                        <th>Allowed Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="body_data in data.csct_data">
+                        <td>{{body_data.col_12}}</td>
+                        <td>
+                        <a ui-sref="dashboard.providerpricingdetail(
+                                 {data: '{ &quot;ProviderNPI&quot;: {{body_data.col_12}}, &quot;NetworkID&quot;: {{networkId}}, &quot;FacilityProviderNPI&quot;: {{facelitynpi}}, &quot;CostCategoryCode&quot;: &quot;{{data.csct_type}}&quot;, &quot;ProcedureID&quot;: {{procedureId}}}'})"
+                       target="_blank">{{body_data.col_1}}</a>
+                        </td>
+                        <td>{{body_data.col_2}}</td>
+                        <td>{{body_data.col_4}}</td>
+                        <td>{{body_data.col_13}}</td>
+                        <td>{{body_data.col_15}}</td>
+                        <td>{{body_data.col_16}}</td>
+                        <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(body_data.col_12, body_data.col_10, body_data.col_11)">{{body_data.col_14}}</p></td>
+                        <td>{{body_data.col_20}}</td>
+                        <td>{{body_data.col_9}}</td>
+                        <td>${{body_data.col_7}}</td>
+                        <td>${{body_data.col_8}}</td>
+                      </tr>
+                      <tr>
+                          <td colspan="10"><strong>Total {{data.csct_type}}</strong></td>
+                          <td><strong>${{data.csct_retail_total}}</strong></td>
+                          <td><strong>${{data.csct_allowed_total}}</strong></td>
+                      </tr>
+                      <tr class="success">
+                          <td colspan="10"><strong>Episode Totals</strong></td>
+                          <td><strong>${{row.epi_retail_total}}</strong></td>
+                          <td><strong>${{row.epi_allowed_total}}</strong></td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <br>
     </div>
-    <br>
+  </div>
 </div>

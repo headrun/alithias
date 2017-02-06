@@ -18,36 +18,15 @@
 
 
 <hr>
-
-<div>
-    <table ng-if="$ctrl.authorized"  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
+<div ng-if="$ctrl.authorized">
+  <div style="margin-left: 17px;">
+      <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#ProcedureCodetable').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
+);">PDF</button>
+      <button class="btn btn-success btn-sm" target="_blank" onClick ="$('#ProcedureCodetable').tableExport({type:'excel',escape:'false'});">Excel</button>
+      <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('ProcedureCodetable')">Print</button>
+  </div>
+<br>
+  <div id="ProcedureCodetable">
+    <table  datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
+  </div>
 </div>
-<!--<div>
-    <div class="row" ng-if="$ctrl.authorized" ng-repeat="row in $ctrl.companyData">
-        <div class="col-md-3" style="text-align: center; padding-top: 10px;">
-            <strong>State Name</strong> : {{row.state_name}}
-        </div>
-        <div class="col-md-8">
-            <table class="table table-bordered table-striped" >
-                <thead>
-                  <tr>
-                    <th>Network</th>
-                    <th>Claim Count</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="body_data in row.state_data">
-                    <td>{{body_data.col_4}}</td>
-                    <td>{{body_data.col_6}}</td>
-                  </tr>
-                  <tr class="success">
-                    <td> <strong>Total</strong></td>
-                    <td>{{row.state_total}}</td>
-                  </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-1"></div>
-    </div>
-    <br>
-</div>-->

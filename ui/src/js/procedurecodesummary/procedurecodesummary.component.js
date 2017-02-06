@@ -25,6 +25,13 @@
                     .then(function(response){
                         that.procedures = response.data[0].table_Procedures;
                     });
+                    
+                 that.printDiv = function(divName) {
+                      var w=window.open();
+                      w.document.write($('#'+divName).html());
+                      w.print();
+                      w.close();
+                  }
 
                  $scope.submit = function(param){
                     that.ProcedureID = param.ProcedureID ? param.ProcedureID : '';

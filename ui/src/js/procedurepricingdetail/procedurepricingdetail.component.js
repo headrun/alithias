@@ -31,12 +31,13 @@
                     window.location.href = '/#!/providerpricingdetail';
                  }
 
-                 if($rootScope.pro_pric_det_form_det != '' && typeof($rootScope.pro_pric_det_form_det) != 'undefined'){
-                    console.log($rootScope.pro_pric_det_form_det);
-                    $scope.procedureId = $rootScope.pro_pric_det_form_det.ProcedureID;
-                    $scope.networkId   = $rootScope.pro_pric_det_form_det.NetworkID;
-                    $scope.facilityNpi   = $rootScope.pro_pric_det_form_det.FacilityNPI;
-                    loadDatatable($rootScope.pro_pric_det_form_det.url);
+                 if (typeof $state.params.data !== 'undefined' && $state.params.data !== '') {
+                    var paramData = JSON.parse($state.params.data);
+                    $scope.procedureId = JSON.stringify(paramData.ProcedureID);
+                    $scope.networkId   = JSON.stringify(paramData.NetworkID);
+                    $scope.facilityNpi   = paramData.FacilityNPI;
+                    var url = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+paramData.ProcedureID+'&NetworkID='+paramData.NetworkID+'&FacilityNPI='+paramData.FacilityNPI;
+                    loadDatatable(url);
                  }
 
                  $scope.submit = function(){

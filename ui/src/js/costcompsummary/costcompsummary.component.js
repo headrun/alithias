@@ -31,13 +31,17 @@
                     that.apiUrl = domainName+'api/cost_comparison_summary/?CompanyID='+that.companyId+'&SourceZIP='+that.sourceZip+'&MilesRadius='+that.milesRadius+'&Year='+that.year;
 
                     $http({method: "GET", url: that.apiUrl})
-                    .then(function(response){
-                        vm.authorized = true;
-                        //console.log(response.data[0]);
-                        that.costData = response.data[0];
-                        console.log(that.costData);
-                        $('#loadingDiv').hide();
-                    });
+                      .then(function(response){
+                          if (response.data.length > 0) {
+                            vm.authorized = true;
+                            that.costData = response.data[0];
+                            $('#notFound').hide();
+                            $('#loadingDiv').hide();
+                          }else{
+                            $('#loadingDiv').hide();
+                            $('#notFound').show();
+                          }
+                      });
                   }
 
                   that.printDiv = function(divName) {

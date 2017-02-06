@@ -27,14 +27,14 @@
                         that.procedures = response.data[0].table_Procedures
                     });
 
-                 if($rootScope.pp_epi_form_det != '' && typeof($rootScope.pp_epi_form_det) != 'undefined'){
-                    console.log($rootScope.pp_epi_form_det);
+                 if (typeof $state.params.data !== 'undefined' && $state.params.data !== '') {
+                    var paramData = JSON.parse($state.params.data);
                     $('#loadingDiv').show();
-
-                    $scope.procedureId = $rootScope.pp_epi_form_det.ProcedureID;
-                    $scope.facelitynpi = $rootScope.pp_epi_form_det.FacilityNPI;
-                    $scope.networkId = $rootScope.pp_epi_form_det.NetworkID;
-                    loadDatatable($rootScope.pp_epi_form_det.url);
+                    $scope.procedureId = JSON.stringify(paramData.ProcedureID);
+                    $scope.networkId   = JSON.stringify(paramData.NetworkID);
+                    $scope.facelitynpi   = paramData.FacilityNPI;
+                    var url = domainName+'api/procedure_pricing_episode/?ProcedureID='+paramData.ProcedureID+'&NetworkID='+paramData.NetworkID+'&FacilityNPI='+paramData.FacilityNPI;
+                    loadDatatable(url);
                  }   
 
                  this.subLinkFun = function(FacilityNPI, PatientID, firstDateOfService){
@@ -63,6 +63,13 @@
                     that.apiUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+that.networkId+'&ProcedureID='+that.procedureId+'&FacilityNPI='+that.facelitynpi;
                     loadDatatable(that.apiUrl);
                   }
+
+                that.printDiv = function(divName) {
+                      var w=window.open();
+                      w.document.write($('#'+divName).html());
+                      w.print();
+                      w.close();
+                  }  
 
                 function loadDatatable(url){
                   $http({method: "GET", url: url})

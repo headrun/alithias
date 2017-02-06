@@ -26,15 +26,16 @@
                         that.procedures = response.data[0].table_Procedures
                     });
 
-                 if($rootScope.pro_pric_det_form_det != '' && typeof($rootScope.pro_pric_det_form_det) != 'undefined'){
-                    console.log($rootScope.pro_pric_det_form_det);
+                 if (typeof $state.params.data !== 'undefined' && $state.params.data !== '') {
+                    var paramData = JSON.parse($state.params.data);
                     $('#loadingDiv').show();
-                    $scope.providerNpi = $rootScope.pro_pric_det_form_det.providerNpi;
-                    $scope.procedureId = $rootScope.pro_pric_det_form_det.procedureID;
-                    $scope.networkId   = $rootScope.pro_pric_det_form_det.networkID;
-                    $scope.costcategorycode = $rootScope.pro_pric_det_form_det.category;
-                    $scope.facelityprovidernpi = $rootScope.pro_pric_det_form_det.facilityNPI;
-                    loadDatatable($rootScope.pro_pric_det_form_det.url);
+                    $scope.procedureId = JSON.stringify(paramData.ProcedureID);
+                    $scope.networkId   = JSON.stringify(paramData.NetworkID);
+                    $scope.providerNpi   = paramData.ProviderNPI;
+                    $scope.facelityprovidernpi   = paramData.FacilityProviderNPI;
+                    $scope.costcategorycode   = paramData.CostCategoryCode;
+                    var url = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+$scope.providerNpi+'&ProcedureID='+$scope.procedureId+'&NetworkID='+$scope.networkId+'&CostCategoryCode='+$scope.costcategorycode+'&FacilityProviderNPI='+$scope.facelityprovidernpi;
+                    loadDatatable(url);
                  }
 
                  $scope.submit = function(){

@@ -101,6 +101,7 @@
       <button class="btn btn-success btn-sm" target="_blank" onClick ="$('#proPriceViewTable').tableExport({type:'excel',escape:'false'});">Excel</button>
       <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('proPriceViewTable')">Print</button>
     </div>
+
     <div class="row" id="proPriceViewTable">
         <div class="col-md-12">
             <table class="table table-striped" id="contentTable">
@@ -138,8 +139,16 @@
                     <td>{{resp.col_1}}</td>
                     <td>{{resp.col_2}}</td>
                     <td>{{resp.col_4}}</td>
-                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(resp.col_5)">{{resp.col_30}}</p></td>
-                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkEpi(resp.col_5)">{{resp.col_31}}</p></td>
+                    <td>
+                    <a ui-sref="dashboard.procedurepricingdetail(
+                                 {data: '{ &quot;ProcedureID&quot; : {{$ctrl.procedureID}}, &quot;NetworkID&quot; : {{$ctrl.networkId}}, &quot;FacilityNPI&quot; : {{resp.col_5}}}'})"
+                       target="_blank">{{resp.col_30}}</a>
+                    </td>
+                    <td>
+                    <a ui-sref="dashboard.ppepisodedetails(
+                                 {data: '{ &quot;ProcedureID&quot; : {{$ctrl.procedureID}}, &quot;NetworkID&quot; : {{$ctrl.networkId}}, &quot;FacilityNPI&quot; : {{resp.col_5}}}'})"
+                       target="_blank">{{resp.col_31}}</a>
+                    </td>
                     <td>{{resp.col_24}}</td>
                     <td>{{resp.col_25}}</td>
                     <td>{{resp.col_26}}</td>
@@ -173,15 +182,6 @@
     padding: 10px 20px !important;
   }
 </style>
-
-<script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
-
 
 
 

@@ -27,17 +27,6 @@
                         that.procedures = response.data[0]['table_Procedures'];
                     });
 
-                 this.subLinkFun = function(FacilityNPI){
-                    var url = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&FacilityNPI='+FacilityNPI;
-                    $rootScope.pro_pric_det_form_det = { 'ProcedureID': that.procedureID,
-                                                      'FacilityNPI': FacilityNPI,
-                                                      'NetworkID': that.networkId,
-                                                      'url': url
-                                                    };
-                    window.location.href = '/#!/procedurepricingdetail';
-                    //window.open('/#!/procedurepricingdetail', '_blank');
-                 }
-
                  this.subLinkEpi = function(FacilityNPI){
                     var url = domainName+'api/procedure_pricing_episode/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&FacilityNPI='+FacilityNPI;
                     $rootScope.pp_epi_form_det = { 'ProcedureID': that.procedureID,
@@ -139,13 +128,3 @@
         });
 
 }(window.angular));
-
-
-
-/*vm.dtOptions = DTOptionsBuilder.newOptions().withSource('http://176.9.181.36:2222/clinicalapi/clinicaltrail/')
-                      .withPaginationType('full_numbers');
-
-                  vm.dtOptions = DTOptionsBuilder.newOptions()
-                      .withOption('ajaxSource', 'http://176.9.181.36:2222/clinicalapi/clinicaltrail/')
-                      .withOption('serverSide', true)
-                      .withOption('pagingType', 'full_numbers');*/
