@@ -764,13 +764,12 @@ def pr_code_summary(request):
         avg_amt = float('%.2f' % round(float(pr_dict['col_10']), 0))
         min_amt = float('%.2f' % round(float(pr_dict['col_8']), 0))
         max_amt = float('%.2f' % round(float(pr_dict['col_9']), 0))
-        pr_dict['col_8'] = str(format(min_amt, '0,.2f'))
-        pr_dict['col_9'] = str(format(max_amt, '0,.2f'))
-        pr_dict['col_10'] = str(format(avg_amt, '0,.2f'))
+        pr_dict['col_8'] = '$' + str(format(min_amt, '0,.2f'))
+        pr_dict['col_9'] = '$' + str(format(max_amt, '0,.2f'))
+        pr_dict['col_10'] = '$' + str(format(avg_amt, '0,.2f'))
         per_col = float(pr_dict['col_6']) * 100
         per_col = float('%.2f' % round(per_col, 0))
-        pr_dict['col_6'] = str(format(per_col, '0,.0f'))
-        pr_dict['col_8'] = str(format(min_amt, '0,.2f'))
+        pr_dict['col_6'] = str(format(per_col, '0,.0f'))+'%'
         final_data_list.append(pr_dict)
     data = json.dumps(final_data_list)
     return HttpResponse(data, content_type='application/json')

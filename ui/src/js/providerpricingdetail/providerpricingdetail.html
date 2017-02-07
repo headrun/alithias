@@ -1,15 +1,21 @@
 <span class="page-header">Provider Pricing Detail</span><br><br>
 <form class="form-horizontal" ng-submit="submit()">
     <div class="form-group">
-      <label class="control-label col-sm-3">Procedure ID :</label>
+      <label class="control-label col-sm-3">Procedure :</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="procedureId" ng-model="procedureId">
+        <!--<input type="text" class="form-control" id="procedureId" ng-model="procedureId">-->
+        <select class="form-control" ng-model="procedureId">
+            <option ng-repeat="x in $ctrl.procedures | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-3">Network ID :</label>
+      <label class="control-label col-sm-3">Network :</label>
       <div class="col-sm-4">          
-          <input type="text" class="form-control" id="networkId" ng-model="networkId">
+          <!--<input type="text" class="form-control" id="networkId" ng-model="networkId">-->
+          <select class="form-control" ng-model="networkId">
+            <option ng-repeat="x in $ctrl.networks | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group">
@@ -38,6 +44,7 @@
 </form>
 
 <hr>
+<center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
 
 <div ng-if="$ctrl.authorized" style="font-family: verdana">
     <div class="row">

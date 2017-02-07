@@ -75,12 +75,21 @@
                    "state"   : {},
                    "stateStr": "{}"
                  },
+                 "providermaintenance": {
+
+                   "name"    : "providermaintenance",
+                   "fullName": "dashboard.providermaintenance",
+                   "text"    : "Provider Maintenance",
+                   "state"   : {},
+                   "stateStr": "{}"
+                 },
               };
 
   // If one uses a menu bar, the order of appearance is here
   var pagesOrder = ["companynetworks", "proceduremaintenance", "procedurepriceview", 
                   "procedurepricingdetail", "providerpricingdetail", "procedurecodesummary",
-                  "ppepisodedetails", "costcompsummary", "episoderevenuecode"];
+                  "ppepisodedetails", "costcompsummary", "episoderevenuecode", 
+                  "providermaintenance"];
 
   angular.module("dashboard")
          .component("dashboard", {

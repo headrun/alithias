@@ -1,15 +1,21 @@
 <span class="page-header">Procedure Pricing Details</span><br><br>
 <form class="form-horizontal" ng-submit="submit()">
     <div class="form-group">
-      <label class="control-label col-sm-3" for="email">Procedure ID :</label>
+      <label class="control-label col-sm-3" for="email">Procedures :</label>
       <div class="col-sm-4">
-          <input type="text" class="form-control" ng-model="procedureId">
+          <!--<input type="text" class="form-control" ng-model="procedureId">-->
+          <select class="form-control" ng-model="procedureId">
+            <option ng-repeat="x in $ctrl.procedures | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
+          </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-3" for="pwd">Network ID :</label>
+      <label class="control-label col-sm-3" for="pwd">Networks :</label>
       <div class="col-sm-4">          
-          <input type="text" class="form-control" ng-model="networkId">
+          <!--<input type="text" class="form-control" ng-model="networkId">-->
+          <select class="form-control" ng-model="networkId">
+            <option ng-repeat="x in $ctrl.networks | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
+          </select>
       </div>
     </div>
     <div class="form-group">

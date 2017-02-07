@@ -7,13 +7,28 @@ from decorators import loginRequired
 from common.utils import getHttpResponse as HttpResponse
 from common.decorators import allowedMethods
 
-def getUserData(user):
+
+def getUserData(user,request='NA'):
+  user_data = {"userId"   : user.id,\
+          "userName" : user.username,\
+          "firstName": user.first_name,\
+          "lastName" : user.last_name,\
+          "email"    : user.email}
+  if request != 'NA':
+    group_name = request.user.groups.values_list('name', flat=True)
+    if len(group_name) > 0:
+      user_data['user_type'] = group_name[0]
+  return user_data
+
+
+
+"""def getUserData(user):
 
   return {"userId"   : user.id,\
           "userName" : user.username,\
           "firstName": user.first_name,\
           "lastName" : user.last_name,\
-          "email"    : user.email}
+          "email"    : user.email}"""
 
 @allowedMethods(["POST"])
 def login(request):
@@ -41,7 +56,7 @@ def login(request):
     if user.is_active:
       authLogin(request, user)
 
-      resp = HttpResponse(getUserData(user))
+      resp = HttpResponse(getUserData(user,request))
 
     else:
       resp = HttpResponse("User Not Active", error=1, status=401)
@@ -63,7 +78,7 @@ def logout(request):
 def status(request):
 
   if request.user.is_authenticated():
-    return HttpResponse(getUserData(request.user))
+    return HttpResponse(getUserData(request.user,request))
     #return HttpResponse({"user": getUserData(request.user)})
 
   return HttpResponse("Invalid Login")

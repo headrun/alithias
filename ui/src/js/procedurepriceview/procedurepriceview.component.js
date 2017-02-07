@@ -35,6 +35,17 @@
                                                       'url': url
                                                     };
                     window.location.href = '/#!/procedurepricingdetail';
+                    //window.open('/#!/procedurepricingdetail', '_blank');
+                 }
+
+                 this.subLinkEpi = function(FacilityNPI){
+                    var url = domainName+'api/procedure_pricing_episode/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&FacilityNPI='+FacilityNPI;
+                    $rootScope.pp_epi_form_det = { 'ProcedureID': that.procedureID,
+                                                      'FacilityNPI': FacilityNPI,
+                                                      'NetworkID': that.networkId,
+                                                      'url': url
+                                                    };
+                    window.location.href = '/#!/ppepisodedetails';
                  }
 
                  $scope.submit = function(param){
@@ -47,9 +58,16 @@
                     that.apiUrl = domainName+'api/procedure_pricing/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&EnforceRequirements='+that.requirements+'&state='+that.stateID;
                     $http({method: "GET", url: that.apiUrl})
                     .then(function(response){
-                        vm.authorized = true;
-                        $('#loadingDiv').hide();
-                        that.data = response.data;
+                        if (response.data.length > 0) {
+                          vm.authorized = true;
+                          $('#loadingDiv').hide();
+                          that.data = response.data;
+                          $('#notFound').hide();
+                        }else{
+                          $('#loadingDiv').hide();
+                          $('#notFound').show();
+                        }
+                        
                     });
                         /*vm.dtOptions = DTOptionsBuilder.newOptions()
                            .withOption('ajax', {

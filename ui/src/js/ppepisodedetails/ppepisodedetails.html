@@ -4,7 +4,7 @@
       <label class="control-label col-sm-3">Network:</label>
       <div class="col-sm-4">
         <select class="form-control" ng-model="networkId">
-            <option ng-repeat="x in $ctrl.networks" value="{{x.id}}">{{x.name}}</option>
+            <option ng-repeat="x in $ctrl.networks | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
     </div>
@@ -12,7 +12,7 @@
       <label class="control-label col-sm-3">Procedures:</label>
       <div class="col-sm-4">
         <select class="form-control" ng-model="procedureId">
-            <option ng-repeat="x in $ctrl.procedures" value="{{x.id}}">{{x.name}}</option>
+            <option ng-repeat="x in $ctrl.procedures | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
     </div>
@@ -32,7 +32,8 @@
 
 
 <hr>
-<!--ng-if="$ctrl.authorized"   ng-repeat="row in $ctrl.NetworkData"-->
+
+<center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
 <div ng-if="$ctrl.authorized" ng-repeat="row in $ctrl.NetworkData" style="font-family: verdana">
     <h5 style="color: #3587a5;"><strong>Episode Key : </strong> {{row.epi_key}} </h5>
     <div class="row" ng-repeat="data in row.epi_data">

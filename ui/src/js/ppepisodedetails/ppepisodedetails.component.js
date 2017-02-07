@@ -27,6 +27,16 @@
                         that.procedures = response.data[0].table_Procedures
                     });
 
+                 if($rootScope.pp_epi_form_det != '' && typeof($rootScope.pp_epi_form_det) != 'undefined'){
+                    console.log($rootScope.pp_epi_form_det);
+                    $('#loadingDiv').show();
+
+                    $scope.procedureId = $rootScope.pp_epi_form_det.ProcedureID;
+                    $scope.facelitynpi = $rootScope.pp_epi_form_det.FacilityNPI;
+                    $scope.networkId = $rootScope.pp_epi_form_det.NetworkID;
+                    loadDatatable($rootScope.pp_epi_form_det.url);
+                 }   
+
                  this.subLinkFun = function(FacilityNPI, PatientID, firstDateOfService){
                     var url = domainName+'api/epi_rev_code/?ProcedureID='+$scope.procedureId+'&FacilityNPI='+FacilityNPI+'&PatientID='+PatientID+'&firstDateOfService='+firstDateOfService;
                     $rootScope.epi_rev_form_det = { 'ProcedureID': $scope.procedureId,
@@ -50,16 +60,27 @@
                     that.procedureId = $scope.procedureId ? $scope.procedureId : '';
                     that.facelitynpi = $scope.facelitynpi ? $scope.facelitynpi : '';
 
-                    vm.authorized = true;
-                    that.apiUrl = domainName+'api/procedure_pricing_episode/?networkId='+that.networkId+'&ProcedureID='+that.procedureId+'&FacilityNPI='+that.facelitynpi;
+                    that.apiUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+that.networkId+'&ProcedureID='+that.procedureId+'&FacilityNPI='+that.facelitynpi;
+                    loadDatatable(that.apiUrl);
+                  }
 
-                    $http({method: "GET", url: that.apiUrl})
+                function loadDatatable(url){
+                  $http({method: "GET", url: url})
                     .then(function(response){
                         console.log(response);
-                        that.NetworkData = response.data;
-                        $('#loadingDiv').hide();
+                        if (response.data.length > 0) {
+                          vm.authorized = true;
+                          that.NetworkData = response.data;
+                          $('#loadingDiv').hide(); 
+                          $('#notFound').hide(); 
+                        }else{
+                          $('#notFound').show();
+                          $('#loadingDiv').hide(); 
+                        }
+                        
                     });
-                  }
+                }  
+
 	            }	
            	]
         });
