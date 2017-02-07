@@ -80,7 +80,11 @@
                         <td>{{body_data.col_13}}</td>
                         <td>{{body_data.col_15}}</td>
                         <td>{{body_data.col_16}}</td>
-                        <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(body_data.col_12, body_data.col_10, body_data.col_11)">{{body_data.col_14}}</p></td>
+                        <td>
+                          <a ui-sref="dashboard.episoderevenuecode(
+                                 {data: '{&quot;firstDateOfService&quot;: &quot;{{body_data.col_11}}&quot;, &quot;FacilityNPI&quot;: {{body_data.col_12}}, &quot;PatientID&quot;: &quot;{{body_data.col_10}}&quot;, &quot;ProcedureID&quot;: {{procedureId}}}'})"
+                       target="_blank">{{body_data.col_14}}</a>
+                        </td>
                         <td>{{body_data.col_20}}</td>
                         <td>{{body_data.col_9}}</td>
                         <td>${{body_data.col_7}}</td>

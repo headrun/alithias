@@ -21,15 +21,16 @@
                      this.collapsed = !this.collapsed;
                    }
 
-                 if($rootScope.epi_rev_form_det != '' && typeof($rootScope.epi_rev_form_det) != 'undefined'){
-                    console.log($rootScope.epi_rev_form_det);
-
-                    $scope.procedureId = $rootScope.epi_rev_form_det.ProcedureID;
-                    $scope.facilityNpi = $rootScope.epi_rev_form_det.FacilityNPI;
-                    $scope.patientID = $rootScope.epi_rev_form_det.PatientID;
-                    $scope.firstDateOfService = $rootScope.epi_rev_form_det.firstDateOfService;
-                    loadDatatable($rootScope.epi_rev_form_det.url);
-                 }
+                 if (typeof $state.params.data !== 'undefined' && $state.params.data !== '') {
+                    var paramData = JSON.parse($state.params.data);
+                    $('#loadingDiv').show();
+                    $scope.procedureId = paramData.ProcedureID;
+                    $scope.facilityNpi = paramData.FacilityNPI;
+                    $scope.patientID = paramData.PatientID;
+                    $scope.firstDateOfService = paramData.firstDateOfService;
+                    var url = domainName+'api/epi_rev_code/?ProcedureID='+$scope.procedureId+'&FacilityNPI='+$scope.facilityNpi+'&PatientID='+$scope.patientID+'&firstDateOfService='+$scope.firstDateOfService;
+                    loadDatatable(url);
+                  }
 
                  $scope.submit = function(){
                     $('#loadingDiv').show();

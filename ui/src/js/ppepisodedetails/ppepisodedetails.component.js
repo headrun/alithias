@@ -37,23 +37,6 @@
                     loadDatatable(url);
                  }   
 
-                 this.subLinkFun = function(FacilityNPI, PatientID, firstDateOfService){
-                    var url = domainName+'api/epi_rev_code/?ProcedureID='+$scope.procedureId+'&FacilityNPI='+FacilityNPI+'&PatientID='+PatientID+'&firstDateOfService='+firstDateOfService;
-                    $rootScope.epi_rev_form_det = { 'ProcedureID': $scope.procedureId,
-                                                      'FacilityNPI': FacilityNPI,
-                                                      'PatientID': PatientID,
-                                                      'firstDateOfService': firstDateOfService,
-                                                      'url': url
-                                                    };
-                    window.location.href = '/#!/episoderevenuecode';
-                 }
-
-                 this.linkToProvider = function(providerNPI, costCategory){
-                    var url = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+providerNPI+'&ProcedureID='+$scope.procedureId+'&NetworkID='+$scope.networkId+'&CostCategoryCode='+costCategory+'&FacilityProviderNPI='+$scope.facelitynpi;
-                    $rootScope.pro_pric_det_form_det = { 'providerNpi': providerNPI, 'category': costCategory, 'procedureID': $scope.procedureId, 'networkID': $scope.networkId, 'url': url, 'facilityNPI': $scope.facelitynpi };
-                    window.location.href = '/#!/providerpricingdetail';
-                 }
-
                  $scope.submit = function(){
                     $('#loadingDiv').show();
                     that.networkId = $scope.networkId ? $scope.networkId : '';

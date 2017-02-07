@@ -206,7 +206,7 @@
                var url = page;
 
                if (page === "procedurepricingdetail" || page === "ppepisodedetails" ||
-                   page === "providerpricingdetail") {
+                   page === "providerpricingdetail" || page === "episoderevenuecode") {
 
                  url += "?data";
                }

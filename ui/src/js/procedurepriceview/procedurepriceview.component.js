@@ -27,16 +27,6 @@
                         that.procedures = response.data[0]['table_Procedures'];
                     });
 
-                 this.subLinkEpi = function(FacilityNPI){
-                    var url = domainName+'api/procedure_pricing_episode/?ProcedureID='+that.procedureID+'&NetworkID='+that.networkId+'&FacilityNPI='+FacilityNPI;
-                    $rootScope.pp_epi_form_det = { 'ProcedureID': that.procedureID,
-                                                      'FacilityNPI': FacilityNPI,
-                                                      'NetworkID': that.networkId,
-                                                      'url': url
-                                                    };
-                    window.location.href = '/#!/ppepisodedetails';
-                 }
-
                  that.printDiv = function(divName) {
                       var w=window.open();
                       w.document.write($('#'+divName).html());

@@ -68,7 +68,12 @@
                 <tbody>
                   <tr ng-repeat="body_data in data.category_data">
                     <td>{{body_data.col_6}}</td>
-                    <td><p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(body_data.col_6, data.category_name)">{{body_data.col_1}}</p></td>
+                    <td>
+                    <!--<p style="cursor: pointer; color: blue" ng-click="$ctrl.subLinkFun(body_data.col_6, data.category_name)">{{body_data.col_1}}</p>-->
+                    <a ui-sref="dashboard.providerpricingdetail(
+                                 {data: '{ &quot;ProviderNPI&quot;: {{body_data.col_6}}, &quot;NetworkID&quot;: {{networkId}}, &quot;FacilityProviderNPI&quot;: {{facilityNpi}}, &quot;CostCategoryCode&quot;: &quot;{{data.category_name}}&quot;, &quot;ProcedureID&quot;: {{procedureId}}}'})"
+                       target="_blank">{{body_data.col_1}}</a>
+                    </td>
                     <td>{{body_data.col_2}}</td>
                     <td>{{body_data.col_3}}</td>
                     <td>${{body_data.col_7}}</td>
