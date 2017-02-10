@@ -24,8 +24,37 @@
                  $http({method: "GET", url: domainName+"api/proc_pricing_episode_dropdowns/"})
                     .then(function(response){
                         that.networks = response.data[0].table_Networks;
-                        that.procedures = response.data[0].table_Procedures
+                        that.procedures = response.data[0].table_Procedures;
+                        that.providerName = response.data[0].table_Providers;
                     });
+
+                  that.getRelCities = function(){
+                    that.pName = $scope.providerName;
+                    console.log(that.pName);
+                    if (that.pName !== '') {
+                        $http({method: "GET", url: domainName+"api/proc_episode_city/?ProviderName="+that.pName})
+                          .then(function(response){
+                              console.log(response.data[0].table_Providers);
+                              if (response.statusText == "OK") {
+                                that.cities = response.data[0].table_Providers;
+                              }
+                        });
+                    }
+                  }
+
+                  that.getRelNpi = function(){
+                    that.pName = $scope.providerName;
+                    that.city = $scope.city;
+                    if (that.pName !== '') {
+                        $http({method: "GET", url: domainName+"api/proc_episode_npi/?ProviderName="+that.pName+"&PracticeAddressCity="+that.city})
+                          .then(function(response){
+                              console.log(response.data[0].table_Providers);
+                              if (response.statusText == "OK") {
+                                that.fNpi = response.data[0].table_Providers;
+                              }
+                        });
+                    }
+                  }
 
                  if (typeof $state.params.data !== 'undefined' && $state.params.data !== '') {
                     var paramData = JSON.parse($state.params.data);

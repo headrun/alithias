@@ -17,9 +17,28 @@
       </div>
     </div>
     <div class="form-group">
+      <label class="control-label col-sm-3">Provider Name:</label>
+      <div class="col-sm-4">
+        <select class="form-control" ng-change="$ctrl.getRelCities(providerName)" ng-model="providerName">
+            <option ng-repeat="x in $ctrl.providerName | filter:query | orderBy:'name'" value="{{x.name}}">{{x.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">City:</label>
+      <div class="col-sm-4">
+        <select class="form-control" ng-change="$ctrl.getRelNpi(city)" ng-model="city">
+            <option ng-repeat="x in $ctrl.cities | filter:query | orderBy:'name'" value="{{x.name}}">{{x.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
       <label class="control-label col-sm-3">Facility NPI:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control id="facelitynpi" ng-model="facelitynpi">
+        <!--<input type="text" class="form-control id="facelitynpi" ng-model="facelitynpi">-->
+        <select class="form-control" ng-model="facelitynpi">
+            <option ng-repeat="x in $ctrl.fNpi | filter:query | orderBy:'name'" value="{{x.name}}">{{x.name}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group">
