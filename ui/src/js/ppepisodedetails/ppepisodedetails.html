@@ -65,11 +65,11 @@
 
   <div id="ppEpisodeData">
     <div ng-repeat="row in $ctrl.NetworkData" style="font-family: verdana">
-        <h5 style="color: #3587a5;"><strong>Episode Key : </strong> {{row.epi_key}} </h5>
+        <h5 style="color: #3587a5; margin-left: 17px;"><strong>Episode Key : </strong> {{row.epi_key}} </h5>
         <div class="row" ng-repeat="data in row.epi_data">
             <div class="col-md-12">
                 <div><h5><strong>Cost Category :</strong> {{data.csct_type}} </h5></div>
-                <table class="table table-striped" >
+                <table class="table table-striped" style="margin-bottom: 5px">
                     <thead>
                       <tr class="responseTable">
                         <th>NPI</th>
@@ -114,15 +114,19 @@
                           <td><strong>${{data.csct_retail_total}}</strong></td>
                           <td><strong>${{data.csct_allowed_total}}</strong></td>
                       </tr>
-                      <tr class="success">
-                          <td colspan="10"><strong>Episode Totals</strong></td>
-                          <td><strong>${{row.epi_retail_total}}</strong></td>
-                          <td><strong>${{row.epi_allowed_total}}</strong></td>
-                      </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+        <table class="table table-striped" style="width: 97%; margin-left: 2%;">
+          <tbody>
+            <tr class="success">
+              <td colspan="10"><strong>Episode Totals</strong></td>
+              <td style="width: 9%;"><strong>${{row.epi_retail_total}}</strong></td>
+              <td style="width: 9%;"><strong>${{row.epi_allowed_total}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
         <br>
     </div>
   </div>

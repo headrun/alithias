@@ -37,6 +37,7 @@
                             that.costData = response.data[0];
                             $('#notFound').hide();
                             $('#loadingDiv').hide();
+
                           }else{
                             $('#loadingDiv').hide();
                             $('#notFound').show();

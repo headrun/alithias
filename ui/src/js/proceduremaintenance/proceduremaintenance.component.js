@@ -27,7 +27,10 @@
                         that.pMaintenanceData = response.data;
 
                            setTimeout(function(){ 
-                              $('#example').DataTable();
+                              $('#example').DataTable({
+                                  "order": [[ 1, "asc" ]],
+                                  "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]]
+                              });
                            }, 300);
                       }
                 });
@@ -156,58 +159,6 @@
                         ];  
                         $('#editProcMapDiv').hide();
                         $('#procMapModal').modal('show');
-                      //var tableContent = '<table ng-if="$ctrl.authenticated" datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>';
-                      //var compiledData = $compile(angular.element(tableContent))($scope);
-                        //$('#procMapTableDiv').html(compiledData);
-                   /*$http({method: "GET", url: url})
-                      .then(function(response){
-                        console.log(response);
-                            //that.ProcMapData = response.data;
-                            var resp = response.data;
-                            var data = ""; 
-                            var content = '<table id="procMapTable'+maintenance.col_1+'" class="ui celled table" cellspacing="0" width="100%"><thead><tr>'+
-                            '<th>Procedure Code</th>'+
-                            '<th>Is Primary</th>'+
-                            '<th>Is Secondary</th>'+
-                            '<th>Actions</th>'+
-                            '</tr></thead><tbody>';
-                        var tabFooter = '</tbody></table>';
-                          if (response.statusText == "OK") {  
-
-                            for (var i = 0; i < resp.length; i++) {
-                               content += '<tr>'+
-                                                '<td>'+resp[i]["col_3"]+'</td>'+
-                                                '<td>'+
-                                                  '<input type="checkbox" style="zoom:1.2" value="" ng-checked="'+resp[i]["col_6"]+' == "True"">'+
-                                                '</td>'+
-                                                '<td>'+
-                                                  '<input type="checkbox" style="zoom:1.2" value="" ng-checked="'+resp[i]["col_7"] +'== "True"">'+
-                                                '</td>'+
-                                                '<td>'+
-                                                  '<button type="button" class="btn btn-warning btn-xs" data-ng-click="procMapEditModal(type="update",'+resp[i]+')">Edit</button>&nbsp;'+
-                                                  '<button type="button" class="btn btn-danger btn-xs" ng-click="$ctrl.deleteProcMapModal('+resp[i]+', type="delete")">Delete</button>'+
-                                                '</td>'+
-                                                '</tr>';
-                            }
-                            $compile(content)($scope);
-                            $('#procMapTableDiv').html(content+tabFooter);
-                            
-                            $('#procMapModal').modal('show');
-                            setTimeout(function(){ 
-                               $('#procMapTable'+maintenance.col_1).DataTable({
-                                  "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
-                               });
-                            }, 500);
-                        }else{
-                            $('#procMapMsgDiv').html('<div class="alert alert-danger"><span class="close" data-dismiss="alert" aria-label="close">×</span> Something went wrong while fetching Procedure Mappings</div>');
-                            $('#procMapTableDiv').html(content+tabFooter);
-                            setTimeout(function(){ 
-                               $('#procMapTable'+maintenance.col_1).DataTable({
-                                  "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
-                               });
-                            }, 500);
-                        }
-                    });*/
                 }
 
                 that.procMapEditModal = function(type, col_3, col_2, col_1, col_6, col_7){

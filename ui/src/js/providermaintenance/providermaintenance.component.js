@@ -27,7 +27,9 @@
 
                         $(document).ready(function() {
                            setTimeout(function(){ 
-                              $('#example').DataTable();
+                              $('#example').DataTable({
+                                  "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]]
+                              });
                            }, 300);
                         });
                       }
