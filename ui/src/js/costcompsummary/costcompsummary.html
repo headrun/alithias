@@ -1,6 +1,3 @@
-<style type="text/css">
- 
-</style>
 <span class="page-header">Cost Comparison Summary</span><br><br><br>
 <form class="form-horizontal" ng-submit="submit(param)">
     <div class="form-group">
@@ -45,7 +42,6 @@
 <hr>
 <br>
 <center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
-<!--ng-if="$ctrl.authorized"   ng-repeat="row in $ctrl.NetworkData"-->
 <div ng-if="$ctrl.authorized" style="font-family: verdana">
     <div style="margin-left: 17px;">
       <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#costCompSymTab').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
@@ -56,18 +52,18 @@
   <br>
     <div class="row" id="costCompSymTab">
         <div class="col-md-12">
-            <table class="table table-striped" style="table-layout: fixed; margin-bottom: 0px;">
+            <table class="table table-striped" style="table-layout: fixed; margin-bottom: 0px; width: 100%; text-align: center;">
                 <thead>
                   <tr class="responseTable">
-                    <th>Procedure</th>
-                    <th>Episodes</th>
-                    <th>Average Charge(30 Miles)</th>
-                    <th>Estimated Total Cost</th>
-                    <th>Low Cost(30 Miles)</th>
-                    <th>Total Cost(30 Miles)</th>
-                    <th>Potential Savings(30 Miles)</th>
-                    <th>Low Cost Provider (30 Miles)</th>
-                    <th>Network</th>
+                    <th width="13%" style="text-align: center;">Procedure</th>
+                    <th width="7%" style="text-align: center;">Episodes</th>
+                    <th width="8%">Average Charge(30 Miles)</th>
+                    <th width="8%">Estimated Total Cost</th>
+                    <th width="8%">Low Cost(30 Miles)</th>
+                    <th width="8%">Total Cost(30 Miles)</th>
+                    <th width="8%">Potential Savings(30 Miles)</th>
+                    <th width="15%">Low Cost Provider (30 Miles)</th>
+                    <th width="12%">Network</th>
                   </tr>
                 </thead>
               </table>
@@ -75,15 +71,15 @@
               <table class="table table-striped">
                 <tbody>
                   <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
-                    <td>{{body_data.col_5}}</td>
-                    <td>{{body_data.col_7}}</td>
-                    <td>${{body_data.col_8}}</td>
-                    <td>${{body_data.col_18}}</td>
-                    <td>{{body_data.col_17}}</td>
-                    <td>${{body_data.col_19}}</td>
-                    <td>${{body_data.col_21}}</td>
-                    <td>{{body_data.col_13}}</td>
-                    <td>{{body_data.col_14}}</td>
+                    <td width="17%">{{body_data.col_5}}</td>
+                    <td width="5%">{{body_data.col_7}}</td>
+                    <td width="10%">${{body_data.col_8}}</td>
+                    <td width="10%">${{body_data.col_18}}</td>
+                    <td width="10%">{{body_data.col_17}}</td>
+                    <td width="10%">${{body_data.col_19}}</td>
+                    <td width="10%">${{body_data.col_21}}</td>
+                    <td width="20%">{{body_data.col_13}}</td>
+                    <td width="5%">{{body_data.col_14}}</td>
                   </tr>
                   <tr class="success">
                       <td colspan="3"><strong>Grand Total</strong></td>
@@ -98,3 +94,8 @@
     </div>
     <br>
 </div>
+<style type="text/css">
+  tbody tr td{
+    padding: 10px 15px !important;
+  }
+</style>

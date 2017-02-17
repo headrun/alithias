@@ -34,9 +34,9 @@
                   }
 
                  $scope.submit = function(param){
+                    $('#loadingDiv').show();
                     that.ProcedureID = param.ProcedureID ? param.ProcedureID : '';
 
-                    vm.authorized = true;
                     //that.apiUrl = 'http://localhost:1122/api/pr_code_summary/?ProcedureID='+that.ProcedureID;
                     that.apiUrl = domainName+'api/pr_code_summary/?ProcedureID='+that.ProcedureID;
 
@@ -47,11 +47,15 @@
                            })
                        .withOption('processing', true)
                        .withOption('serverSide', false)
+                       .withOption('scrollY', '450px')
+                       .withOption('lengthMenu', [[10, 50, 100, -1], [10, 50, 100, "All"]])
                        .withPaginationType('full_numbers');
 
                       vm.dtColumns = [
                           DTColumnBuilder.newColumn('col_3').withTitle('Code'),
-                          DTColumnBuilder.newColumn('col_4').withTitle('Procedure Name'),
+                          DTColumnBuilder.newColumn('col_4').withTitle('Procedure Name').renderWith(function(col_4) {
+                                return '<p style="text-align: left">'+col_4+'</p>'
+                              }),
                           DTColumnBuilder.newColumn('col_7').withTitle('Claims'),
                           DTColumnBuilder.newColumn('col_5').withTitle('Episodes'),
                           DTColumnBuilder.newColumn('col_6').withTitle('% Of Episodes'),
@@ -66,6 +70,8 @@
                           DTColumnBuilder.newColumn('col_14').withTitle('sample ids').notVisible(),
                           DTColumnBuilder.newColumn('col_15').withTitle('sample ids').notVisible()
                       ];
+                      $('#loadingDiv').hide();
+                      vm.authorized = true;
                   }
 	            }	
            	]

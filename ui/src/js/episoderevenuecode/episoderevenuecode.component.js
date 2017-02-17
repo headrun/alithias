@@ -53,6 +53,14 @@
                           that.revData = response.data[0];
                           $('#loadingDiv').hide();
                           $('#notFound').hide();
+
+                          setTimeout(function(){ 
+                            this.tableOffset = $("#revTable").offset().top;
+                            //this.$header = $("#revTable > thead").clone();
+                            //this.$fixedHeader = $("#header-fixed").append(this.$header);
+
+                          }, 200);
+
                         }else{
                           $('#loadingDiv').hide();
                           $('#notFound').show();
@@ -66,6 +74,17 @@
                       w.print();
                       w.close();
                   }
+
+                  $('.dashboard-content-wrapper').bind("scroll", function() {
+                              var offset = $(this).scrollTop();
+                              
+                              if (offset >= 400) {
+                                  $("#header-fixed").show();
+                              }
+                              else {
+                                  $("#header-fixed").hide();
+                              }
+                          });
 	            }	
            	]
         });

@@ -41,6 +41,7 @@
 
                     $http({method: "GET", url: that.apiUrl})
                       .then(function(response){
+                        console.log(response);
                         if (response.data.length > 0) {
                           
                           $('#notFound').hide();
