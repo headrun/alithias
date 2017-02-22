@@ -19,7 +19,10 @@ urlpatterns = [
     url(r'^proc_pricing_dropdowns/$', views.procedure_pricing_dropdowns, name='procedure_pricing_dropdowns'),
     url(r'^proc_pricing_breakdown_dropdowns/$', views.proc_pricing_breakdown_dropdowns, name='proc_pricing_breakdown_dropdowns'),
     url(r'^proc_pricing_episode_dropdowns/', views.proc_pricing_episode_dropdowns, name='proc_pricing_episode_dropdowns'),
+    url(r'^proc_episode_city/', views.proc_episode_city, name='proc_episode_city'),
+    url(r'^proc_episode_npi/', views.proc_episode_npi, name='proc_episode_npi'),
     url(r'^cmp_network_by_state_dropdowns/$', views.cmp_network_by_state_dropdowns, name='cmp_network_by_state_dropdowns'),
     url(r'^proc_code_summary_proc_dropdowns/$', views.proc_code_summary_proc_dropdowns, name='proc_code_summary_proc_dropdowns'),
     url(r'^cost_cmpr_summary_dropdowns$', views.cost_cmpr_summary_dropdowns, name='cost_cmpr_summary_dropdowns'),
+    url(r'^excel_trail/$', views.excel_trail, name='excel_trail'),
 ]
