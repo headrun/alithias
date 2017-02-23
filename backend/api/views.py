@@ -130,6 +130,8 @@ def dropdown_queries_for_selected(table_info):
         if table_name == 'Providers':
             if len(table_val)<5:
                 sql = "SELECT {0},{1} FROM {2} where {3}='{4}'".format(table_val[0], table_val[1], table_name,table_val[2],table_val[3])
+            elif len(table_val) == 8:
+                sql = "SELECT {0},{1} FROM {2} where {3}='{4}' and {5}='{6}' and {7}='{8}'".format(table_val[0], table_val[1], table_name,table_val[2], table_val[3],table_val[4], table_val[5],table_val[6], table_val[7])
             else:
                 sql = "SELECT {0},{1} FROM {2} where {3}='{4}' and {5}='{6}'".format(table_val[0], table_val[1], table_name,table_val[2], table_val[3],table_val[4], table_val[5])
             #sql = 'select top 1000.ProviderName,ProviderNPI from providers'
@@ -196,9 +198,53 @@ def proc_pricing_episode_dropdowns(request):
     dropdown_info['Providers'] = ["ProviderName", "ProviderNPI"]
 
     dd_data = dropdown_queries_new(dropdown_info)
-    dd_data[0]['states'] = us_states
+    us_state_list = []
+    for state_code, state_name in us_states.iteritems():
+        us_state_dropdown = {}
+        us_state_dropdown['id'] = state_code
+        us_state_dropdown['name'] = state_name
+        us_state_list.append(us_state_dropdown)
+    dd_data[0]['states'] = us_state_list
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
+
+
+def proc_episode_get_city(request):
+    try:
+        provider_state = request.GET['state']
+    except:
+        provider_state = ''
+    dropdown_info = {}
+    dropdown_info['Providers'] = ["PracticeAddressCity","ProviderNPI",'PracticeAddressState',provider_state]
+    dd_data = dropdown_queries_for_selected(dropdown_info)
+    cities_list = []
+    city_names= []
+    for city in dd_data[0]['table_Providers']:
+        if city['name'] not in city_names:
+            cities_list.append(city)
+            city_names.append(city['name'])
+    dd_data[0]['cities'] = cities_list
+    del dd_data[0]['table_Providers']
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
+
+def proce_episode_get_provider(request):
+    try:
+        provider_state = request.GET['state']
+    except:
+        provider_state = ''
+    try:
+        city = request.GET['PracticeAddressCity']
+    except:
+        city = ''
+    dropdown_info = {}
+    dropdown_info['Providers'] = ["ProviderName","ProviderNPI",'PracticeAddressState',provider_state,'PracticeAddressCity',city]
+    dd_data = dropdown_queries_for_selected(dropdown_info)
+    dd_data[0]['provider_name'] = dd_data[0]['table_Providers']
+    del dd_data[0]['table_Providers']
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
+
 
 def proc_episode_city(request):
     try:
@@ -220,9 +266,15 @@ def proc_episode_npi(request):
         city = request.GET['PracticeAddressCity']
     except:
         city = ''
+    try:
+        provider_state = request.GET['state']
+    except:
+        provider_state = ''
     dropdown_info = {}
-    dropdown_info['Providers'] = ["ProviderNPI","ProviderNPI",'ProviderName',provider_name,'PracticeAddressCity',city]
+    dropdown_info['Providers'] = ["ProviderNPI","ProviderNPI",'ProviderName',provider_name,'PracticeAddressCity',city,'PracticeAddressState',provider_state]
     dd_data = dropdown_queries_for_selected(dropdown_info)
+    dd_data[0]['provider_npi'] = dd_data[0]['table_Providers']
+    del dd_data[0]['table_Providers']
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
@@ -290,19 +342,10 @@ def stored_procedure_calling (st_procedure_name,params):
     #sql = "exec rptProcedurePricing %s, %s, %s, %s, %s, %s, %s" % params
     sql = st_query % tuple(stored_procedure_parameters)
 
-    #sql = "exec Procedure_Insert 12345678, 'new Trail test', 1, 1, 0, 1, 1, 0, 0"
-    #import pdb;pdb.set_trace()
-    #sql= "delete from procedures_test where ProcedureID=12345678"
-    #sql = "select top 2.* from providers_test "
-    #sql = "select * from providers_test where ProviderNPI='1003814377'"
-    #sql = "update providers_test SET ProviderName='New train' where ProviderNPI='1003814377'"
-    #sql = "select * from procedures_test where ProcedureID='88888'"
-    #sql = "delete from procedures_test where ProcedureID='88888'"
     if "Provider_SelectAll" in sql:
         sql = "select top 1000.* from providers_test where PracticeAddressState = 'WI'"
         #sql = "select * from providers_test where PracticeAddressState = 'WI'"
     print sql
-    #import pdb;pdb.set_trace()
     cursor.execute(noCount+sql)
     if ('Update' in sql) or ('Delete' in sql) or ('Insert' in sql):
         cursor.commit()
@@ -642,18 +685,6 @@ def provider_pricing_breakdown_cpt(request):
     #import pdb;pdb.set_trace()
     factor_claim_data = {}
     column_names = ['col_24','col_18','col_12']
-    """cost_count = 0
-    new_data_list = []
-    for data_dict in strd_data_list:
-        cost_count = cost_count + float(data_dict['col_24'])
-        local_dict = {}
-        for dt_key,dt_value in data_dict.iteritems():
-            if dt_key in ['col_24','col_18','col_12']:
-                local_dict[dt_key] = '$'+str(dt_value)
-            else:
-                local_dict[dt_key] = dt_value
-        new_data_list.append(local_dict)"""
-
     final_factor_cost = []
     new_data_list = adding_dollar(strd_data_list,column_names)
     round_value =0
@@ -789,6 +820,7 @@ def procedure_pricing_episode(request):
             ep_cc_dict['epi_allowed_total'] = str(format(ep_cc_allowed_total, '0,.0f'))
             final_epi_details.append(ep_cc_dict)
 
+    final_epi_details = sorted(final_epi_details, key=lambda k: k['epi_key'],reverse=True)
     data = json.dumps(final_epi_details)
     if file_type:
         header = ['NPI','Provider','ProviderType','Network','ProcdureCode','Modifier1','Modifier2',
@@ -796,7 +828,8 @@ def procedure_pricing_episode(request):
         column_mapping_dict = {'NPI':'col_12','Provider':'col_1','ProviderType':'col_2','Network':'col_4','ProcdureCode':'col_13',
                                'Modifier1':'col_15','Modifier2':'col_16','RevenueCode':'col_14','Mapping':'col_20',
                                'Units':'col_9','RetailAmount':'col_7','AllowedAmount':'col_8'}
-        procedure_name = 'Procedure Provider Episode Details'
+        #procedure_name = 'Procedure Provider Episode Details'
+        procedure_name = 'Episode Details'
         excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_epi_details)
         return excel_download
     return HttpResponse(data, content_type='application/json')
@@ -996,8 +1029,11 @@ def cost_comparison_summary(request):
     final_cmp_list.append(final_cmp_data)
     data = json.dumps(final_cmp_list)
     if file_type:
-        header = ['Network', 'ClaimCount']
-        column_mapping_dict = {'Network': 'col_4', 'ClaimCount': 'col_6'}
+        header = ['Procedure','Episodes','AverageCharge(30 Miles)','EstimatedTotalCost','LowCost(30 Miles)'
+                ,'TotalCost(30 Miles)','PotentialSavings(30 Miles)','LowCostProvider(30 Miles)','Network']
+        column_mapping_dict = {'Procedure':'col_5','Episodes':'col_7','AverageCharge(30 Miles)':'col_8','EstimatedTotalCost':'col_18',
+                               'LowCost(30 Miles)':'col_17','TotalCost(30 Miles)':'col_19','PotentialSavings(30 Miles)':'col_21',
+                               'LowCostProvider(30 Miles)':'col_13', 'Network':'col_14'}
         procedure_name = 'Cost Comparison Summary'
         excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_cmp_list)
         return excel_download
@@ -1212,7 +1248,6 @@ def common_excel_generation(header,column_mapping_dict,procedure_name,json_data)
     from xlwt import Workbook, Style
     from xlwt import Workbook, Formula
     output = StringIO.StringIO()
-
     todays_excel_file = xlwt.Workbook(encoding="utf-8")
     todays_excel_sheet1 = todays_excel_file.add_sheet(procedure_name)
     excel_file_name = output
@@ -1224,7 +1259,7 @@ def common_excel_generation(header,column_mapping_dict,procedure_name,json_data)
         excel_insert = procedure_pricing_excel_insertion(data_list, header, column_mapping_dict, todays_excel_sheet1,row_id)
     elif procedure_name == 'Comany Network By State':
         excel_insert = cmp_network_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
-    elif procedure_name == 'Procedure Provider Episode Details':
+    elif procedure_name == 'Episode Details':
         excel_insert = episode_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
     elif procedure_name == 'Cost Comparison Summary':
         excel_insert = cost_comparison_summary_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
@@ -1264,8 +1299,9 @@ def cmp_network_excel_gen(data_list,header,column_mapping_dict,todays_excel_shee
             for col_count, header_name in enumerate(header):
                 todays_excel_sheet1.write(row_id, col_count, st_rec[column_mapping_dict[header_name]])
             row_id = row_id + 1
+        todays_excel_sheet1.write(row_id, 0, "Total")
         todays_excel_sheet1.write(row_id, len(header) - 1, data['state_total'])
-        row_id = row_id + 1
+        row_id = row_id + 2
     return todays_excel_sheet1
 
 def episode_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id):
@@ -1284,9 +1320,11 @@ def episode_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_
                 for col_count, header_name in enumerate(header):
                     todays_excel_sheet1.write(row_id, col_count, csct_data[column_mapping_dict[header_name]])
                 row_id = row_id + 1
+            todays_excel_sheet1.write(row_id, 0, 'Cost Category Total')
             todays_excel_sheet1.write(row_id, len(header) - 1, cst_ct['csct_allowed_total'])
             todays_excel_sheet1.write(row_id, len(header) - 2, cst_ct['csct_retail_total'])
             row_id = row_id + 1
+        todays_excel_sheet1.write(row_id, 0, 'Episode Total')
         todays_excel_sheet1.write(row_id, len(header) - 1, data['epi_allowed_total'])
         todays_excel_sheet1.write(row_id, len(header) - 2, data['epi_retail_total'])
         row_id = row_id + 1
@@ -1301,6 +1339,7 @@ def cost_comparison_summary_excel_gen(data_list,header,column_mapping_dict,today
         for col_count, header_name in enumerate(header):
             todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
         row_id = row_id + 1
+    todays_excel_sheet1.write(row_id, 0 , 'Grand Total')
     todays_excel_sheet1.write(row_id, len(header) - 6, data_list[0]['cmp_estimated'])
     todays_excel_sheet1.write(row_id, len(header) - 4, data_list[0]['cmp_total_cost'])
     todays_excel_sheet1.write(row_id, len(header) - 3, data_list[0]['cmp_pt_saving'])
