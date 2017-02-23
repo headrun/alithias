@@ -60,9 +60,9 @@
 
                   that.excelDownload = function(){
                     var excelUrl = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+
-                                  that.ProcedureID+'&NetworkID='+that.NetworkID+'&FacilityNPI='+
-                                  that.FacilityNPI+'&ProcedureCodeFilter='+
-                                  that.ProcedureCodeFilter+"&file_type=excel&procName"+
+                                  $scope.procedureId+'&NetworkID='+$scope.networkId+'&FacilityNPI='+
+                                  $scope.facilityNpi+'&ProcedureCodeFilter='+
+                                  $scope.procedureCodeFilt+"&file_type=excel&procName"+
                                   $('#procedureId :selected').text()+"&networkName="+
                                   $('#networkId :selected').text();
 

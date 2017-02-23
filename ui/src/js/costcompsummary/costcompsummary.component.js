@@ -50,6 +50,10 @@
                       });
                   }
 
+                  that.getCompaId = function(){
+                    that.compId = $scope.companyId;
+                  }
+
                   that.excelDownload = function(){
                     var excelUrl = domainName+'api/cost_comparison_summary/?CompanyID='+
                                   $scope.companyId+'&SourceZIP='+

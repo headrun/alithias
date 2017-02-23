@@ -65,6 +65,7 @@
                                 $('#contentTable').DataTable({
                                     "scrollY": "450px",
                                     "scrollX": "600px",
+                                    "order": [[ 7, "asc" ]],
                                     "lengthMenu": [[8, 25, 50, -1], [8, 25, 50, "All"]]
                                 });
 
