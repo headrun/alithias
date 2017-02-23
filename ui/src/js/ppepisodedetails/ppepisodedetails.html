@@ -3,7 +3,7 @@
     <div class="form-group">
       <label class="control-label col-sm-3">Network:</label>
       <div class="col-sm-4">
-        <select class="form-control" ng-model="networkId">
+        <select class="form-control" ng-model="networkId" id="networkId">
             <option ng-repeat="x in $ctrl.networks | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
@@ -11,24 +11,32 @@
     <div class="form-group">
       <label class="control-label col-sm-3">Procedures:</label>
       <div class="col-sm-4">
-        <select class="form-control" ng-model="procedureId">
+        <select class="form-control" ng-model="procedureId" id="procedureId">
             <option ng-repeat="x in $ctrl.procedures | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-3">Provider Name:</label>
+      <label class="control-label col-sm-3">State:</label>
       <div class="col-sm-4">
-        <select class="form-control" ng-change="$ctrl.getRelCities(providerName)" ng-model="providerName">
-            <option ng-repeat="x in $ctrl.providerName | filter:query | orderBy:'name'" value="{{x.name}}">{{x.name}}</option>
+        <select class="form-control" ng-change="$ctrl.getRelCities(state)" ng-model="state" id="state">
+            <option ng-repeat="x in $ctrl.states | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3">City:</label>
       <div class="col-sm-4">
-        <select class="form-control" ng-change="$ctrl.getRelNpi(city)" ng-model="city">
+        <select class="form-control" ng-change="$ctrl.getRelProvNames(city)" ng-model="city">
             <option ng-repeat="x in $ctrl.cities | filter:query | orderBy:'name'" value="{{x.name}}">{{x.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">Provider Name:</label>
+      <div class="col-sm-4">
+        <select class="form-control" ng-change="$ctrl.getRelNpi(providerName)" ng-model="providerName">
+            <option ng-repeat="x in $ctrl.providerName | filter:query | orderBy:'name'" value="{{x.name}}">{{x.name}}</option>
         </select>
       </div>
     </div>
@@ -58,7 +66,7 @@
   <div style="margin-left: 17px;">
       <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#ppEpisodeData').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
 );">PDF</button>
-      <button class="btn btn-warning btn-sm" target="_blank" onClick ="$('#ppEpisodeData').tableExport({type:'excel',escape:'false'});">Excel</button>
+      <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.excelDownload()">Excel</button>
       <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('ppEpisodeData')">Print</button>
   </div>
   <br>

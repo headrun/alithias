@@ -1,10 +1,10 @@
 <span class="page-header">Procedure Pricing Details</span><br><br>
 <form class="form-horizontal" ng-submit="submit()">
     <div class="form-group">
-      <label class="control-label col-sm-3" for="email">Procedures :</label>
+      <label class="control-label col-sm-3">Procedures :</label>
       <div class="col-sm-4">
           <!--<input type="text" class="form-control" ng-model="procedureId">-->
-          <select class="form-control" ng-model="procedureId">
+          <select class="form-control" ng-model="procedureId" id="procedureId">
             <option ng-repeat="x in $ctrl.procedures | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
           </select>
       </div>
@@ -13,7 +13,7 @@
       <label class="control-label col-sm-3" for="pwd">Networks :</label>
       <div class="col-sm-4">          
           <!--<input type="text" class="form-control" ng-model="networkId">-->
-          <select class="form-control" ng-model="networkId">
+          <select class="form-control" ng-model="networkId" id="networkId">
             <option ng-repeat="x in $ctrl.networks | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
           </select>
       </div>
@@ -48,7 +48,7 @@
     <div style="margin-left: 17px;">
       <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#procPricDetDiv').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
 );">PDF</button>
-      <button class="btn btn-warning btn-sm" target="_blank" onClick ="$('#procPricDetDiv').tableExport({type:'excel',escape:'false'});">Excel</button>
+      <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.excelDownload()">Excel</button>
       <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('procPricDetDiv')">Print</button>
     </div>
   <br><br>

@@ -21,12 +21,17 @@
                      this.collapsed = !this.collapsed;
                    }
 
-                 $scope.submit = function(param){
+                 $http({method: "GET", url: domainName+"api/cost_cmpr_summary_dropdowns"})
+                    .then(function(response){
+                        that.company_drop= response.data[0].table_Companies;
+                    });  
+
+                 $scope.submit = function(){
                     $('#loadingDiv').show();
-                    that.companyId = param.companyId ? param.companyId : '';
-                    that.sourceZip = param.sourceZip ? param.sourceZip : '';
-                    that.milesRadius = param.milesRadius ? param.milesRadius : '';
-                    that.year = param.year ? param.year : '';
+                    that.companyId = $scope.companyId ? $scope.companyId : '';
+                    that.sourceZip = $scope.sourceZip ? $scope.sourceZip : '';
+                    that.milesRadius = $scope.milesRadius ? $scope.milesRadius : '';
+                    that.year = $scope.year ? $scope.year : '';
 
                     that.apiUrl = domainName+'api/cost_comparison_summary/?CompanyID='+that.companyId+'&SourceZIP='+that.sourceZip+'&MilesRadius='+that.milesRadius+'&Year='+that.year;
 
@@ -43,6 +48,17 @@
                             $('#notFound').show();
                           }
                       });
+                  }
+
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+'api/cost_comparison_summary/?CompanyID='+
+                                  $scope.companyId+'&SourceZIP='+
+                                  $scope.sourceZip+'&MilesRadius='+
+                                  $scope.milesRadius+'&Year='+
+                                  $scope.year+"&file_type=excel&companyName"+
+                                  $('#companyId :selected').text();
+
+                    window.location = excelUrl;
                   }
 
                   that.printDiv = function(divName) {

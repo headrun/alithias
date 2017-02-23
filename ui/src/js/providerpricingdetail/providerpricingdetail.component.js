@@ -57,6 +57,19 @@
                       w.close();
                   }
 
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+
+                                  $scope.providerNpi+'&ProcedureID='+
+                                  $scope.procedureId+'&NetworkID='+
+                                  $scope.networkId+'&CostCategoryCode='+
+                                  $scope.costcategorycode+'&FacilityProviderNPI='+
+                                  $scope.facelityprovidernpi+"&file_type=excel&procName"+
+                                  $('#procedureId :selected').text()+"&networkName="+
+                                  $('#networkId :selected').text();
+
+                    window.location = excelUrl;
+                  }
+
                   function loadDatatable(url){
 
                     $http({method: "GET", url: url})

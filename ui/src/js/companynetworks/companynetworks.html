@@ -3,7 +3,7 @@
     <div class="form-group">
       <label class="control-label col-sm-3" for="email">Company:</label>
       <div class="col-sm-4">
-        <select class="form-control" ng-model="param.companyId">
+        <select class="form-control" ng-model="param.companyId" id="companyName">
             <option ng-repeat="x in $ctrl.companies | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
@@ -25,7 +25,7 @@
   <div style="margin-left: 17px;">
     <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#companyData').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
     );">PDF</button>
-    <button class="btn btn-success btn-sm" target="_blank" onClick ="$('#companyData').tableExport({type:'excel',escape:'false'});">Excel</button>
+    <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.excelDownload()">Excel</button>
     <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('companyData')">Print</button>
   </div>
   <br>
@@ -35,20 +35,20 @@
               <strong>State Name</strong> : {{row.state_name}}
           </div>
           <div class="col-md-8">
-              <table class="table table-bordered table-striped" >
+              <table class="table table-bordered table-striped" style="width: 65%">
                   <thead>
                     <tr>
-                      <th>Network</th>
+                      <th style="text-align: left">Network</th>
                       <th>Claim Count</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr ng-repeat="body_data in row.state_data">
-                      <td>{{body_data.col_4}}</td>
+                      <td style="text-align: left">{{body_data.col_4}}</td>
                       <td>{{body_data.col_6}}</td>
                     </tr>
                     <tr class="success">
-                      <td> <strong>Total</strong></td>
+                      <td style="text-align: left"> <strong>Total</strong></td>
                       <td>{{row.state_total}}</td>
                     </tr>
                   </tbody>

@@ -26,17 +26,17 @@
                         that.networks = response.data[0].table_Networks;
                         that.procedures = response.data[0].table_Procedures;
                         that.providerName = response.data[0].table_Providers;
+                        that.states = response.data[0].states;
                     });
 
                   that.getRelCities = function(){
-                    that.pName = $scope.providerName;
-                    console.log(that.pName);
-                    if (that.pName !== '') {
-                        $http({method: "GET", url: domainName+"api/proc_episode_city/?ProviderName="+that.pName})
+                    that.state = $scope.state;
+                    if (that.state !== '') {
+                        $http({method: "GET", url: domainName+"api/proc_episode_get_city/?state="+that.state})
                           .then(function(response){
-                              console.log(response.data[0].table_Providers);
+                              console.log(response.data[0]);
                               if (response.statusText == "OK") {
-                                that.cities = response.data[0].table_Providers;
+                                that.cities = response.data[0].cities;
                               }
                         });
                     }
@@ -45,12 +45,26 @@
                   that.getRelNpi = function(){
                     that.pName = $scope.providerName;
                     that.city = $scope.city;
+                    that.state = $scope.state;
                     if (that.pName !== '') {
-                        $http({method: "GET", url: domainName+"api/proc_episode_npi/?ProviderName="+that.pName+"&PracticeAddressCity="+that.city})
+                        $http({method: "GET", url: domainName+"api/proc_episode_npi/?ProviderName="+that.pName+"&PracticeAddressCity="+that.city+"&state="+that.state})
                           .then(function(response){
                               console.log(response.data[0].table_Providers);
                               if (response.statusText == "OK") {
-                                that.fNpi = response.data[0].table_Providers;
+                                that.fNpi = response.data[0].provider_npi;
+                              }
+                        });
+                    }
+                  }
+
+                  that.getRelProvNames = function(){
+                    that.city = $scope.city;
+                    that.state = $scope.state;
+                    if (that.pName !== '') {
+                        $http({method: "GET", url: domainName+"api/proce_episode_get_provider/?state="+that.state+"&PracticeAddressCity="+that.city})
+                          .then(function(response){
+                              if (response.statusText == "OK") {
+                                that.providerName = response.data[0].provider_name;
                               }
                         });
                     }
@@ -74,6 +88,19 @@
 
                     that.apiUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+that.networkId+'&ProcedureID='+that.procedureId+'&FacilityNPI='+that.facelitynpi;
                     loadDatatable(that.apiUrl);
+                  }
+
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+
+                                  $scope.networkId+'&ProcedureID='+
+                                  $scope.procedureId+'&FacilityNPI='+
+                                  $scope.facelitynpi+"&file_type=excel&procName"+
+                                  $('#procedureId :selected').text()+"&networkName="+
+                                  $('#networkId :selected').text()+"&state="+
+                                  $('#state :selected').text()+"&city="+
+                                  $scope.city+"&providerName="+$scope.providerName;
+
+                    window.location = excelUrl;
                   }
 
                 that.printDiv = function(divName) {

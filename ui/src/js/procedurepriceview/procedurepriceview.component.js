@@ -34,6 +34,19 @@
                       w.close();
                   }
 
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+"api/procedure_pricing/?ProcedureID="+
+                                  that.procedureID+"&NetworkID="+
+                                  that.networkId+"&EnforceRequirements="+
+                                  that.requirements+"&state="+
+                                  that.stateID+"&file_type=excel&stateName="+
+                                  $('#stateName :selected').text()+"&networdName="+
+                                  $('#networkName :selected').text()+"&procName="+
+                                  $('#procedureName :selected').text();
+
+                    window.location = excelUrl;
+                  }
+
                  $scope.submit = function(param){
                     $('#loadingDiv').show();
                     that.networkId = param.networkName ? param.networkName : '';
@@ -45,17 +58,19 @@
                     $http({method: "GET", url: that.apiUrl})
                     .then(function(response){
                         if (response.data.length > 0) {
-                          vm.authorized = true;
                           $('#loadingDiv').hide();
                           that.data = response.data;
-                          setTimeout(function(){ 
-                              $('#contentTable').DataTable({
-                                  "scrollY": "450px",
-                                  "scrollX": "600px",
-                                  "lengthMenu": [[8, 25, 50, -1], [8, 25, 50, "All"]]
-                              });
+                          if (!vm.authorized) {
+                            setTimeout(function(){ 
+                                $('#contentTable').DataTable({
+                                    "scrollY": "450px",
+                                    "scrollX": "600px",
+                                    "lengthMenu": [[8, 25, 50, -1], [8, 25, 50, "All"]]
+                                });
 
-                          }, 200);
+                            }, 200);
+                          }
+                          vm.authorized = true;
                           $('#notFound').hide();
 
                         }else{

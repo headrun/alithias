@@ -33,6 +33,14 @@
                       w.close();
                   }
 
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+'api/pr_code_summary/?ProcedureID='+
+                                  that.ProcedureID+"&file_type=excel&procName"+
+                                  $('#procedureName :selected').text();
+
+                    window.location = excelUrl;
+                  }
+
                  $scope.submit = function(param){
                     $('#loadingDiv').show();
                     that.ProcedureID = param.ProcedureID ? param.ProcedureID : '';

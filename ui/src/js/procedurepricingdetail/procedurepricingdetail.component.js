@@ -49,28 +49,6 @@
 
                     that.apiUrl = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+that.ProcedureID+'&NetworkID='+that.NetworkID+'&FacilityNPI='+that.FacilityNPI+'&ProcedureCodeFilter='+that.ProcedureCodeFilter;
                     loadDatatable(that.apiUrl);
-                    /*vm.dtOptions = DTOptionsBuilder.newOptions()
-                       .withOption('ajax', {
-                              url: that.apiUrl,
-                              type: 'GET'
-                           })
-                       .withOption('processing', true)
-                       .withOption('serverSide', false)
-                       .withPaginationType('full_numbers');
-
-                      vm.dtColumns = [
-                          DTColumnBuilder.newColumn('col_6').withTitle('NPI'),
-                          DTColumnBuilder.newColumn('col_1').withTitle('Provider'),
-                          DTColumnBuilder.newColumn('col_2').withTitle('City'),
-                          DTColumnBuilder.newColumn('col_3').withTitle('Provider Type'),
-                          DTColumnBuilder.newColumn('col_7').withTitle('Episode Cost'),
-                          DTColumnBuilder.newColumn('col_4').withTitle('sample Ids').notVisible(),
-                          DTColumnBuilder.newColumn('col_5').withTitle('sample ids').notVisible(),
-                          DTColumnBuilder.newColumn('col_8').withTitle('sample ids').notVisible(),
-                          DTColumnBuilder.newColumn('col_9').withTitle('sample ids').notVisible(),
-                          DTColumnBuilder.newColumn('col_10').withTitle('sample ids').notVisible(),
-                          DTColumnBuilder.newColumn('col_11').withTitle('sample ids').notVisible(),
-                      ];*/
                   }
 
                   that.printDiv = function(divName) {
@@ -78,6 +56,17 @@
                       w.document.write($('#'+divName).html());
                       w.print();
                       w.close();
+                  }
+
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+
+                                  that.ProcedureID+'&NetworkID='+that.NetworkID+'&FacilityNPI='+
+                                  that.FacilityNPI+'&ProcedureCodeFilter='+
+                                  that.ProcedureCodeFilter+"&file_type=excel&procName"+
+                                  $('#procedureId :selected').text()+"&networkName="+
+                                  $('#networkId :selected').text();
+
+                    window.location = excelUrl;
                   }
 
                   function loadDatatable(url){

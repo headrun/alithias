@@ -39,8 +39,7 @@
                     that.PatientID = $scope.patientID ? $scope.patientID : '';
                     that.firstDateOfService = $scope.firstDateOfService ? $scope.firstDateOfService : '';
 
-                    that.apiUrl = 'http://localhost:2222/api/epi_rev_code/?ProcedureID='+that.ProcedureID+'&FacilityNPI='+that.FacilityNPI+'&PatientID='+that.PatientID+'&firstDateOfService='+that.firstDateOfService;
-                    //that.apiUrl = domainName+'api/epi_rev_code/?ProcedureID='+that.ProcedureID+'&FacilityNPI='+that.FacilityNPI+'&PatientID='+that.PatientID;
+                    that.apiUrl = domainName+'api/epi_rev_code/?ProcedureID='+that.ProcedureID+'&FacilityNPI='+that.FacilityNPI+'&PatientID='+that.PatientID+'&firstDateOfService='+that.firstDateOfService;
                     loadDatatable(that.apiUrl)
                   }
 
@@ -56,9 +55,6 @@
 
                           setTimeout(function(){ 
                             this.tableOffset = $("#revTable").offset().top;
-                            //this.$header = $("#revTable > thead").clone();
-                            //this.$fixedHeader = $("#header-fixed").append(this.$header);
-
                           }, 200);
 
                         }else{
@@ -66,6 +62,16 @@
                           $('#notFound').show();
                         }
                     });
+                  }
+
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+'api/epi_rev_code/?ProcedureID='+
+                                  $scope.procedureId+'&FacilityNPI='+
+                                  $scope.facilityNpi+'&PatientID='+
+                                  $scope.patientID+'&firstDateOfService='+
+                                  $scope.firstDateOfService+"&file_type=excel";
+
+                    window.location = excelUrl;
                   }
 
                   that.printDiv = function(divName) {
@@ -76,15 +82,15 @@
                   }
 
                   $('.dashboard-content-wrapper').bind("scroll", function() {
-                              var offset = $(this).scrollTop();
-                              
-                              if (offset >= 400) {
-                                  $("#header-fixed").show();
-                              }
-                              else {
-                                  $("#header-fixed").hide();
-                              }
-                          });
+                      var offset = $(this).scrollTop();
+                      
+                      if (offset >= 400) {
+                        $("#header-fixed").show();
+                      }
+                      else {
+                        $("#header-fixed").hide();
+                      }
+                  });
 	            }	
            	]
         });

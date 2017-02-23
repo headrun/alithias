@@ -33,6 +33,14 @@
                       w.close();
                   }   
 
+                  that.excelDownload = function(){
+                    var excelUrl = domainName+'api/company_network_by_state_new/?CompanyID='+
+                                  that.companyId+"&file_type=excel&companyName"+
+                                  $('#companyName :selected').text();
+
+                    window.location = excelUrl;
+                  }
+
                  $scope.submit = function(param){
 
                     $('#loadingDiv').show();

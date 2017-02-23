@@ -3,7 +3,7 @@
     <div class="form-group">
       <label class="control-label col-sm-3" >Procedure:</label>
       <div class="col-sm-4">
-        <select class="form-control" ng-model="param.ProcedureID">
+        <select class="form-control" ng-model="param.ProcedureID" id="procedureName">
             <option ng-repeat="x in $ctrl.procedures | filter:query | orderBy:'name'" value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>
@@ -22,7 +22,7 @@
   <div style="margin-left: 17px;">
       <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#ProcedureCodetable').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
 );">PDF</button>
-      <button class="btn btn-success btn-sm" target="_blank" onClick ="$('#ProcedureCodetable').tableExport({type:'excel',escape:'false'});">Excel</button>
+      <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.excelDownload()">Excel</button>
       <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('ProcedureCodetable')">Print</button>
   </div>
 <br>
