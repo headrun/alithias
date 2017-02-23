@@ -23,4 +23,7 @@ urlpatterns = [
     url(r'^cmp_network_by_state_dropdowns/$', views.cmp_network_by_state_dropdowns, name='cmp_network_by_state_dropdowns'),
     url(r'^proc_code_summary_proc_dropdowns/$', views.proc_code_summary_proc_dropdowns, name='proc_code_summary_proc_dropdowns'),
     url(r'^cost_cmpr_summary_dropdowns$', views.cost_cmpr_summary_dropdowns, name='cost_cmpr_summary_dropdowns'),
+    url(r'^procedure_excel$', views.procedure_excel, name='procedure_excel'),
+    url(r'^common_xlsxwriter_sample', views.common_xlsxwriter_sample, name='common_xlsxwriter_sample'),
+
 ]

@@ -1,9 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import pyodbc
-import json
 import datetime
 #from django.utils import simplejson
+import requests
+import json
+import xlsxwriter
+import xlwt
+from xlwt import Workbook, Style
+from xlwt import Workbook, Formula
+import StringIO
+
 
 def index(request):
     return render(request, "alithias/index.html")
@@ -364,8 +371,7 @@ def stored_procedure_calling_new (st_procedure_name,params):
     return strd_data_list
 
 def procedure_pricing(request):
-
-
+    file_type = request.GET.get('file_type','')
     try :
         procedure_id = request.GET['ProcedureID']
     except:
@@ -378,7 +384,10 @@ def procedure_pricing(request):
         procedure_code_filter = request.GET['ProcedureCodeFilter']
     except:
         procedure_code_filter = ''
-    enforce_req = request.GET['EnforceRequirements']
+    try:
+        enforce_req = request.GET['EnforceRequirements']
+    except:
+        enforce_req = 'false'
     if enforce_req == 'true':
         enforce_req = 1
     else:
@@ -408,9 +417,11 @@ def procedure_pricing(request):
         pr_dict['col_31'] = 'Episode'
         final_data_list.append(pr_dict)
     data = json.dumps(final_data_list)
+    if file_type:
+        excel_download = common_xlsxwriter(final_data_list)
+        return excel_download
     return HttpResponse(data, content_type='application/json')
 
-    return HttpResponse(strd_data_list)
 
 
 def procedure_pricing_breakdown_old(request):
@@ -462,7 +473,7 @@ def procedure_pricing_breakdown(request):
     facility_name = {}
     for dict in strd_data_list:
         epi_cost = float('%.2f' % round(float(dict['col_7']), 2))
-        epi_cost = format(epi_cost, '0,.1f')
+        epi_cost = format(epi_cost, '0,.0f')
         dict['col_7'] = str(epi_cost)
         if facility_name.has_key(dict['col_5']):
             facility_name[dict['col_5']].append(dict)
@@ -554,7 +565,7 @@ def provider_pricing_breakdown_cpt(request):
         final_factor_cost.append(n_dict)
 
     factor_claim_data['data'] = final_factor_cost
-    round_value = format(round_value, '0,.1f')
+    round_value = format(round_value, '0,.0f')
     factor_claim_data['factor_total'] = '$'+str(round_value)
     #factor_claim_data['total'] = cost_count
     data = json.dumps(factor_claim_data)
@@ -575,7 +586,7 @@ def adding_dollar (strd_data_list,column_names):
                     accuracy_agg = 0
                 else:
                     accuracy_agg = float('%.2f' % round(float(dt_value), 2))
-                    accuracy_agg = format(accuracy_agg, '0,.1f')
+                    accuracy_agg = format(accuracy_agg, '0,.0f')
                 local_dict[dt_key] = '$' + str(accuracy_agg)
             else:
                 local_dict[dt_key] = dt_value
@@ -634,27 +645,27 @@ def procedure_pricing_episode(request):
                     rt_amt = float('%.2f' % round(float(csct_dict['col_7']), 2))
                     csct_dict['col_7'] = str(rt_amt)
                     if ',' not in str(rt_amt):
-                        csct_dict['col_7'] = str(format(rt_amt, '0,.1f'))
+                        csct_dict['col_7'] = str(format(rt_amt, '0,.0f'))
                     if ',' in str(csct_dict['col_8']):
                         csct_dict['col_8'] = str(csct_dict['col_8']).replace(',','')
                     allowd_amt = float('%.2f' % round(float(csct_dict['col_8']), 2))
                     csct_dict['col_8'] = str(allowd_amt)
                     if ',' not in str(allowd_amt):
-                        csct_dict['col_8'] = str(format(allowd_amt, '0,.1f'))
+                        csct_dict['col_8'] = str(format(allowd_amt, '0,.0f'))
                     cc_retail_total = cc_retail_total + rt_amt
                     cc_allowed_total = cc_allowed_total + allowd_amt
                     epi_key = str(csct_dict['col_6']) + str(csct_dict['col_10'])
                 cc_dict['csct_type'] = cc_key
                 cc_dict['csct_data'] = cc_values
-                cc_dict['csct_retail_total'] = str(format(cc_retail_total, '0,.1f'))
+                cc_dict['csct_retail_total'] = str(format(cc_retail_total, '0,.0f'))
                 ep_cc_rtl_total = ep_cc_rtl_total + cc_retail_total
-                cc_dict['csct_allowed_total'] = str(format(cc_allowed_total, '0,.1f'))
+                cc_dict['csct_allowed_total'] = str(format(cc_allowed_total, '0,.0f'))
                 ep_cc_allowed_total = ep_cc_allowed_total + cc_allowed_total
                 ep_cc_list.append(cc_dict)
             ep_cc_dict['epi_key'] = epi_key
             ep_cc_dict['epi_data'] = ep_cc_list
-            ep_cc_dict['epi_retail_total'] = str(format(ep_cc_rtl_total, '0,.1f'))
-            ep_cc_dict['epi_allowed_total'] = str(format(ep_cc_allowed_total, '0,.1f'))
+            ep_cc_dict['epi_retail_total'] = str(format(ep_cc_rtl_total, '0,.0f'))
+            ep_cc_dict['epi_allowed_total'] = str(format(ep_cc_allowed_total, '0,.0f'))
             final_epi_details.append(ep_cc_dict)
 
     data = json.dumps(final_epi_details)
@@ -799,22 +810,22 @@ def cost_comparison_summary(request):
     cmp_pt_saving = 0
     for cst_dict in strd_data_list:
         avg_total = float('%.2f' % round(float(cst_dict['col_8']), 2))
-        cst_dict['col_8'] = str(format(avg_total, '0,.1f'))
+        cst_dict['col_8'] = str(format(avg_total, '0,.0f'))
         cst_dict['col_7'] = int(float(cst_dict['col_7']))
         est_total = float('%.2f' % round(float(cst_dict['col_18']), 2))
-        cst_dict['col_18'] = str(format(est_total, '0,.1f'))
+        cst_dict['col_18'] = str(format(est_total, '0,.0f'))
         cmp_estimated = cmp_estimated + est_total
         tl_cost = float('%.2f' % round(float(cst_dict['col_19']), 2))
-        cst_dict['col_19'] = str(format(tl_cost, '0,.1f'))
+        cst_dict['col_19'] = str(format(tl_cost, '0,.0f'))
         cmp_total_cost = cmp_total_cost + tl_cost
         pt_cost = float('%.2f' % round(float(cst_dict['col_21']), 2))
-        cst_dict['col_21'] = str(format(tl_cost, '0,.1f'))
+        cst_dict['col_21'] = str(format(tl_cost, '0,.0f'))
         cmp_pt_saving = cmp_pt_saving + pt_cost
         #claim_count = claim_count + int(cst_dict['col_6'])
     final_cmp_data['cmp_data'] = strd_data_list
-    final_cmp_data['cmp_estimated'] = str(format(cmp_estimated, '0,.1f'))
-    final_cmp_data['cmp_total_cost'] = str(format(cmp_total_cost, '0,.1f'))
-    final_cmp_data['cmp_pt_saving'] = str(format(cmp_pt_saving, '0,.1f'))
+    final_cmp_data['cmp_estimated'] = str(format(cmp_estimated, '0,.0f'))
+    final_cmp_data['cmp_total_cost'] = str(format(cmp_total_cost, '0,.0f'))
+    final_cmp_data['cmp_pt_saving'] = str(format(cmp_pt_saving, '0,.0f'))
     final_cmp_list.append(final_cmp_data)
     data = json.dumps(final_cmp_list)
     # return final_api_list
@@ -1019,3 +1030,125 @@ def epi_rev_code(request):
     # return final_api_list
     return HttpResponse(data, content_type='application/json')
 
+def procedure_excel(request):
+    url = requests.get(
+        "http://dcubeapi.alithias.com:8082/api/procedure_pricing/?ProcedureID=10306&NetworkID=2046&EnforceRequirements=false&state=WI")
+    data_list = json.loads(url.text)
+    # header = ['NPI','hello']
+    header = ['NPI', 'Facility', 'City', 'FacilityType', 'MinTotal', 'LikelyTotal', 'MaxTotal', 'MinFacility',
+              'LikelyFacility', 'MaxFacility',
+              'MinPhysician', 'LikelyPhysician', 'MaxPhysician', 'MinAnesthesia', 'LikelyAnesthesia', 'MaxAnesthesia',
+              'MinRadiology',
+              'LikelyRadiology', 'MaxRadiology', 'MinLab', 'LikelyLab', 'MaxLab']
+
+    column_mapping_dict = {'NPI': 'col_5', 'Facility': 'col_1', 'City': 'col_2', 'FacilityType': 'col_4',
+                           'MinTotal': 'col_24', 'LikelyTotal': 'col_25', 'MaxTotal': 'col_26', 'MinFacility': 'col_6',
+                           'LikelyFacility': 'col_7', 'MaxFacility': 'col_8', 'MinPhysician': 'col_9',
+                           'LikelyPhysician': 'col_10', 'MaxPhysician': 'col_11',
+                           'MinAnesthesia': 'col_12', 'LikelyAnesthesia': 'col_13', 'MaxAnesthesia': 'col_14',
+                           'MinRadiology': 'col_15',
+                           'LikelyRadiology': 'col_16', 'MaxRadiology': 'col_17', 'MinLab': 'col_18',
+                           'LikelyLab': 'col_19', 'MaxLab': 'col_20'}
+
+    todays_excel_file = xlwt.Workbook(encoding="utf-8")
+    todays_excel_sheet1 = todays_excel_file.add_sheet("sheet1")
+    excel_file_name = 'clinical.xls'
+    # todays_excel_sheet1.write(0, 1, 'Procedure pricing')
+    todays_excel_sheet1.write_merge(0, 0, 0, len(header) - 1, 'Procedure Pricing', Style.easyxf('font: bold on'))
+    row_id = 1
+    for i, row in enumerate(header):
+        todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+    row_id = row_id + 1
+    todays_excel_file.save(excel_file_name)
+
+    for data in data_list:
+        for col_count, header_name in enumerate(header):
+            todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
+        row_id = row_id + 1
+    todays_excel_file.save(excel_file_name)
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=clinical.xls'
+    return response
+    #return HttpResponse('C:\Users\dcube\Desktop\alithias_dev_setup\alithias_dev\backend' + str(todays_excel_file))
+
+def common_excel_generation(json_data):
+    data_list = json_data
+    header = ['NPI', 'Facility', 'City', 'FacilityType', 'MinTotal', 'LikelyTotal', 'MaxTotal', 'MinFacility','LikelyFacility', 'MaxFacility',
+              'MinPhysician', 'LikelyPhysician', 'MaxPhysician', 'MinAnesthesia', 'LikelyAnesthesia', 'MaxAnesthesia',
+              'MinRadiology','LikelyRadiology', 'MaxRadiology', 'MinLab', 'LikelyLab', 'MaxLab']
+
+    column_mapping_dict = {'NPI': 'col_5', 'Facility': 'col_1', 'City': 'col_2', 'FacilityType': 'col_4',
+                           'MinTotal': 'col_24', 'LikelyTotal': 'col_25', 'MaxTotal': 'col_26', 'MinFacility': 'col_6',
+                           'LikelyFacility': 'col_7', 'MaxFacility': 'col_8', 'MinPhysician': 'col_9',
+                           'LikelyPhysician': 'col_10', 'MaxPhysician': 'col_11',
+                           'MinAnesthesia': 'col_12', 'LikelyAnesthesia': 'col_13', 'MaxAnesthesia': 'col_14',
+                           'MinRadiology': 'col_15',
+                           'LikelyRadiology': 'col_16', 'MaxRadiology': 'col_17', 'MinLab': 'col_18',
+                           'LikelyLab': 'col_19', 'MaxLab': 'col_20'}
+
+    #todays_excel_file = xlwt.Workbook(encoding="utf-8")
+    #todays_excel_sheet1 = todays_excel_file.add_sheet("sheet1")
+    excel_file_name = 'clinical.xls'
+    todays_excel_file = xlsxwriter.Workbook(excel_file_name)
+    todays_excel_sheet1 = todays_excel_file.add_worksheet("pricing")
+    bold = todays_excel_file.add_format({'bold': True})
+
+    # todays_excel_sheet1.write(0, 1, 'Procedure pricing')
+    #todays_excel_sheet1.write_merge(0, 0, 0, len(header) - 1, 'Procedure Pricing', Style.easyxf('font: bold on'))
+    row_id = 1
+    for i, row in enumerate(header):
+        todays_excel_sheet1.write(row_id, i, row)
+    row_id = row_id + 1
+    #todays_excel_file.save(excel_file_name)
+
+    for data in data_list:
+        for col_count, header_name in enumerate(header):
+            todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
+        row_id = row_id + 1
+    todays_excel_file.close()
+    #todays_excel_file.save(excel_file_name)
+    response = HttpResponse(content_type='content_type=application/vnd.ms-excel') #content_type='application/vnd.ms-excel'
+    response['Content-Disposition'] = 'attachment; filename=clinical.xls'
+    return response
+    #return HttpResponse('C:\Users\dcube\Desktop\alithias_dev_setup\alithias_dev\backend' + str(todays_excel_file))
+
+
+def common_xlsxwriter(json_data):
+    workbook = xlsxwriter.Workbook('new_trail.xls')
+    worksheet = workbook.add_worksheet()
+
+    worksheet.set_column('A:A', 20)
+    bold = workbook.add_format({'bold': True})
+
+    worksheet.write('A1', 'Hello')
+    worksheet.write('A2', 'World', bold)
+
+    worksheet.write(2, 0, 123)
+    worksheet.write(3, 0, 123.456)
+
+    workbook.close()
+
+    #response = HttpResponse(content_type='content_type=application/vnd.ms-excel')  # content_type='application/vnd.ms-excel'
+    response = HttpResponse(workbook,content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=new_trail.xls'
+    return response
+
+def common_xlsxwriter_sample(request):
+    workbook = xlsxwriter.Workbook('new_trail.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    worksheet.set_column('A:A', 20)
+    bold = workbook.add_format({'bold': True})
+
+    worksheet.write('A1', 'Hello')
+    worksheet.write('A2', 'World', bold)
+
+    worksheet.write(2, 0, 123)
+    worksheet.write(3, 0, 123.456)
+
+    workbook.close()
+
+    #response = HttpResponse(content_type='content_type=application/vnd.ms-excel')  # content_type='application/vnd.ms-excel'
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=new_trail.xls'
+    return response
