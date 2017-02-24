@@ -31,11 +31,12 @@
   <br>
   <div id="companyData">
       <div class="row" ng-repeat="row in $ctrl.companyData">
-          <div class="col-md-3" style="text-align: center; padding-top: 10px;">
+          <div class="col-md-2"></div>
+          <div class="col-md-3" style="width: 220px; padding: 7px; border: 1px solid #ccc; font-size: 13px; background: #3587A5; color: #fff;">
               <strong>State Name</strong> : {{row.state_name}}
           </div>
-          <div class="col-md-8">
-              <table class="table table-bordered table-striped" style="width: 65%">
+          <div class="col-md-5" style="padding-left: 0px">
+              <table class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th style="text-align: left">Network</th>
@@ -54,7 +55,7 @@
                   </tbody>
               </table>
           </div>
-          <div class="col-md-1"></div>
+          <div class="col-md-2"></div>
       </div>
       <br>
   </div>

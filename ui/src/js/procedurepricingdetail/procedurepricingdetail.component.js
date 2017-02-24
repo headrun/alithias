@@ -79,6 +79,7 @@
                           $('#loadingDiv').hide();
                           $('#notFound').hide();
                         }else{
+                          vm.authorized = false;
                           $('#loadingDiv').hide();
                           $('#notFound').show();
                         }

@@ -48,29 +48,29 @@
             <table class="table table-striped" id="revTable">
                 <thead>
                   <tr class="responseTable">
-                    <th>Rev Code</th>
+                    <th style="text-align: center;">Rev Code</th>
                     <th>Description</th>
                     <th>Modifier1</th>
                     <th>Modifier2</th>
                     <th>Cost Category</th>
-                    <th>Billed Amount</th>
-                    <th>Allowed Amount</th>
+                    <th style="text-align: center;">Billed Amount</th>
+                    <th style="text-align: center;">Allowed Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="body_data in $ctrl.revData.revenue_data">
-                    <td>{{body_data.col_12}}</td>
+                    <td style="text-align: center;">{{body_data.col_12}}</td>
                     <td>{{body_data.col_13}}</td>
                     <td>{{body_data.col_8}}</td>
                     <td>{{body_data.col_9}}</td>
                     <td>{{body_data.col_14}}</td>
-                    <td>${{body_data.col_10}}</td>
-                    <td>${{body_data.col_11}}</td>
+                    <td style="text-align: center;">${{body_data.col_10}}</td>
+                    <td style="text-align: center;">${{body_data.col_11}}</td>
                   </tr>
                   <tr class="success">
                       <td colspan="5"><strong>Grand Total</strong></td>
-                      <td><strong>${{$ctrl.revData.total_ald_amount}}</strong></td>
-                      <td><strong>${{$ctrl.revData.total_bil_amount}}</strong></td>
+                      <td style="text-align: center;"><strong>${{$ctrl.revData.total_ald_amount}}</strong></td>
+                      <td style="text-align: center;"><strong>${{$ctrl.revData.total_bil_amount}}</strong></td>
                   </tr>
                 </tbody>
             </table>
