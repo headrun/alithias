@@ -60,7 +60,7 @@
                         if (response.data.length > 0) {
                           $('#loadingDiv').hide();
                           that.data = response.data;
-                          if (!vm.authorized) {
+                          if (vm.authorized === false) {
                             setTimeout(function(){ 
                                 $('#contentTable').DataTable({
                                     "scrollY": "450px",
@@ -76,6 +76,7 @@
 
                         }else{
                           $('#loadingDiv').hide();
+                          vm.authorized = false;
                           $('#notFound').show();
                         }                        
                     });
