@@ -78,6 +78,14 @@
                         if (response.data.data.length > 0) {
                           vm.authorized = true;
                           that.resp = response.data;
+                          that.pdfUrl = domainName+'api/provider_pricing_breakdown_cpt/?ProviderNPI='+
+                                  $scope.providerNpi+'&ProcedureID='+
+                                  $scope.procedureId+'&NetworkID='+
+                                  $scope.networkId+'&CostCategoryCode='+
+                                  $scope.costcategorycode+'&FacilityProviderNPI='+
+                                  $scope.facelityprovidernpi+"&file_type=pdf&procName"+
+                                  $('#procedureId :selected').text()+"&networkName="+
+                                  $('#networkId :selected').text();
                           $('#loadingDiv').hide();
                           $('#notFound').hide();
                         }else{

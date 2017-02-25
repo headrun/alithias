@@ -76,6 +76,13 @@
                         if (response.data.length > 0) {
                           vm.authorized = true;
                           that.resp = response.data;
+                          that.pdfUrl = domainName+'api/procedure_pricing_breakdown/?ProcedureID='+
+                                  $scope.procedureId+'&NetworkID='+$scope.networkId+'&FacilityNPI='+
+                                  $scope.facilityNpi+'&ProcedureCodeFilter='+
+                                  $scope.procedureCodeFilt+"&file_type=pdf&procName"+
+                                  $('#procedureId :selected').text()+"&networkName="+
+                                  $('#networkId :selected').text();
+
                           $('#loadingDiv').hide();
                           $('#notFound').hide();
                         }else{

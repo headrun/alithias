@@ -117,6 +117,14 @@
                         if (response.data.length > 0) {
                           vm.authorized = true;
                           that.NetworkData = response.data;
+                          that.pdfUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+
+                                  $scope.networkId+'&ProcedureID='+
+                                  $scope.procedureId+'&FacilityNPI='+
+                                  $scope.facelitynpi+"&file_type=pdf&procName"+
+                                  $('#procedureId :selected').text()+"&networkName="+
+                                  $('#networkId :selected').text()+"&state="+
+                                  $('#state :selected').text()+"&city="+
+                                  $scope.city+"&providerName="+$scope.providerName;
                           $('#loadingDiv').hide(); 
                           $('#notFound').hide(); 
                         }else{

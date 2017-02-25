@@ -50,6 +50,11 @@
                         if (response.data.length > 0) {
                           vm.authorized = true;
                           that.revData = response.data[0];
+                          that.pdfUrl = domainName+'api/epi_rev_code/?ProcedureID='+
+                                  $scope.procedureId+'&FacilityNPI='+
+                                  $scope.facilityNpi+'&PatientID='+
+                                  $scope.patientID+'&firstDateOfService='+
+                                  $scope.firstDateOfService+"&file_type=pdf";
                           $('#loadingDiv').hide();
                           $('#notFound').hide();
 

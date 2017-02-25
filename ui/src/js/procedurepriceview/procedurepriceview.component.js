@@ -58,20 +58,33 @@
                     $http({method: "GET", url: that.apiUrl})
                     .then(function(response){
                         if (response.data.length > 0) {
+                          vm.authorized = true;
                           $('#loadingDiv').hide();
                           that.data = response.data;
-                          if (vm.authorized === false) {
-                            setTimeout(function(){ 
-                                $('#contentTable').DataTable({
-                                    "scrollY": "450px",
-                                    "scrollX": "600px",
-                                    "order": [[ 7, "asc" ]],
-                                    "lengthMenu": [[8, 25, 50, -1], [8, 25, 50, "All"]]
-                                });
 
-                            }, 200);
-                          }
-                          vm.authorized = true;
+                          that.pdfUrl = domainName+"api/procedure_pricing/?ProcedureID="+
+                                  that.procedureID+"&NetworkID="+
+                                  that.networkId+"&EnforceRequirements="+
+                                  that.requirements+"&state="+
+                                  that.stateID+"&file_type=pdf&stateName="+
+                                  $('#stateName :selected').text()+"&networdName="+
+                                  $('#networkName :selected').text()+"&procName="+
+                                  $('#procedureName :selected').text();
+
+                          setTimeout(function(){
+                            /*if ( $.fn.dataTable.isDataTable( '#contentTable' ) ) {
+                                $('#contentTable').DataTable();
+                            }
+                            else {*/
+                                $('#contentTable').DataTable({
+                                      "scrollY": "450px",
+                                      "scrollX": "600px",
+                                      "retrieve" : true,
+                                      "order": [[ 7, "asc" ]],
+                                      "lengthMenu": [[8, 25, 50, -1], [8, 25, 50, "All"]]
+                                  });
+                            //}
+                          }, 200);
                           $('#notFound').hide();
 
                         }else{

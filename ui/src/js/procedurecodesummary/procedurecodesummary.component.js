@@ -78,6 +78,9 @@
                           DTColumnBuilder.newColumn('col_14').withTitle('sample ids').notVisible(),
                           DTColumnBuilder.newColumn('col_15').withTitle('sample ids').notVisible()
                       ];
+                      that.pdfUrl = domainName+'api/pr_code_summary/?ProcedureID='+
+                                  that.ProcedureID+"&file_type=pdf&procName"+
+                                  $('#procedureName :selected').text();
                       $('#loadingDiv').hide();
                       vm.authorized = true;
                   }

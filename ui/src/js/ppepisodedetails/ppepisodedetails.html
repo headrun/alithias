@@ -64,8 +64,7 @@
 
 <div ng-if="$ctrl.authorized">
   <div style="margin-left: 17px;">
-      <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#ppEpisodeData').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
-);">PDF</button>
+      <a href="{{ $ctrl.pdfUrl }}" class="btn btn-info btn-sm" target="_blank">PDF</a>
       <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.excelDownload()">Excel</button>
       <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('ppEpisodeData')">Print</button>
   </div>
@@ -119,8 +118,8 @@
                       </tr>
                       <tr>
                           <td colspan="10"><strong>Total {{data.csct_type}}</strong></td>
-                          <td><strong>${{data.csct_retail_total}}</strong></td>
-                          <td><strong>${{data.csct_allowed_total}}</strong></td>
+                          <td style="text-align: center;"><strong>${{data.csct_retail_total}}</strong></td>
+                          <td style="text-align: center;"><strong>${{data.csct_allowed_total}}</strong></td>
                       </tr>
                     </tbody>
                 </table>
@@ -130,8 +129,8 @@
           <tbody>
             <tr class="success">
               <td colspan="10"><strong>Episode Totals</strong></td>
-              <td style="width: 9%;" style="text-align: right;"><strong>${{row.epi_retail_total}}</strong></td>
-              <td style="width: 9%;" style="text-align: center;"><strong>${{row.epi_allowed_total}}</strong></td>
+              <td width= "9%" style="text-align: right;"><strong>${{row.epi_retail_total}}</strong></td>
+              <td width="8%" style="text-align: center;"><strong>${{row.epi_allowed_total}}</strong></td>
             </tr>
           </tbody>
         </table>

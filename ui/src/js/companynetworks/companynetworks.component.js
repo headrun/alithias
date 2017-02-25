@@ -55,6 +55,9 @@
                           $('#notFound').hide();
                           vm.authorized = true;
                           that.companyData = response.data;
+                          that.pdfUrl = domainName+'api/company_network_by_state_new/?CompanyID='+
+                                  that.companyId+"&file_type=pdf&companyName"+
+                                  $('#companyName :selected').text();
                           $('#loadingDiv').hide();
                         }else{
 

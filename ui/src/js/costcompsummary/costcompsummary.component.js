@@ -40,6 +40,12 @@
                           if (response.data.length > 0) {
                             vm.authorized = true;
                             that.costData = response.data[0];
+                            that.pdfUrl = domainName+'api/cost_comparison_summary/?CompanyID='+
+                                  $scope.companyId+'&SourceZIP='+
+                                  $scope.sourceZip+'&MilesRadius='+
+                                  $scope.milesRadius+'&Year='+
+                                  $scope.year+"&file_type=pdf&companyName"+
+                                  $('#companyId :selected').text();
                             $('#notFound').hide();
                             $('#loadingDiv').hide();
 

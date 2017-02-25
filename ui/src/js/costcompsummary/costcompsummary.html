@@ -37,6 +37,7 @@
             <option value="2014">2014</option>
             <option value="2015">2015</option>
             <option value="2016">2016</option>
+            <option value="2017">2017</option>
         </select>
       </div>
     </div>
@@ -54,8 +55,7 @@
 <center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
 <div ng-if="$ctrl.authorized" style="font-family: verdana">
     <div style="margin-left: 17px;">
-      <button class="btn btn-info btn-sm" target="_blank" onClick ="$('#costCompSymTab').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'}
-);">PDF</button>
+      <a href="{{ $ctrl.pdfUrl }}" class="btn btn-info btn-sm" target="_blank">PDF</a>
       <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.excelDownload()">Excel</button>
       <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('costCompSymTab')">Print</button>
     </div>
