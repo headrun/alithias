@@ -91,83 +91,23 @@
 <hr>
 
 <center><p id="notFound" style="display: none">---- No Data Found ----</p></center>
-<div ng-if="$ctrl.authorized" style="font-family: verdana">
+<div ng-if="$ctrl.authenticated" style="font-family: verdana">
   <div style="margin-left: 17px;">
       <a href="{{ $ctrl.pdfUrl }}" class="btn btn-info btn-sm" target="_blank" >PDF</a>
       <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.excelDownload()">Excel</button>
-      <button class="btn btn-default btn-sm" ng-click ="$ctrl.printDiv('proPriceViewTable')">Print</button>
+      <button class="btn btn-success btn-sm" target="_blank" ng-click="$ctrl.printDiv()">Print</button>
     </div>
 
     <div class="row" id="proPriceViewTable">
         <div class="col-md-12">
-            <table class="table table-striped" id="contentTable">
-                <thead id="header-fixed">
-                  <tr class="responseTable">
-                    <th>NPI</th>
-                    <th>Facility</th>
-                    <th>City</th>
-                    <th>Facility Type</th>
-                    <th>Breakdown</th>
-                    <th>Episode</th>
-                    <th>Min Total</th>
-                    <th>Likely Total</th>
-                    <th>Max Total</th>
-                    <th>Min Facility</th>
-                    <th>Likely Facility</th>
-                    <th>Max Facility</th>
-                    <th>Min Physician</th>
-                    <th>Likely Physician</th>
-                    <th>Max Physician</th>
-                    <th>Min Anesthesia</th>
-                    <th>Likely Anesthesia</th>
-                    <th>Max Anesthesia</th>
-                    <th>Min Radiology</th>
-                    <th>Likely Radiology</th>
-                    <th>Max Radiology</th>
-                    <th>Min Lab</th>
-                    <th>Likely Lab</th>
-                    <th>Max lab</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="resp in $ctrl.data">
-                    <td>{{resp.col_5}}</td>
-                    <td>{{resp.col_1}}</td>
-                    <td>{{resp.col_2}}</td>
-                    <td>{{resp.col_4}}</td>
-                    <td>
-                    <a ui-sref="dashboard.procedurepricingdetail(
-                                 {data: '{ &quot;ProcedureID&quot; : {{$ctrl.procedureID}}, &quot;NetworkID&quot; : {{$ctrl.networkId}}, &quot;FacilityNPI&quot; : {{resp.col_5}}}'})"
-                       target="_blank">{{resp.col_30}}</a>
-                    </td>
-                    <td>
-                    <a ui-sref="dashboard.ppepisodedetails(
-                                 {data: '{ &quot;ProcedureID&quot; : {{$ctrl.procedureID}}, &quot;NetworkID&quot; : {{$ctrl.networkId}}, &quot;FacilityNPI&quot; : {{resp.col_5}}}'})"
-                       target="_blank">{{resp.col_31}}</a>
-                    </td>
-                    <td>{{resp.col_24}}</td>
-                    <td>{{resp.col_25}}</td>
-                    <td>{{resp.col_26}}</td>
-                    <td>{{resp.col_6}}</td>
-                    <td>{{resp.col_7}}</td>
-                    <td>{{resp.col_8}}</td>
-                    <td>{{resp.col_9}}</td>
-                    <td>{{resp.col_10}}</td>
-                    <td>{{resp.col_11}}</td>
-                    <td>{{ resp.col_12 !== null ? resp.col_12 : ''}}</td>
-                    <td >{{ resp.col_13 !== null ? resp.col_13 : ''}}</td>
-                    <td >{{ resp.col_14 !== null ? resp.col_14 : ''}}</td>
-                    <td >{{resp.col_15}}</td>
-                    <td >{{resp.col_16}}</td>
-                    <td >{{resp.col_17}}</td>
-                    <td >{{ resp.col_18 !== null ? resp.col_18 : ''}}</td>
-                    <td >{{ resp.col_19 !== null ? resp.col_19 : ''}}</td>
-                    <td >{{ resp.col_20 !== null ? resp.col_20 : ''}}</td>
-                  </tr>
-                </tbody>
-            </table>
+            <table datatable="" dt-options="$ctrl.dtOptions" dt-columns="$ctrl.dtColumns" class="row-border hover table-hover"></table>
         </div>
     </div>
     <br>
 </div>
+<style type="text/css">
+  .dataTables_paginate {
+    width: 60% !important;
+  }
+</style>
 
