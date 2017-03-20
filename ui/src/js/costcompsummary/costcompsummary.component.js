@@ -44,7 +44,7 @@
                                   $scope.companyId+'&SourceZIP='+
                                   $scope.sourceZip+'&MilesRadius='+
                                   $scope.milesRadius+'&Year='+
-                                  $scope.year+"&file_type=pdf&companyName"+
+                                  $scope.year+"&file_type=pdf&companyName="+
                                   $('#companyId :selected').text();
                             $('#notFound').hide();
                             $('#loadingDiv').hide();
@@ -65,7 +65,7 @@
                                   $scope.companyId+'&SourceZIP='+
                                   $scope.sourceZip+'&MilesRadius='+
                                   $scope.milesRadius+'&Year='+
-                                  $scope.year+"&file_type=excel&companyName"+
+                                  $scope.year+"&file_type=excel&companyName="+
                                   $('#companyId :selected').text();
 
                     window.location = excelUrl;

@@ -63,7 +63,7 @@
                                   $scope.procedureId+'&NetworkID='+
                                   $scope.networkId+'&CostCategoryCode='+
                                   $scope.costcategorycode+'&FacilityProviderNPI='+
-                                  $scope.facelityprovidernpi+"&file_type=excel&procName"+
+                                  $scope.facelityprovidernpi+"&file_type=excel&procName="+
                                   $('#procedureId :selected').text()+"&networkName="+
                                   $('#networkId :selected').text();
 
@@ -83,7 +83,7 @@
                                   $scope.procedureId+'&NetworkID='+
                                   $scope.networkId+'&CostCategoryCode='+
                                   $scope.costcategorycode+'&FacilityProviderNPI='+
-                                  $scope.facelityprovidernpi+"&file_type=pdf&procName"+
+                                  $scope.facelityprovidernpi+"&file_type=pdf&procName="+
                                   $('#procedureId :selected').text()+"&networkName="+
                                   $('#networkId :selected').text();
                           $('#loadingDiv').hide();

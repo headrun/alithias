@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Procedure Pricing Details</h3>
+    <div class="col-md-12">
+            {% for data in json_data %}
+            <div style="color: green; font-weight: bold; text-align: center"><h4>{{data.category_name}} Provider</h4></div><br>
+            <table class="table table-striped" >
+                <thead>
+                  <tr class="responseTable">
+                    <th>NPI</th>
+                    <th>Provider</th>
+                    <th>City</th>
+                    <th>Provider Type</th>
+                    <th>Episode Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="body_data in data.category_data">
+                      {% for body_data in data.category_data %}
+                    <td>{{body_data.col_6}}</td>
+                    <td>{{body_data.col_1}}</td>
+                    <td>{{body_data.col_2}}</td>
+                    <td>{{body_data.col_3}}</td>
+                    <td>${{body_data.col_7}}</td>
+                      {% endfor %}
+                  </tr>
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+
+  <!--<table border="1">
+    <th>Header 0</th>
+    <th>Header 1</th>
+    {% for event in trail %}
+    <tr>
+    <td>{{ event.a }}</td>
+    <td>{{ event.b }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<table>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+
+</table> -->
+</div>
+</body>
+</html>

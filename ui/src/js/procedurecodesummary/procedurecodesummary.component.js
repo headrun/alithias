@@ -35,7 +35,7 @@
 
                   that.excelDownload = function(){
                     var excelUrl = domainName+'api/pr_code_summary/?ProcedureID='+
-                                  that.ProcedureID+"&file_type=excel&procName"+
+                                  that.ProcedureID+"&file_type=excel&procName="+
                                   $('#procedureName :selected').text();
 
                     window.location = excelUrl;
@@ -79,7 +79,7 @@
                           DTColumnBuilder.newColumn('col_15').withTitle('sample ids').notVisible()
                       ];
                       that.pdfUrl = domainName+'api/pr_code_summary/?ProcedureID='+
-                                  that.ProcedureID+"&file_type=pdf&procName"+
+                                  that.ProcedureID+"&file_type=pdf&procName="+
                                   $('#procedureName :selected').text();
                       $('#loadingDiv').hide();
                       vm.authorized = true;

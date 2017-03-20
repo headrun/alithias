@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Procedure Provider Episode Details</h3>
+
+    {% for row in json_data %}
+    <div ng-repeat="row in $ctrl.NetworkData" style="font-family: verdana">
+        <h5 style="color: #3587a5; margin-left: 17px;"><strong>Episode Key : </strong> {{row.epi_key}} </h5>
+        {% for data in row.epi_data %}
+        <div class="row" ng-repeat="data in row.epi_data">
+            <div class="col-md-12">
+                <div><h5><strong>Cost Category :</strong> {{data.csct_type}} </h5></div>
+                <table class="table table-striped" style="margin-bottom: 5px; font-size: 11px">
+                    <thead>
+                      <tr class="responseTable">
+                        <th style="text-align: center;">NPI</th>
+                        <th>Provider</th>
+                        <th>Provider Type</th>
+                        <th>Network</th>
+                        <th>Procedure Code</th>
+                        <th style="text-align: center;">Modifier1</th>
+                        <th style="text-align: center;">Modifier2</th>
+                        <th style="text-align: center;">Revenue Code</th>
+                        <th>Mapping</th>
+                        <th style="text-align: center;">Units</th>
+                        <th style="text-align: center;">Retail Amount</th>
+                        <th style="text-align: center;">Allowed Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for body_data in data.csct_data %}
+                      <tr ng-repeat="body_data in data.csct_data" style="font-size: 11px">
+                        <td style="text-align: center;">{{body_data.col_12}}</td>
+                        <td>{{body_data.col_1}}</td>
+                        <td>{{body_data.col_2}}</td>
+                        <td>{{body_data.col_4}}</td>
+                        <td>{{body_data.col_13}}</td>
+                        <td style="text-align: center;">{{body_data.col_15}}</td>
+                        <td style="text-align: center;">{{body_data.col_16}}</td>
+                        <td style="text-align: center;">{{body_data.col_14}}</td>
+                        <td>{{body_data.col_20}}</td>
+                        <td style="text-align: center;">{{body_data.col_9}}</td>
+                        <td style="text-align: center;">${{body_data.col_7}}</td>
+                        <td style="text-align: center;">${{body_data.col_8}}</td>
+                      </tr>
+                        {% endfor %}
+                      <tr>
+                          <td colspan="10"><strong>Total {{data.csct_type}}</strong></td>
+                          <td><strong>${{data.csct_retail_total}}</strong></td>
+                          <td><strong>${{data.csct_allowed_total}}</strong></td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+        <table class="table table-striped" style="width: 97%; margin-left: 2%;">
+          <tbody>
+            <tr class="success">
+              <td colspan="10"><strong>Episode Totals</strong></td>
+              <td style="width: 9%;" style="text-align: right;"><strong>${{row.epi_retail_total}}</strong></td>
+              <td style="width: 9%;" style="text-align: center;"><strong>${{row.epi_allowed_total}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+    </div>
+    {% endfor %}
+
+</div>
+</body>
+</html>

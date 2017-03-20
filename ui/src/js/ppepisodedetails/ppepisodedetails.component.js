@@ -94,7 +94,7 @@
                     var excelUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+
                                   $scope.networkId+'&ProcedureID='+
                                   $scope.procedureId+'&FacilityNPI='+
-                                  $scope.facelitynpi+"&file_type=excel&procName"+
+                                  $scope.facelitynpi+"&file_type=excel&procName="+
                                   $('#procedureId :selected').text()+"&networkName="+
                                   $('#networkId :selected').text()+"&state="+
                                   $('#state :selected').text()+"&city="+
@@ -120,7 +120,7 @@
                           that.pdfUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+
                                   $scope.networkId+'&ProcedureID='+
                                   $scope.procedureId+'&FacilityNPI='+
-                                  $scope.facelitynpi+"&file_type=pdf&procName"+
+                                  $scope.facelitynpi+"&file_type=pdf&procName="+
                                   $('#procedureId :selected').text()+"&networkName="+
                                   $('#networkId :selected').text()+"&state="+
                                   $('#state :selected').text()+"&city="+

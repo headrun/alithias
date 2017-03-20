@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Procedure Pricing Details</h3>
+    <div class="col-md-12">
+            
+            <div style="color: green; font-weight: bold; text-align: center"><h4>PHYSICIAN Provider</h4></div><br>
+            <table class="table table-striped" >
+                <thead>
+                  <tr class="responseTable">
+                    <th>NPI</th>
+                    <th>Provider</th>
+                    <th>City</th>
+                    <th>Provider Type</th>
+                    <th>Episode Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="body_data in data.category_data">
+                      
+                    <td>1225087224</td>
+                    <td>IHC-KENOSHA RADIOLOGY, LLC</td>
+                    <td>PLEASANT PRAIRIE</td>
+                    <td>PHYSGRP</td>
+                    <td>$352</td>
+                      
+                  </tr>
+                </tbody>
+            </table>
+            
+            <div style="color: green; font-weight: bold; text-align: center"><h4>FACILITY Provider</h4></div><br>
+            <table class="table table-striped" >
+                <thead>
+                  <tr class="responseTable">
+                    <th>NPI</th>
+                    <th>Provider</th>
+                    <th>City</th>
+                    <th>Provider Type</th>
+                    <th>Episode Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="body_data in data.category_data">
+                      
+                    <td>1558305284</td>
+                    <td>UHS PHYSICIAN CLINIC</td>
+                    <td>KENOSHA</td>
+                    <td>HOSPITAL</td>
+                    <td>$194</td>
+                      
+                  </tr>
+                </tbody>
+            </table>
+            
+        </div>
+
+  <!--<table border="1">
+    <th>Header 0</th>
+    <th>Header 1</th>
+    
+</table>
+<table>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+
+</table> -->
+</div>
+</body>
+</html>

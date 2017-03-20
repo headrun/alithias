@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Cost Comparison Summary</h3>
+
+
+    <div class="col-md-12">
+            <table class="table table-striped" style="table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                  <tr class="responseTable" style="display: block; position: relative;">
+                    <th width="15%">Procedure</th>
+                    <th width="10%" style="text-align: center;">Episodes</th>
+                    <th width="10%" style="text-align: center;">Average Charge(30 Miles)</th>
+                    <th width="10%" style="text-align: center;">Estimated Total Cost</th>
+                    <th width="10%" style="text-align: center;">Low Cost(30 Miles)</th>
+                    <th width="10%" style="text-align: center;">Total Cost(30 Miles)</th>
+                    <th width="10%" style="text-align: center;">Potential Savings(30 Miles)</th>
+                    <th width="15%">Low Cost Provider (30 Miles)</th>
+                    <th width="10%">Network</th>
+                  </tr>
+                </thead>
+                
+                <tbody style="display: block; overflow: auto; width: 100%;">
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Colonoscopy, w/ Polyp Removal</td>
+                    <td style="text-align: center;" width="10%">10</td>
+                    <td width="10%" style="text-align: center;">$5,464</td>
+                    <td width="10%" style="text-align: center;">$54,636</td>
+                    <td width="10%" style="text-align: center;">$1,817.00</td>
+                    <td width="10%" style="text-align: center;">$18,170</td>
+                    <td width="10%" style="text-align: center;">$18,170</td>
+                    <td width="15%">SSM HEALTH CARE OF WISCONSIN, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Colonoscopy (Screening)</td>
+                    <td style="text-align: center;" width="10%">15</td>
+                    <td width="10%" style="text-align: center;">$3,651</td>
+                    <td width="10%" style="text-align: center;">$54,768</td>
+                    <td width="10%" style="text-align: center;">$1,810.00</td>
+                    <td width="10%" style="text-align: center;">$27,156</td>
+                    <td width="10%" style="text-align: center;">$27,156</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Abdominal/Pelvis, w/ Contrast</td>
+                    <td style="text-align: center;" width="10%">7</td>
+                    <td width="10%" style="text-align: center;">$3,899</td>
+                    <td width="10%" style="text-align: center;">$27,290</td>
+                    <td width="10%" style="text-align: center;">$1,256.00</td>
+                    <td width="10%" style="text-align: center;">$8,793</td>
+                    <td width="10%" style="text-align: center;">$8,793</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Cholesterol Panel/Lipid Screening</td>
+                    <td style="text-align: center;" width="10%">66</td>
+                    <td width="10%" style="text-align: center;">$313</td>
+                    <td width="10%" style="text-align: center;">$20,663</td>
+                    <td width="10%" style="text-align: center;">$44.00</td>
+                    <td width="10%" style="text-align: center;">$2,959</td>
+                    <td width="10%" style="text-align: center;">$2,959</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN SYSTEM NON PAYROLL</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Upper GI Endoscopy, with Biopsy</td>
+                    <td style="text-align: center;" width="10%">7</td>
+                    <td width="10%" style="text-align: center;">$4,163</td>
+                    <td width="10%" style="text-align: center;">$29,143</td>
+                    <td width="10%" style="text-align: center;">$2,035.00</td>
+                    <td width="10%" style="text-align: center;">$14,247</td>
+                    <td width="10%" style="text-align: center;">$14,247</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Childbirth, Normal, w/ Newborn Care</td>
+                    <td style="text-align: center;" width="10%">3</td>
+                    <td width="10%" style="text-align: center;">$14,164</td>
+                    <td width="10%" style="text-align: center;">$42,493</td>
+                    <td width="10%" style="text-align: center;">$9,288.00</td>
+                    <td width="10%" style="text-align: center;">$27,865</td>
+                    <td width="10%" style="text-align: center;">$27,865</td>
+                    <td width="15%">COLUMBUS COMMUNITY HOSPITAL, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Knee, Arthroscopic ACL/MCL Repair</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$38,366</td>
+                    <td width="10%" style="text-align: center;">$38,366</td>
+                    <td width="10%" style="text-align: center;">$23,832.00</td>
+                    <td width="10%" style="text-align: center;">$23,832</td>
+                    <td width="10%" style="text-align: center;">$23,832</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Cataract Removal</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$11,241</td>
+                    <td width="10%" style="text-align: center;">$22,483</td>
+                    <td width="10%" style="text-align: center;">$5,908.00</td>
+                    <td width="10%" style="text-align: center;">$11,817</td>
+                    <td width="10%" style="text-align: center;">$11,817</td>
+                    <td width="15%">NOVAMED SURGERY CENTER OF MADISON, LIMITED PARTNERSHIP</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Heart, Transthoracic Echocardiograph</td>
+                    <td style="text-align: center;" width="10%">13</td>
+                    <td width="10%" style="text-align: center;">$2,627</td>
+                    <td width="10%" style="text-align: center;">$34,157</td>
+                    <td width="10%" style="text-align: center;">$1,840.00</td>
+                    <td width="10%" style="text-align: center;">$23,932</td>
+                    <td width="10%" style="text-align: center;">$23,932</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Brain, w/wo Contrast</td>
+                    <td style="text-align: center;" width="10%">5</td>
+                    <td width="10%" style="text-align: center;">$4,903</td>
+                    <td width="10%" style="text-align: center;">$24,514</td>
+                    <td width="10%" style="text-align: center;">$2,862.00</td>
+                    <td width="10%" style="text-align: center;">$14,314</td>
+                    <td width="10%" style="text-align: center;">$14,314</td>
+                    <td width="15%">FORT HEALTHCARE, INC.</td>
+                    <td width="10%" style="text-align: center;">NHBC</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Breast, Mammogram Screening (Digital)</td>
+                    <td style="text-align: center;" width="10%">30</td>
+                    <td width="10%" style="text-align: center;">$427</td>
+                    <td width="10%" style="text-align: center;">$12,812</td>
+                    <td width="10%" style="text-align: center;">$120.00</td>
+                    <td width="10%" style="text-align: center;">$3,609</td>
+                    <td width="10%" style="text-align: center;">$3,609</td>
+                    <td width="15%">LONIE SALKOWSKI MD</td>
+                    <td width="10%" style="text-align: center;">HPS</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Gallbladder Removal, Laparoscopic</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$14,655</td>
+                    <td width="10%" style="text-align: center;">$29,310</td>
+                    <td width="10%" style="text-align: center;">$10,215.00</td>
+                    <td width="10%" style="text-align: center;">$20,431</td>
+                    <td width="10%" style="text-align: center;">$20,431</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">MULTIPLAN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Spine (Lumbar), no Contrast</td>
+                    <td style="text-align: center;" width="10%">6</td>
+                    <td width="10%" style="text-align: center;">$3,248</td>
+                    <td width="10%" style="text-align: center;">$19,486</td>
+                    <td width="10%" style="text-align: center;">$1,966.00</td>
+                    <td width="10%" style="text-align: center;">$11,798</td>
+                    <td width="10%" style="text-align: center;">$11,798</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Elbow/Wrist/Shoulder, no Contrast</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$3,292</td>
+                    <td width="10%" style="text-align: center;">$13,170</td>
+                    <td width="10%" style="text-align: center;">$1,411.00</td>
+                    <td width="10%" style="text-align: center;">$5,646</td>
+                    <td width="10%" style="text-align: center;">$5,646</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Eardrum, Tube Insertion</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$6,892</td>
+                    <td width="10%" style="text-align: center;">$13,784</td>
+                    <td width="10%" style="text-align: center;">$3,452.00</td>
+                    <td width="10%" style="text-align: center;">$6,904</td>
+                    <td width="10%" style="text-align: center;">$6,904</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Knee, Meniscus Repair</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$10,952</td>
+                    <td width="10%" style="text-align: center;">$21,904</td>
+                    <td width="10%" style="text-align: center;">$7,599.00</td>
+                    <td width="10%" style="text-align: center;">$15,199</td>
+                    <td width="10%" style="text-align: center;">$15,199</td>
+                    <td width="15%">ST MARY&#39;S DEAN VENTURES INC</td>
+                    <td width="10%" style="text-align: center;">PREMIER HEALTHCARE EXCHANGE</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Shoulder, Distal Clavical Resection</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$13,634</td>
+                    <td width="10%" style="text-align: center;">$13,634</td>
+                    <td width="10%" style="text-align: center;">$8,242.00</td>
+                    <td width="10%" style="text-align: center;">$8,242</td>
+                    <td width="10%" style="text-align: center;">$8,242</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Pelvis, Organs</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$5,599</td>
+                    <td width="10%" style="text-align: center;">$5,599</td>
+                    <td width="10%" style="text-align: center;">$677.00</td>
+                    <td width="10%" style="text-align: center;">$677</td>
+                    <td width="10%" style="text-align: center;">$677</td>
+                    <td width="15%">SHARED MAGNETIC RESONANCE IMAGING FACILITY, INC.</td>
+                    <td width="10%" style="text-align: center;">EOP</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Nasal Septum Repair</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$12,773</td>
+                    <td width="10%" style="text-align: center;">$12,773</td>
+                    <td width="10%" style="text-align: center;">$7,929.00</td>
+                    <td width="10%" style="text-align: center;">$7,929</td>
+                    <td width="10%" style="text-align: center;">$7,929</td>
+                    <td width="15%">FORT HEALTHCARE, INC.</td>
+                    <td width="10%" style="text-align: center;">NHBC</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Chest, 2 Views</td>
+                    <td style="text-align: center;" width="10%">24</td>
+                    <td width="10%" style="text-align: center;">$239</td>
+                    <td width="10%" style="text-align: center;">$5,731</td>
+                    <td width="10%" style="text-align: center;">$51.00</td>
+                    <td width="10%" style="text-align: center;">$1,246</td>
+                    <td width="10%" style="text-align: center;">$1,246</td>
+                    <td width="15%">WATERTOWN REGIONAL MEDICAL CENTER INC</td>
+                    <td width="10%" style="text-align: center;">Trilogy</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Abdominal/Pelvis, no Contrast</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$2,830</td>
+                    <td width="10%" style="text-align: center;">$11,320</td>
+                    <td width="10%" style="text-align: center;">$1,731.00</td>
+                    <td width="10%" style="text-align: center;">$6,926</td>
+                    <td width="10%" style="text-align: center;">$6,926</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">PHCS</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Neck/Cervical Spine, no Contrast</td>
+                    <td style="text-align: center;" width="10%">3</td>
+                    <td width="10%" style="text-align: center;">$3,008</td>
+                    <td width="10%" style="text-align: center;">$9,023</td>
+                    <td width="10%" style="text-align: center;">$1,570.00</td>
+                    <td width="10%" style="text-align: center;">$4,712</td>
+                    <td width="10%" style="text-align: center;">$4,712</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Hernia Repair, &lt; 5 Years</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$9,004</td>
+                    <td width="10%" style="text-align: center;">$9,004</td>
+                    <td width="10%" style="text-align: center;">$4,769.00</td>
+                    <td width="10%" style="text-align: center;">$4,770</td>
+                    <td width="10%" style="text-align: center;">$4,770</td>
+                    <td width="15%">ST MARY&#39;S DEAN VENTURES INC</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Sleep Study @ Sleep Clinic</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$3,391</td>
+                    <td width="10%" style="text-align: center;">$13,565</td>
+                    <td width="10%" style="text-align: center;">$2,381.00</td>
+                    <td width="10%" style="text-align: center;">$9,525</td>
+                    <td width="10%" style="text-align: center;">$9,525</td>
+                    <td width="15%">FORT HEALTHCARE, INC.</td>
+                    <td width="10%" style="text-align: center;">NHBC</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Back, Decompression, Discectomy</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$20,085</td>
+                    <td width="10%" style="text-align: center;">$20,085</td>
+                    <td width="10%" style="text-align: center;">$16,108.00</td>
+                    <td width="10%" style="text-align: center;">$16,109</td>
+                    <td width="10%" style="text-align: center;">$16,109</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Childbirth, Cesarean, w/ Newborn Care</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$17,005</td>
+                    <td width="10%" style="text-align: center;">$34,010</td>
+                    <td width="10%" style="text-align: center;">$15,071.00</td>
+                    <td width="10%" style="text-align: center;">$30,142</td>
+                    <td width="10%" style="text-align: center;">$30,142</td>
+                    <td width="15%">SSM HEALTH CARE OF WISCONSIN, INC.</td>
+                    <td width="10%" style="text-align: center;">EOP</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Knee, Arthroscopy</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$10,129</td>
+                    <td width="10%" style="text-align: center;">$10,129</td>
+                    <td width="10%" style="text-align: center;">$6,371.00</td>
+                    <td width="10%" style="text-align: center;">$6,372</td>
+                    <td width="10%" style="text-align: center;">$6,372</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Physical Therapy, Evaluation</td>
+                    <td style="text-align: center;" width="10%">14</td>
+                    <td width="10%" style="text-align: center;">$357</td>
+                    <td width="10%" style="text-align: center;">$5,004</td>
+                    <td width="10%" style="text-align: center;">$94.00</td>
+                    <td width="10%" style="text-align: center;">$1,323</td>
+                    <td width="10%" style="text-align: center;">$1,323</td>
+                    <td width="15%">JOLYN BALDRY PT</td>
+                    <td width="10%" style="text-align: center;">EOP</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Breast, Mammogram Screening (Film)</td>
+                    <td style="text-align: center;" width="10%">30</td>
+                    <td width="10%" style="text-align: center;">$221</td>
+                    <td width="10%" style="text-align: center;">$6,624</td>
+                    <td width="10%" style="text-align: center;">$100.00</td>
+                    <td width="10%" style="text-align: center;">$3,003</td>
+                    <td width="10%" style="text-align: center;">$3,003</td>
+                    <td width="15%">LONIE SALKOWSKI MD</td>
+                    <td width="10%" style="text-align: center;">SAG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Abdominal/Pelvis, w/wo Contrast</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$4,809</td>
+                    <td width="10%" style="text-align: center;">$9,617</td>
+                    <td width="10%" style="text-align: center;">$3,051.00</td>
+                    <td width="10%" style="text-align: center;">$6,104</td>
+                    <td width="10%" style="text-align: center;">$6,104</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Skin, Biopsy</td>
+                    <td style="text-align: center;" width="10%">11</td>
+                    <td width="10%" style="text-align: center;">$506</td>
+                    <td width="10%" style="text-align: center;">$5,566</td>
+                    <td width="10%" style="text-align: center;">$202.00</td>
+                    <td width="10%" style="text-align: center;">$2,222</td>
+                    <td width="10%" style="text-align: center;">$2,222</td>
+                    <td width="15%">AISTIS TUMAS MD</td>
+                    <td width="10%" style="text-align: center;">EOP</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Chest, w/ Contrast</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$2,181</td>
+                    <td width="10%" style="text-align: center;">$8,722</td>
+                    <td width="10%" style="text-align: center;">$1,377.00</td>
+                    <td width="10%" style="text-align: center;">$5,511</td>
+                    <td width="10%" style="text-align: center;">$5,511</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Upper GI Endoscopy</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$3,709</td>
+                    <td width="10%" style="text-align: center;">$7,418</td>
+                    <td width="10%" style="text-align: center;">$2,108.00</td>
+                    <td width="10%" style="text-align: center;">$4,216</td>
+                    <td width="10%" style="text-align: center;">$4,216</td>
+                    <td width="15%">FORT HEALTHCARE, INC.</td>
+                    <td width="10%" style="text-align: center;">NHBC</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Spine (Thoracic), no Contrast</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$4,689</td>
+                    <td width="10%" style="text-align: center;">$4,689</td>
+                    <td width="10%" style="text-align: center;">$1,693.00</td>
+                    <td width="10%" style="text-align: center;">$1,694</td>
+                    <td width="10%" style="text-align: center;">$1,694</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Chest, no Contrast</td>
+                    <td style="text-align: center;" width="10%">3</td>
+                    <td width="10%" style="text-align: center;">$1,612</td>
+                    <td width="10%" style="text-align: center;">$4,836</td>
+                    <td width="10%" style="text-align: center;">$763.00</td>
+                    <td width="10%" style="text-align: center;">$2,290</td>
+                    <td width="10%" style="text-align: center;">$2,290</td>
+                    <td width="15%">MERITER HOSPITAL, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Tonsil/Adenoid Removal &lt; 12 Years</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$7,205</td>
+                    <td width="10%" style="text-align: center;">$7,205</td>
+                    <td width="10%" style="text-align: center;">$4,668.00</td>
+                    <td width="10%" style="text-align: center;">$4,669</td>
+                    <td width="10%" style="text-align: center;">$4,669</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">MIDLANDS CHOICE NETWORK</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Head, no Contrast</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$1,303</td>
+                    <td width="10%" style="text-align: center;">$5,213</td>
+                    <td width="10%" style="text-align: center;">$672.00</td>
+                    <td width="10%" style="text-align: center;">$2,691</td>
+                    <td width="10%" style="text-align: center;">$2,691</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Diabetes Screening (A1c)</td>
+                    <td style="text-align: center;" width="10%">16</td>
+                    <td width="10%" style="text-align: center;">$231</td>
+                    <td width="10%" style="text-align: center;">$3,699</td>
+                    <td width="10%" style="text-align: center;">$91.00</td>
+                    <td width="10%" style="text-align: center;">$1,472</td>
+                    <td width="10%" style="text-align: center;">$1,472</td>
+                    <td width="15%">MERITER HOSPITAL, INC.</td>
+                    <td width="10%" style="text-align: center;">NHBC</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Hand, Trigger Finger Release</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$6,005</td>
+                    <td width="10%" style="text-align: center;">$6,005</td>
+                    <td width="10%" style="text-align: center;">$3,889.00</td>
+                    <td width="10%" style="text-align: center;">$3,890</td>
+                    <td width="10%" style="text-align: center;">$3,890</td>
+                    <td width="15%">MADISON SURGERY CENTER, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Breast, Ultrasound OLD</td>
+                    <td style="text-align: center;" width="10%">8</td>
+                    <td width="10%" style="text-align: center;">$736</td>
+                    <td width="10%" style="text-align: center;">$5,884</td>
+                    <td width="10%" style="text-align: center;">$482.00</td>
+                    <td width="10%" style="text-align: center;">$3,863</td>
+                    <td width="10%" style="text-align: center;">$3,863</td>
+                    <td width="15%">COLUMBUS COMMUNITY HOSPITAL, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Foot, Hammertoe Repair</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$5,407</td>
+                    <td width="10%" style="text-align: center;">$5,407</td>
+                    <td width="10%" style="text-align: center;">$3,387.00</td>
+                    <td width="10%" style="text-align: center;">$3,388</td>
+                    <td width="10%" style="text-align: center;">$3,388</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Knee, 3+ Views</td>
+                    <td style="text-align: center;" width="10%">12</td>
+                    <td width="10%" style="text-align: center;">$411</td>
+                    <td width="10%" style="text-align: center;">$4,927</td>
+                    <td width="10%" style="text-align: center;">$244.00</td>
+                    <td width="10%" style="text-align: center;">$2,933</td>
+                    <td width="10%" style="text-align: center;">$2,933</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Appendectomy, Laparoscopic</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$29,905</td>
+                    <td width="10%" style="text-align: center;">$29,905</td>
+                    <td width="10%" style="text-align: center;">$27,927.00</td>
+                    <td width="10%" style="text-align: center;">$27,927</td>
+                    <td width="10%" style="text-align: center;">$27,927</td>
+                    <td width="15%">SSM HEALTH CARE OF WISCONSIN, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Angiography, Chest</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$2,770</td>
+                    <td width="10%" style="text-align: center;">$5,539</td>
+                    <td width="10%" style="text-align: center;">$1,877.00</td>
+                    <td width="10%" style="text-align: center;">$3,754</td>
+                    <td width="10%" style="text-align: center;">$3,754</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Brain, no Contrast</td>
+                    <td style="text-align: center;" width="10%">3</td>
+                    <td width="10%" style="text-align: center;">$1,762</td>
+                    <td width="10%" style="text-align: center;">$5,287</td>
+                    <td width="10%" style="text-align: center;">$1,202.00</td>
+                    <td width="10%" style="text-align: center;">$3,606</td>
+                    <td width="10%" style="text-align: center;">$3,606</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Physical Exam - 18-39 Years Old</td>
+                    <td style="text-align: center;" width="10%">10</td>
+                    <td width="10%" style="text-align: center;">$277</td>
+                    <td width="10%" style="text-align: center;">$2,767</td>
+                    <td width="10%" style="text-align: center;">$110.00</td>
+                    <td width="10%" style="text-align: center;">$1,101</td>
+                    <td width="10%" style="text-align: center;">$1,101</td>
+                    <td width="15%">WATERTOWN REGIONAL MEDICAL CENTER INC</td>
+                    <td width="10%" style="text-align: center;">EOP</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Hysteroscopy, w/ Ablation</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$14,061</td>
+                    <td width="10%" style="text-align: center;">$14,061</td>
+                    <td width="10%" style="text-align: center;">$12,494.00</td>
+                    <td width="10%" style="text-align: center;">$12,495</td>
+                    <td width="10%" style="text-align: center;">$12,495</td>
+                    <td width="15%">ST MARY&#39;S DEAN VENTURES INC</td>
+                    <td width="10%" style="text-align: center;">PREMIER HEALTHCARE EXCHANGE</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Prostate, Biopsy</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$4,522</td>
+                    <td width="10%" style="text-align: center;">$4,522</td>
+                    <td width="10%" style="text-align: center;">$2,960.00</td>
+                    <td width="10%" style="text-align: center;">$2,960</td>
+                    <td width="10%" style="text-align: center;">$2,960</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Lower Extremity, Non-Joint, no Contrast</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$3,191</td>
+                    <td width="10%" style="text-align: center;">$3,191</td>
+                    <td width="10%" style="text-align: center;">$1,742.00</td>
+                    <td width="10%" style="text-align: center;">$1,742</td>
+                    <td width="10%" style="text-align: center;">$1,742</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Angiography, Heart</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$3,014</td>
+                    <td width="10%" style="text-align: center;">$3,014</td>
+                    <td width="10%" style="text-align: center;">$1,623.00</td>
+                    <td width="10%" style="text-align: center;">$1,624</td>
+                    <td width="10%" style="text-align: center;">$1,624</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Breast, no Contrast</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$4,117</td>
+                    <td width="10%" style="text-align: center;">$4,117</td>
+                    <td width="10%" style="text-align: center;">$2,765.00</td>
+                    <td width="10%" style="text-align: center;">$2,766</td>
+                    <td width="10%" style="text-align: center;">$2,766</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Heart, Echocardiograph w/ Stress Test</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$1,959</td>
+                    <td width="10%" style="text-align: center;">$3,918</td>
+                    <td width="10%" style="text-align: center;">$1,301.00</td>
+                    <td width="10%" style="text-align: center;">$2,602</td>
+                    <td width="10%" style="text-align: center;">$2,602</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Physical Exam - 40-64 Years Old</td>
+                    <td style="text-align: center;" width="10%">8</td>
+                    <td width="10%" style="text-align: center;">$330</td>
+                    <td width="10%" style="text-align: center;">$2,637</td>
+                    <td width="10%" style="text-align: center;">$172.00</td>
+                    <td width="10%" style="text-align: center;">$1,379</td>
+                    <td width="10%" style="text-align: center;">$1,379</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Back Pain, Epidural Injections, Lumbar/Sacral</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,723</td>
+                    <td width="10%" style="text-align: center;">$2,723</td>
+                    <td width="10%" style="text-align: center;">$1,533.00</td>
+                    <td width="10%" style="text-align: center;">$1,534</td>
+                    <td width="10%" style="text-align: center;">$1,534</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Pelvis, Bones</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,607</td>
+                    <td width="10%" style="text-align: center;">$2,607</td>
+                    <td width="10%" style="text-align: center;">$1,551.00</td>
+                    <td width="10%" style="text-align: center;">$1,551</td>
+                    <td width="10%" style="text-align: center;">$1,551</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Skin, Wart Destruction (Plantar)</td>
+                    <td style="text-align: center;" width="10%">9</td>
+                    <td width="10%" style="text-align: center;">$209</td>
+                    <td width="10%" style="text-align: center;">$1,877</td>
+                    <td width="10%" style="text-align: center;">$100.00</td>
+                    <td width="10%" style="text-align: center;">$906</td>
+                    <td width="10%" style="text-align: center;">$906</td>
+                    <td width="15%">BRIDGET PRIBBENOW MD</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Allergy Test, Skin Prick</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$325</td>
+                    <td width="10%" style="text-align: center;">$1,302</td>
+                    <td width="10%" style="text-align: center;">$117.00</td>
+                    <td width="10%" style="text-align: center;">$468</td>
+                    <td width="10%" style="text-align: center;">$468</td>
+                    <td width="15%">JAMES GERN MD</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Back Pain, Epidural Injections, Transforaminal Lumbar</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,492</td>
+                    <td width="10%" style="text-align: center;">$2,492</td>
+                    <td width="10%" style="text-align: center;">$1,666.00</td>
+                    <td width="10%" style="text-align: center;">$1,667</td>
+                    <td width="10%" style="text-align: center;">$1,667</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Shoulder</td>
+                    <td style="text-align: center;" width="10%">7</td>
+                    <td width="10%" style="text-align: center;">$358</td>
+                    <td width="10%" style="text-align: center;">$2,503</td>
+                    <td width="10%" style="text-align: center;">$241.00</td>
+                    <td width="10%" style="text-align: center;">$1,692</td>
+                    <td width="10%" style="text-align: center;">$1,692</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">PAP Smear</td>
+                    <td style="text-align: center;" width="10%">19</td>
+                    <td width="10%" style="text-align: center;">$250</td>
+                    <td width="10%" style="text-align: center;">$4,745</td>
+                    <td width="10%" style="text-align: center;">$208.00</td>
+                    <td width="10%" style="text-align: center;">$3,957</td>
+                    <td width="10%" style="text-align: center;">$3,957</td>
+                    <td width="15%">MERITER HOSPITAL, INC.</td>
+                    <td width="10%" style="text-align: center;">First Health Network</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Abdomen, no Contrast</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$1,996</td>
+                    <td width="10%" style="text-align: center;">$1,996</td>
+                    <td width="10%" style="text-align: center;">$1,233.00</td>
+                    <td width="10%" style="text-align: center;">$1,233</td>
+                    <td width="10%" style="text-align: center;">$1,233</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Pelvis</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$1,790</td>
+                    <td width="10%" style="text-align: center;">$1,790</td>
+                    <td width="10%" style="text-align: center;">$1,035.00</td>
+                    <td width="10%" style="text-align: center;">$1,035</td>
+                    <td width="10%" style="text-align: center;">$1,035</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Pelvis, 1 View</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$284</td>
+                    <td width="10%" style="text-align: center;">$1,137</td>
+                    <td width="10%" style="text-align: center;">$101.00</td>
+                    <td width="10%" style="text-align: center;">$406</td>
+                    <td width="10%" style="text-align: center;">$406</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Sigmoidoscopy</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,008</td>
+                    <td width="10%" style="text-align: center;">$2,008</td>
+                    <td width="10%" style="text-align: center;">$1,303.00</td>
+                    <td width="10%" style="text-align: center;">$1,303</td>
+                    <td width="10%" style="text-align: center;">$1,303</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Ankle, 3+ Views</td>
+                    <td style="text-align: center;" width="10%">6</td>
+                    <td width="10%" style="text-align: center;">$294</td>
+                    <td width="10%" style="text-align: center;">$1,763</td>
+                    <td width="10%" style="text-align: center;">$180.00</td>
+                    <td width="10%" style="text-align: center;">$1,084</td>
+                    <td width="10%" style="text-align: center;">$1,084</td>
+                    <td width="15%">FORT HEALTHCARE, INC.</td>
+                    <td width="10%" style="text-align: center;">NHBC</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Lumbar Spine</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,080</td>
+                    <td width="10%" style="text-align: center;">$2,080</td>
+                    <td width="10%" style="text-align: center;">$1,413.00</td>
+                    <td width="10%" style="text-align: center;">$1,413</td>
+                    <td width="10%" style="text-align: center;">$1,413</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Wrist, 3+ Views</td>
+                    <td style="text-align: center;" width="10%">4</td>
+                    <td width="10%" style="text-align: center;">$217</td>
+                    <td width="10%" style="text-align: center;">$869</td>
+                    <td width="10%" style="text-align: center;">$51.00</td>
+                    <td width="10%" style="text-align: center;">$204</td>
+                    <td width="10%" style="text-align: center;">$204</td>
+                    <td width="15%">EDGERTON HOSPITAL AND HEALTH SERVICES</td>
+                    <td width="10%" style="text-align: center;">EOP</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">CT Scan, Knee, no Contrast</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$1,948</td>
+                    <td width="10%" style="text-align: center;">$1,948</td>
+                    <td width="10%" style="text-align: center;">$1,321.00</td>
+                    <td width="10%" style="text-align: center;">$1,322</td>
+                    <td width="10%" style="text-align: center;">$1,322</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Abdomen, Multiple Views</td>
+                    <td style="text-align: center;" width="10%">3</td>
+                    <td width="10%" style="text-align: center;">$600</td>
+                    <td width="10%" style="text-align: center;">$1,801</td>
+                    <td width="10%" style="text-align: center;">$394.00</td>
+                    <td width="10%" style="text-align: center;">$1,184</td>
+                    <td width="10%" style="text-align: center;">$1,184</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Back Pain, Epidural Injections, Cervical/Thoracic</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,806</td>
+                    <td width="10%" style="text-align: center;">$2,806</td>
+                    <td width="10%" style="text-align: center;">$2,231.00</td>
+                    <td width="10%" style="text-align: center;">$2,232</td>
+                    <td width="10%" style="text-align: center;">$2,232</td>
+                    <td width="15%">SURGI CENTER OF GREATER MADISON, LLC</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Knee</td>
+                    <td style="text-align: center;" width="10%">5</td>
+                    <td width="10%" style="text-align: center;">$296</td>
+                    <td width="10%" style="text-align: center;">$1,481</td>
+                    <td width="10%" style="text-align: center;">$186.00</td>
+                    <td width="10%" style="text-align: center;">$932</td>
+                    <td width="10%" style="text-align: center;">$932</td>
+                    <td width="15%">COLUMBUS COMMUNITY HOSPITAL, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Heart, Stress Test, Exercise w/ EKG</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$1,152</td>
+                    <td width="10%" style="text-align: center;">$1,152</td>
+                    <td width="10%" style="text-align: center;">$762.00</td>
+                    <td width="10%" style="text-align: center;">$762</td>
+                    <td width="10%" style="text-align: center;">$762</td>
+                    <td width="15%">DEAN HEALTH SYSTEMS, INC</td>
+                    <td width="10%" style="text-align: center;">IHG</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Abdomen, 1 View</td>
+                    <td style="text-align: center;" width="10%">5</td>
+                    <td width="10%" style="text-align: center;">$218</td>
+                    <td width="10%" style="text-align: center;">$1,092</td>
+                    <td width="10%" style="text-align: center;">$142.00</td>
+                    <td width="10%" style="text-align: center;">$713</td>
+                    <td width="10%" style="text-align: center;">$713</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Pregnancy, Ultrasound (Follow-up)</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$695</td>
+                    <td width="10%" style="text-align: center;">$1,390</td>
+                    <td width="10%" style="text-align: center;">$544.00</td>
+                    <td width="10%" style="text-align: center;">$1,090</td>
+                    <td width="10%" style="text-align: center;">$1,090</td>
+                    <td width="15%">SSM HEALTH CARE OF WISCONSIN INC</td>
+                    <td width="10%" style="text-align: center;">PHCS</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Forearm</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$520</td>
+                    <td width="10%" style="text-align: center;">$520</td>
+                    <td width="10%" style="text-align: center;">$339.00</td>
+                    <td width="10%" style="text-align: center;">$339</td>
+                    <td width="10%" style="text-align: center;">$339</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">HFN</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Skin, Tag Removal</td>
+                    <td style="text-align: center;" width="10%">2</td>
+                    <td width="10%" style="text-align: center;">$285</td>
+                    <td width="10%" style="text-align: center;">$570</td>
+                    <td width="10%" style="text-align: center;">$205.00</td>
+                    <td width="10%" style="text-align: center;">$412</td>
+                    <td width="10%" style="text-align: center;">$412</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN MEDICAL FOUNDATION, INC</td>
+                    <td width="10%" style="text-align: center;">Trilogy</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Chiropractic, 1-2 Regions</td>
+                    <td style="text-align: center;" width="10%">5</td>
+                    <td width="10%" style="text-align: center;">$48</td>
+                    <td width="10%" style="text-align: center;">$238</td>
+                    <td width="10%" style="text-align: center;">$25.00</td>
+                    <td width="10%" style="text-align: center;">$126</td>
+                    <td width="10%" style="text-align: center;">$126</td>
+                    <td width="15%">DAVID YAEGER DC</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Spine (Thoracic), w/wo Contrast</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,668</td>
+                    <td width="10%" style="text-align: center;">$2,668</td>
+                    <td width="10%" style="text-align: center;">$2,576.00</td>
+                    <td width="10%" style="text-align: center;">$2,577</td>
+                    <td width="10%" style="text-align: center;">$2,577</td>
+                    <td width="15%">SHARED MAGNETIC RESONANCE IMAGING FACILITY, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">MRI, Neck/Cervical Spine, w/wo Contrast</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$2,791</td>
+                    <td width="10%" style="text-align: center;">$2,791</td>
+                    <td width="10%" style="text-align: center;">$2,712.00</td>
+                    <td width="10%" style="text-align: center;">$2,713</td>
+                    <td width="10%" style="text-align: center;">$2,713</td>
+                    <td width="15%">SHARED MAGNETIC RESONANCE IMAGING FACILITY, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">X-RAY, Collarbone</td>
+                    <td style="text-align: center;" width="10%">1</td>
+                    <td width="10%" style="text-align: center;">$245</td>
+                    <td width="10%" style="text-align: center;">$245</td>
+                    <td width="10%" style="text-align: center;">$189.00</td>
+                    <td width="10%" style="text-align: center;">$189</td>
+                    <td width="10%" style="text-align: center;">$189</td>
+                    <td width="15%">COLUMBUS COMMUNITY HOSPITAL, INC.</td>
+                    <td width="10%" style="text-align: center;">TAL</td>
+                  </tr>
+                    
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">Bone Density (DEXA) Scan, Spine or Hip</td>
+                    <td style="text-align: center;" width="10%">8</td>
+                    <td width="10%" style="text-align: center;">$261</td>
+                    <td width="10%" style="text-align: center;">$2,088</td>
+                    <td width="10%" style="text-align: center;">$257.00</td>
+                    <td width="10%" style="text-align: center;">$2,063</td>
+                    <td width="10%" style="text-align: center;">$2,063</td>
+                    <td width="15%">UNIVERSITY OF WISCONSIN HOSPITALS AND CLINICS AUTHORITY</td>
+                    <td width="10%" style="text-align: center;">MIDLANDS CHOICE NETWORK</td>
+                  </tr>
+                    
+                    <tr class="success">
+                      <td colspan="3"><strong>Grand Total</strong></td>
+                      <td colspan="2"><strong>824,308</strong></td>
+                      <td><strong>479,654</strong></td>
+                      <td colspan="3"><strong>344,654</strong></td>
+                  </tr>
+                </tbody>
+                
+              </table>
+            </div>
+
+  <!--<table border="1">
+    <th>Header 0</th>
+    <th>Header 1</th>
+    
+</table>
+<table>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+
+</table> -->
+</div>
+</body>
+</html>

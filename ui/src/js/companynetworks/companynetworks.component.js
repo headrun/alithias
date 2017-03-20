@@ -35,7 +35,7 @@
 
                   that.excelDownload = function(){
                     var excelUrl = domainName+'api/company_network_by_state_new/?CompanyID='+
-                                  that.companyId+"&file_type=excel&companyName"+
+                                  that.companyId+"&file_type=excel&companyName="+
                                   $('#companyName :selected').text();
 
                     window.location = excelUrl;
@@ -56,7 +56,7 @@
                           vm.authorized = true;
                           that.companyData = response.data;
                           that.pdfUrl = domainName+'api/company_network_by_state_new/?CompanyID='+
-                                  that.companyId+"&file_type=pdf&companyName"+
+                                  that.companyId+"&file_type=pdf&companyName="+
                                   $('#companyName :selected').text();
                           $('#loadingDiv').hide();
                         }else{
