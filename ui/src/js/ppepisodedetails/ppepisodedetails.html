@@ -79,47 +79,47 @@
                 <table class="table table-striped" style="margin-bottom: 5px; font-size: 11px">
                     <thead>
                       <tr class="responseTable">
-                        <th style="text-align: center;">NPI</th>
-                        <th>Provider</th>
-                        <th>Provider Type</th>
-                        <th>Network</th>
-                        <th>Procedure Code</th>
-                        <th style="text-align: center;">Modifier1</th>
-                        <th style="text-align: center;">Modifier2</th>
-                        <th style="text-align: center;">Revenue Code</th>
-                        <th>Mapping</th>
-                        <th style="text-align: center;">Units</th>
-                        <th style="text-align: center;">Retail Amount</th>
-                        <th style="text-align: center;">Allowed Amount</th>
+                        <th style="text-align: center;" width="10">NPI</th>
+                        <th width="15">Provider</th>
+                        <th width="10">Provider Type</th>
+                        <th width="5">Network</th>
+                        <th width="9">Procedure Code</th>
+                        <th width="5" style="text-align: center;">Modifier1</th>
+                        <th width="5" style="text-align: center;">Modifier2</th>
+                        <th width="8" style="text-align: center;">Revenue Code</th>
+                        <th width="8">Mapping</th>
+                        <th width="5" style="text-align: center;">Units</th>
+                        <th width="10" style="text-align: center;">Retail Amount</th>
+                        <th width="10" style="text-align: center;">Allowed Amount</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="body_data in data.csct_data" style="font-size: 11px">
-                        <td style="text-align: center;">{{body_data.col_12}}</td>
-                        <td>
+                        <td width="10" style="text-align: center;">{{body_data.col_12}}</td>
+                        <td width="15">
                         <a ui-sref="dashboard.providerpricingdetail(
                                  {data: '{ &quot;ProviderNPI&quot;: {{body_data.col_12}}, &quot;NetworkID&quot;: {{networkId}}, &quot;FacilityProviderNPI&quot;: {{facelitynpi}}, &quot;CostCategoryCode&quot;: &quot;{{data.csct_type}}&quot;, &quot;ProcedureID&quot;: {{procedureId}}}'})"
                        target="_blank">{{body_data.col_1}}</a>
                         </td>
-                        <td>{{body_data.col_2}}</td>
-                        <td>{{body_data.col_4}}</td>
-                        <td>{{body_data.col_13}}</td>
-                        <td style="text-align: center;">{{body_data.col_15}}</td>
-                        <td style="text-align: center;">{{body_data.col_16}}</td>
-                        <td style="text-align: center;">
+                        <td width="10">{{body_data.col_2}}</td>
+                        <td width="5">{{body_data.col_4}}</td>
+                        <td width="9">{{body_data.col_13}}</td>
+                        <td width="5" style="text-align: center;">{{body_data.col_15}}</td>
+                        <td width="5" style="text-align: center;">{{body_data.col_16}}</td>
+                        <td width="8" style="text-align: center;">
                           <a ui-sref="dashboard.episoderevenuecode(
                                  {data: '{&quot;firstDateOfService&quot;: &quot;{{body_data.col_11}}&quot;, &quot;FacilityNPI&quot;: {{body_data.col_12}}, &quot;PatientID&quot;: &quot;{{body_data.col_10}}&quot;, &quot;ProcedureID&quot;: {{procedureId}}}'})"
                        target="_blank">{{body_data.col_14}}</a>
                         </td>
-                        <td>{{body_data.col_20}}</td>
-                        <td style="text-align: center;">{{body_data.col_9}}</td>
-                        <td style="text-align: center;">${{body_data.col_7}}</td>
-                        <td style="text-align: center;">${{body_data.col_8}}</td>
+                        <td width="8">{{body_data.col_20}}</td>
+                        <td width="5" style="text-align: center;">{{body_data.col_9}}</td>
+                        <td width="10" style="text-align: center;">${{body_data.col_7}}</td>
+                        <td width="10" style="text-align: center;">${{body_data.col_8}}</td>
                       </tr>
                       <tr>
-                          <td colspan="10"><strong>Total {{data.csct_type}}</strong></td>
-                          <td style="text-align: center;"><strong>${{data.csct_retail_total}}</strong></td>
-                          <td style="text-align: center;"><strong>${{data.csct_allowed_total}}</strong></td>
+                          <td colspan="10" width="80"><strong>Total {{data.csct_type}}</strong></td>
+                          <td style="text-align: center;" width="10"><strong>${{data.csct_retail_total}}</strong></td>
+                          <td style="text-align: center;" width="10"><strong>${{data.csct_allowed_total}}</strong></td>
                       </tr>
                     </tbody>
                 </table>
@@ -128,9 +128,9 @@
         <table class="table table-striped" style="width: 97%; margin-left: 2%;">
           <tbody>
             <tr class="success">
-              <td colspan="10"><strong>Episode Totals</strong></td>
-              <td width= "9%" style="text-align: right;"><strong>${{row.epi_retail_total}}</strong></td>
-              <td width="8%" style="text-align: center;"><strong>${{row.epi_allowed_total}}</strong></td>
+              <td colspan="10" style="width: 84%"><strong>Episode Totals</strong></td>
+              <td style="text-align: center; width: 7%"><strong>${{row.epi_retail_total}}</strong></td>
+              <td style="text-align: center; width: 10%"><strong>${{row.epi_allowed_total}}</strong></td>
             </tr>
           </tbody>
         </table>

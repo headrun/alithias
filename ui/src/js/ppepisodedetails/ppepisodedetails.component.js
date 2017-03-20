@@ -76,6 +76,7 @@
                     $scope.procedureId = JSON.stringify(paramData.ProcedureID);
                     $scope.networkId   = JSON.stringify(paramData.NetworkID);
                     $scope.facelitynpi   = paramData.FacilityNPI;
+
                     var url = domainName+'api/procedure_pricing_episode/?ProcedureID='+paramData.ProcedureID+'&NetworkID='+paramData.NetworkID+'&FacilityNPI='+paramData.FacilityNPI;
                     loadDatatable(url);
                  }   
@@ -85,7 +86,6 @@
                     that.networkId = $scope.networkId ? $scope.networkId : '';
                     that.procedureId = $scope.procedureId ? $scope.procedureId : '';
                     that.facelitynpi = $scope.facelitynpi ? $scope.facelitynpi : '';
-
                     that.apiUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+that.networkId+'&ProcedureID='+that.procedureId+'&FacilityNPI='+that.facelitynpi;
                     loadDatatable(that.apiUrl);
                   }
@@ -94,7 +94,7 @@
                     var excelUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+
                                   $scope.networkId+'&ProcedureID='+
                                   $scope.procedureId+'&FacilityNPI='+
-                                  $scope.facelitynpi+"&file_type=excel&procName"+
+                                  $scope.facelitynpi+"&file_type=excel&procName="+
                                   $('#procedureId :selected').text()+"&networkName="+
                                   $('#networkId :selected').text()+"&state="+
                                   $('#state :selected').text()+"&city="+
@@ -120,7 +120,7 @@
                           that.pdfUrl = domainName+'api/procedure_pricing_episode/?NetworkID='+
                                   $scope.networkId+'&ProcedureID='+
                                   $scope.procedureId+'&FacilityNPI='+
-                                  $scope.facelitynpi+"&file_type=pdf&procName"+
+                                  $scope.facelitynpi+"&file_type=pdf&procName="+
                                   $('#procedureId :selected').text()+"&networkName="+
                                   $('#networkId :selected').text()+"&state="+
                                   $('#state :selected').text()+"&city="+
