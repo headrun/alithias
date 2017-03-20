@@ -12,15 +12,72 @@ from xlwt import Workbook, Formula
 import StringIO
 
 
+from django.template.loader import get_template
+from django.template import Context
+from django.http import HttpResponse
+from cgi import escape
+from xhtml2pdf import pisa as new_pisa
+import os
+from xlsxwriter.workbook import Workbook
+
+
+
+us_states = { "AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut"
+ ,"DE":"Delaware","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana"
+ ,"IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MT":"Montana","NE":"Nebraska"
+ ,"NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York"
+ ,"NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon"
+ ,"MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi"
+ ,"MO":"Missouri","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota"
+ ,"TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia"
+ ,"WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"}
+
 def index(request):
     return render(request, "alithias/index.html")
 
+def table_pdf(request):
+    sample ={}
+    sample['trail'] = [{'a':2,'b':4},{'a':5,'b':6}]
+    return render_pdf("alithias/table_generate.html",sample)
+
+def render_pdf(template_src, context_dict,file_naming = 'alithias'):
+    t = get_template(template_src)
+    c = Context(context_dict)
+    rendered = t.render(c)
+    file_naming = file_naming.replace(' ','_')
+    file_name = "%s.html" % file_naming
+    pdf_file  = "%s.pdf" % file_naming
+    #file_name = "table_generate_new.html"
+    #pdf_file = "table_generate_trail.pdf"
+    file_ = open(file_name, "w+b")
+    file_.write(rendered)
+    file_.close()
+    phantomjs_path = os.path.join(os.getcwd()+'\\phantomjs\\lib\\phantom\\bin\\phantomjs')
+    rasterize_js = os.path.join(os.getcwd()+'\\phantomjs\\lib\\phantom\\examples\\rasterize.js')
+    os.system("%s %s %s %s A4" % (phantomjs_path,rasterize_js,file_name, pdf_file))
+    with open(pdf_file, 'rb') as pdf:
+        response = HttpResponse(pdf.read(), content_type='application/pdf')
+        response['Content-Disposition'] = 'filename=%s' % pdf_file
+        return response
+
+def render_print(template_src, context_dict):
+    t = get_template(template_src)
+    c = Context(context_dict)
+    rendered = t.render(c)
+    html_data  = {}
+    html_data ['data'] = str(rendered)
+    data = json.dumps(html_data)
+    return HttpResponse(data, content_type='application/json')
+    #return  HttpResponse(str(rendered))
+
+def fetch_resources(uri, rel):
+    cwd = os.getcwd()
+    path = cwd+uri
+    return path
 
 def dropdown_queries(table_info):
     connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
     cursor = connection.cursor()
-    #import pdb;pdb.set_trace()
-    #sql = 'SELECT ProcedureName FROM Procedures'
     tables_data = {}
     for table_name,table_val in table_info.iteritems():
         sql = 'SELECT {0} FROM {1}'.format(table_val,table_name)
@@ -45,10 +102,7 @@ def dropdown_queries(table_info):
     connection.close()
     #final_api_data['data'] = strd_data_list
     final_api_list.append(final_api_data)
-    #data = json.dumps(final_api_list)
-    #return HttpResponse(data, content_type='application/json')
     return final_api_list
-
 
 def admin_dropdown_queries(table_info):
     connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
@@ -73,14 +127,14 @@ def admin_dropdown_queries(table_info):
 def dropdown_queries_new(table_info):
     connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
     cursor = connection.cursor()
-    #import pdb;pdb.set_trace()
-    #sql = 'SELECT ProcedureName FROM Procedures'
     tables_data = {}
     for table_name,table_val in table_info.iteritems():
         if table_name =='Networks':
             sql = 'SELECT {0},{1} FROM {2} where NetworkID>1000'.format(table_val[0], table_val[1], table_name)
         else:
             sql = 'SELECT {0},{1} FROM {2}'.format(table_val[0],table_val[1],table_name)
+        if table_name == 'Providers':
+            sql = 'select top 1000.ProviderName,ProviderNPI from providers'
         cursor.execute(sql)
         try:
             rows = cursor.fetchall()
@@ -112,6 +166,45 @@ def dropdown_queries_new(table_info):
     #return HttpResponse(data, content_type='application/json')
     return final_api_list
 
+def dropdown_queries_for_selected(table_info):
+    connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
+    cursor = connection.cursor()
+    tables_data = {}
+    for table_name,table_val in table_info.iteritems():
+        if table_name == 'Providers':
+            if len(table_val)<5:
+                sql = "SELECT {0},{1} FROM {2} where {3}='{4}'".format(table_val[0], table_val[1], table_name,table_val[2],table_val[3])
+            elif len(table_val) == 8:
+                sql = "SELECT {0},{1} FROM {2} where {3}='{4}' and {5}='{6}' and {7}='{8}'".format(table_val[0], table_val[1], table_name,table_val[2], table_val[3],table_val[4], table_val[5],table_val[6], table_val[7])
+            else:
+                sql = "SELECT {0},{1} FROM {2} where {3}='{4}' and {5}='{6}'".format(table_val[0], table_val[1], table_name,table_val[2], table_val[3],table_val[4], table_val[5])
+            #sql = 'select top 1000.ProviderName,ProviderNPI from providers'
+        cursor.execute(sql)
+        try:
+            rows = cursor.fetchall()
+        except:
+            rows = []
+        tables_data['table_'+ table_name] = rows
+    final_api_data = {}
+    final_api_list = []
+
+    for table_name, table_data in tables_data.iteritems():
+        strd_data_list=[]
+
+        for row in table_data:
+            local_values = []
+            row_dict = {}
+            for field in row:
+                local_values.append(field)
+            row_dict["id"]=local_values[1]
+            row_dict["name"] = local_values[0]
+            strd_data_list.append(row_dict)
+        final_api_data[table_name] = strd_data_list
+
+    connection.close()
+    final_api_list.append(final_api_data)
+    return final_api_list
+
 def procedure_pricing_dropdowns_old(request):
     dropdown_info = {}
     dropdown_info['Procedures']="ProcedureName"
@@ -127,10 +220,9 @@ def procedure_pricing_dropdowns(request):
     dropdown_info = {}
     dropdown_info['Procedures']=["ProcedureName","ProcedureID"]
     dropdown_info['Networks'] = ["NetworkName","NetworkID"]
-    us_states = {"WI":"Wisconsin","Ut":"Utah"}
-    #import pdb;pdb.set_trace()
+    #us_states = {"WI":"Wisconsin","Ut":"Utah"}
     dd_data = dropdown_queries_new(dropdown_info)
-    dd_data[0]['states'] = us_states
+    #dd_data[0]['states'] = us_states
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
@@ -147,7 +239,86 @@ def proc_pricing_episode_dropdowns(request):
     dropdown_info = {}
     dropdown_info['Networks'] = ["NetworkName","NetworkID"]
     dropdown_info['Procedures'] = ["ProcedureName", "ProcedureID"]
+    dropdown_info['Providers'] = ["ProviderName", "ProviderNPI"]
+
     dd_data = dropdown_queries_new(dropdown_info)
+    us_state_list = []
+    for state_code, state_name in us_states.iteritems():
+        us_state_dropdown = {}
+        us_state_dropdown['id'] = state_code
+        us_state_dropdown['name'] = state_name
+        us_state_list.append(us_state_dropdown)
+    dd_data[0]['states'] = us_state_list
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
+
+
+def proc_episode_get_city(request):
+    try:
+        provider_state = request.GET['state']
+    except:
+        provider_state = ''
+    dropdown_info = {}
+    dropdown_info['Providers'] = ["PracticeAddressCity","ProviderNPI",'PracticeAddressState',provider_state]
+    dd_data = dropdown_queries_for_selected(dropdown_info)
+    cities_list = []
+    city_names= []
+    for city in dd_data[0]['table_Providers']:
+        if city['name'] not in city_names:
+            cities_list.append(city)
+            city_names.append(city['name'])
+    dd_data[0]['cities'] = cities_list
+    del dd_data[0]['table_Providers']
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
+
+def proce_episode_get_provider(request):
+    try:
+        provider_state = request.GET['state']
+    except:
+        provider_state = ''
+    try:
+        city = request.GET['PracticeAddressCity']
+    except:
+        city = ''
+    dropdown_info = {}
+    dropdown_info['Providers'] = ["ProviderName","ProviderNPI",'PracticeAddressState',provider_state,'PracticeAddressCity',city]
+    dd_data = dropdown_queries_for_selected(dropdown_info)
+    dd_data[0]['provider_name'] = dd_data[0]['table_Providers']
+    del dd_data[0]['table_Providers']
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
+
+
+def proc_episode_city(request):
+    try:
+        provider_name = request.GET['ProviderName']
+    except:
+        provider_name = ''
+    dropdown_info = {}
+    dropdown_info['Providers'] = ["PracticeAddressCity","ProviderNPI",'ProviderName',provider_name]
+    dd_data = dropdown_queries_for_selected(dropdown_info)
+    data = json.dumps(dd_data)
+    return HttpResponse(data, content_type='application/json')
+
+def proc_episode_npi(request):
+    try:
+        provider_name = request.GET['ProviderName']
+    except:
+        provider_name = ''
+    try:
+        city = request.GET['PracticeAddressCity']
+    except:
+        city = ''
+    try:
+        provider_state = request.GET['state']
+    except:
+        provider_state = ''
+    dropdown_info = {}
+    dropdown_info['Providers'] = ["ProviderNPI","ProviderNPI",'ProviderName',provider_name,'PracticeAddressCity',city,'PracticeAddressState',provider_state]
+    dd_data = dropdown_queries_for_selected(dropdown_info)
+    dd_data[0]['provider_npi'] = dd_data[0]['table_Providers']
+    del dd_data[0]['table_Providers']
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
@@ -167,21 +338,16 @@ def proc_code_summary_proc_dropdowns(request):
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
-
-
 def cost_cmpr_summary_dropdowns(request):
     dropdown_info = {}
-    dropdown_info['Companies'] = "CompanyID"
-    dropdown_info['ZIPCodes'] = "ZIPCode"
-    dd_data = dropdown_queries(dropdown_info)
+    dropdown_info['Companies'] = ["CompanyName","CompanyID"]
+    dd_data = dropdown_queries_new(dropdown_info)
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
 def Procedur_Maintenance_dropdowns(request):
     dropdown_info = {}
     pass
-
-
 
 def stored_procedure_calling (st_procedure_name,params):
     connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
@@ -214,16 +380,9 @@ def stored_procedure_calling (st_procedure_name,params):
     #sql = "exec rptProcedurePricing %s, %s, %s, %s, %s, %s, %s" % params
     sql = st_query % tuple(stored_procedure_parameters)
 
-    #sql = "exec Procedure_Insert 12345678, 'new Trail test', 1, 1, 0, 1, 1, 0, 0"
-    #import pdb;pdb.set_trace()
-    #sql= "delete from procedures_test where ProcedureID=12345678"
-    #sql = "select top 2.* from providers_test "
-    #sql = "select * from providers_test where ProviderNPI='1003814377'"
-    #sql = "update providers_test SET ProviderName='New train' where ProviderNPI='1003814377'"
-    #sql = "select * from procedures_test where ProcedureID='88888'"
-    #sql = "delete from procedures_test where ProcedureID='88888'"
-    print sql
-    #import pdb;pdb.set_trace()
+    if "Provider_SelectAll" in sql:
+        sql = "select top 1000.* from providers_test where PracticeAddressState = 'WI'"
+        #sql = "select * from providers_test where PracticeAddressState = 'WI'"
     cursor.execute(noCount+sql)
     if ('Update' in sql) or ('Delete' in sql) or ('Insert' in sql):
         cursor.commit()
@@ -255,7 +414,6 @@ def stored_procedure_calling (st_procedure_name,params):
                 field = str(field)
             final_api_dict[tb_col] = field
             local_count = local_count+1
-            print field
         final_api_list.append(final_api_dict)
     connection.close()
     final_api_data['data']= final_api_list
@@ -266,7 +424,6 @@ def stored_procedure_calling (st_procedure_name,params):
     #return final_api_list
     return HttpResponse(data, content_type='application/json')
     #return final_api_data
-
 
 def stored_procedure_calling_list (st_procedure_name,params):
     connection = pyodbc.connect('Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;UID="";PWD="";Trusted_Connection=yes')
@@ -286,7 +443,6 @@ def stored_procedure_calling_list (st_procedure_name,params):
             st_query = st_query + " '%s',"
 
     sql = st_query % tuple(stored_procedure_parameters)
-    print sql
     cursor.execute(noCount+sql)
     try:
         tables = cursor.fetchall()
@@ -315,7 +471,7 @@ def stored_procedure_calling_list (st_procedure_name,params):
             else:
                 final_api_dict[tb_col] = field
             local_count = local_count+1
-            print field
+
         final_api_list.append(final_api_dict)
     connection.close()
     final_api_data['data']= final_api_list
@@ -346,7 +502,7 @@ def stored_procedure_calling_new (st_procedure_name,params):
     #sql = "exec rptProcedurePricing '%s', '%s', '%s', '%s', '%s', '%s', '%s'" % params
     #sql = "exec rptProcedurePricing %s, %s, %s, %s, %s, %s, %s" % params
     sql = st_query % tuple(stored_procedure_parameters)
-    print sql
+
     connection_string = 'Driver={SQL Server};Server=localhost;Database=Alithias_Core_V3;Trusted_Connection=yes'
     with pyodbc.connect(connection_string) as connection:
         connection.execute(sql)
@@ -366,12 +522,13 @@ def stored_procedure_calling_new (st_procedure_name,params):
         strd_data_list.append(row)
         # print row.column_name
         for field in row:
-            print field
+            pass
+
     #connection.close()
     return strd_data_list
 
 def procedure_pricing(request):
-    file_type = request.GET.get('file_type','')
+    file_type = request.GET.get('file_type', '')
     try :
         procedure_id = request.GET['ProcedureID']
     except:
@@ -384,10 +541,7 @@ def procedure_pricing(request):
         procedure_code_filter = request.GET['ProcedureCodeFilter']
     except:
         procedure_code_filter = ''
-    try:
-        enforce_req = request.GET['EnforceRequirements']
-    except:
-        enforce_req = 'false'
+    enforce_req = request.GET['EnforceRequirements']
     if enforce_req == 'true':
         enforce_req = 1
     else:
@@ -404,12 +558,10 @@ def procedure_pricing(request):
         user_id = request.GET['UserID']
     except:
         user_id = 184
-
-
     params = [procedure_id,network_id, procedure_code_filter, enforce_req, in_network, state, user_id]
-    #params = [1119, 2010, '', 1, 'false', 'WI', 184]
     strd_data_list = stored_procedure_calling_list('rptProcedurePricing', params)
-    column_names = ['col_6','col_7','col_8','col_9','col_10','col_11','col_24','col_25','col_26']
+    column_names = ['col_6','col_7','col_8','col_9','col_10','col_12','col_13','col_14','col_15','col_16',
+                    'col_17','col_18','col_19','col_20','col_11','col_24','col_25','col_26']
     new_data_list = adding_dollar(strd_data_list, column_names)
     final_data_list = []
     for pr_dict in new_data_list['dollar_col']:
@@ -417,12 +569,32 @@ def procedure_pricing(request):
         pr_dict['col_31'] = 'Episode'
         final_data_list.append(pr_dict)
     data = json.dumps(final_data_list)
-    if file_type:
-        excel_download = common_xlsxwriter(final_data_list)
+
+    selected_param  = {}
+    selected_param['State'] = request.GET.get('stateName', '')
+    selected_param['Network'] = request.GET.get('networdName', '')
+    selected_param['Procedure'] = request.GET.get('procName', '')
+    if file_type == 'excel':
+        header = ['NPI', 'Facility', 'City', 'FacilityType', 'MinTotal', 'LikelyTotal', 'MaxTotal', 'MinFacility',
+                  'LikelyFacility', 'MaxFacility', 'MinPhysician', 'LikelyPhysician', 'MaxPhysician', 'MinAnesthesia',
+                  'LikelyAnesthesia', 'MaxAnesthesia', 'MinRadiology',
+                  'LikelyRadiology', 'MaxRadiology', 'MinLab', 'LikelyLab', 'MaxLab']
+
+        column_mapping_dict = {'NPI': 'col_5', 'Facility': 'col_1', 'City': 'col_2', 'FacilityType': 'col_4',
+                               'MinTotal': 'col_24', 'LikelyTotal': 'col_25', 'MaxTotal': 'col_26','MinFacility': 'col_6',
+                               'LikelyFacility': 'col_7', 'MaxFacility': 'col_8', 'MinPhysician': 'col_9',
+                               'LikelyPhysician': 'col_10', 'MaxPhysician': 'col_11','MinAnesthesia': 'col_12', 'LikelyAnesthesia': 'col_13',
+                               'MaxAnesthesia': 'col_14','MinRadiology': 'col_15','LikelyRadiology': 'col_16', 'MaxRadiology': 'col_17',
+                               'MinLab': 'col_18','LikelyLab': 'col_19', 'MaxLab': 'col_20'}
+        procedure_name = 'Procedure Pricing'
+        excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_data_list,selected_param)
         return excel_download
+    elif file_type == 'pdf':
+        procedure_name = 'Procedure Pricing'
+        excel_download = render_pdf('alithias/procedure_pricing.html', {'json_data': final_data_list, 'selected_param':selected_param},procedure_name)
+        return excel_download
+
     return HttpResponse(data, content_type='application/json')
-
-
 
 def procedure_pricing_breakdown_old(request):
     """@ProcedureID,@NetworkID,@FacilityNPI,@ProcedureCodeFilter"""
@@ -449,9 +621,9 @@ def procedure_pricing_breakdown_old(request):
     data = json.dumps(new_data_list['dollar_col'])
     return HttpResponse(data, content_type='application/json')
 
-
 def procedure_pricing_breakdown(request):
     """@ProcedureID,@NetworkID,@FacilityNPI,@ProcedureCodeFilter"""
+    file_type = request.GET.get('file_type', '')
     try :
         procedure_id = request.GET['ProcedureID']
     except:
@@ -472,7 +644,7 @@ def procedure_pricing_breakdown(request):
     strd_data_list = stored_procedure_calling_list('rptProcedurePricingDetail', params)
     facility_name = {}
     for dict in strd_data_list:
-        epi_cost = float('%.2f' % round(float(dict['col_7']), 2))
+        epi_cost = float('%.2f' % round(float(dict['col_7']), 0))
         epi_cost = format(epi_cost, '0,.0f')
         dict['col_7'] = str(epi_cost)
         if facility_name.has_key(dict['col_5']):
@@ -487,9 +659,28 @@ def procedure_pricing_breakdown(request):
         fac_dict['category_data'] = fac_values
 
         final_fac_list.append(fac_dict)
+    selected_param = {}
+    selected_param['Procedure'] = request.GET.get('procName', '')
+    selected_param['Network'] = request.GET.get('networkName', '')
+    selected_param['FacilityNPI'] = request.GET.get('FacilityNPI', '')
+    selected_param['ProcedureCodeFilter'] = request.GET.get('ProcedureCodeFilter', '')
+
+    if file_type == 'excel':
+        header = ['NPI','Provider','city','ProviderType','EpisodeCost']
+        column_mapping_dict = {'NPI':'col_6','Provider':'col_1','city':'col_2','ProviderType':'col_3','EpisodeCost':'col_7'}
+        procedure_name = 'Procedure Pricing Details'
+        excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_fac_list,selected_param)
+        return excel_download
+    elif file_type=='pdf':
+        procedure_name = 'Procedure Pricing Details'
+        excel_download = render_pdf('alithias/procedure_pricing_details.html', {'json_data': final_fac_list},procedure_name)
+        return excel_download
+    elif file_type == 'print' :
+        procedure_name = 'Procedure Pricing Details'
+        excel_download = render_print('alithias/procedure_pricing_details.html', {'json_data': final_fac_list})
+        return excel_download
     data = json.dumps(final_fac_list)
     return HttpResponse(data, content_type='application/json')
-
 
 def procedure_pricing_breakdown_cpt(request):
     """@ProviderNPI"""
@@ -501,7 +692,6 @@ def procedure_pricing_breakdown_cpt(request):
     params = [provider_id]
     strd_data_list = stored_procedure_calling('rptProviderDetail', params)
     return HttpResponse(strd_data_list)
-
 
 def procedure_pricing_breakdown_cpt(request):
     """@ProviderNPI"""
@@ -516,6 +706,7 @@ def procedure_pricing_breakdown_cpt(request):
 
 def provider_pricing_breakdown_cpt(request):
     """@ProviderNPI"""
+    file_type = request.GET.get('file_type', '')
     try :
         procedure_id = request.GET['ProcedureID']
     except:
@@ -537,40 +728,52 @@ def provider_pricing_breakdown_cpt(request):
         facility_prov_npi = request.GET['FacilityProviderNPI']
     except:
         facility_prov_npi = 1518993880
-
-
     params = [procedure_id,network_id,facility_prov_npi,provider_npi,cast_cat_code]
     strd_data_list = stored_procedure_calling_list('rptProviderPricingDetail', params)
-    #import pdb;pdb.set_trace()
     factor_claim_data = {}
     column_names = ['col_24','col_18','col_12']
-    """cost_count = 0
-    new_data_list = []
-    for data_dict in strd_data_list:
-        cost_count = cost_count + float(data_dict['col_24'])
-        local_dict = {}
-        for dt_key,dt_value in data_dict.iteritems():
-            if dt_key in ['col_24','col_18','col_12']:
-                local_dict[dt_key] = '$'+str(dt_value)
-            else:
-                local_dict[dt_key] = dt_value
-        new_data_list.append(local_dict)"""
-
     final_factor_cost = []
     new_data_list = adding_dollar(strd_data_list,column_names)
     round_value =0
     for n_dict in new_data_list['dollar_col']:
-        round_value = float('%.2f' % round(float(new_data_list['cost_count']), 2))
+        round_value = float('%.2f' % round(float(new_data_list['cost_count']), 0))
+        price_date = n_dict['col_13'].split(' ')
+        if len(price_date) > 0:
+            n_dict['col_13'] = price_date[0]
+        try:
+            discount_perc = 100*float(n_dict['col_17'])
+            n_dict['col_17'] = str(format(discount_perc, '0,.0f')) + '%'
+        except:
+            pass
         n_dict['total'] = '$'+str(round_value)
         final_factor_cost.append(n_dict)
 
     factor_claim_data['data'] = final_factor_cost
     round_value = format(round_value, '0,.0f')
     factor_claim_data['factor_total'] = '$'+str(round_value)
-    #factor_claim_data['total'] = cost_count
+    selected_param = {}
+    selected_param['ProviderNPI'] = request.GET.get('ProviderNPI', '')
+    selected_param['Network'] = request.GET.get('networkName', '')
+    selected_param['Procedure'] = request.GET.get('procName', '')
+    selected_param['Facility Provider NPI'] = request.GET.get('FacilityProviderNPI', '')
+    selected_param['Cost Category Code'] = request.GET.get('CostCategoryCode', '')
+
+    if file_type == 'excel':
+        header = ['Code','Code Description','EpisodeCount','RetailPrice',
+                  'PriceDate','PriceSource','DiscountPercentage','DiscountedAmount',
+                  'DiscountSource','CodeCostFactor','FactoredCost']
+        column_mapping_dict = {'Code':'col_9','Code Description':'col_11','EpisodeCount':'col_7',
+                               'RetailPrice':'col_12','PriceDate':'col_13','PriceSource':'col_15','DiscountPercentage':'col_17',
+                               'DiscountedAmount':'col_18','DiscountSource':'col_20','CodeCostFactor':'col_22','FactoredCost':'col_24'}
+        procedure_name = 'Provider Pricing details'
+        excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, factor_claim_data,selected_param)
+        return excel_download
+    elif file_type == 'pdf':
+        procedure_name = 'Provider Pricing details'
+        excel_download = render_pdf('alithias/provider_pricing_details.html', factor_claim_data, procedure_name)
+        return excel_download
     data = json.dumps(factor_claim_data)
     return HttpResponse(data, content_type='application/json')
-
 
 def adding_dollar (strd_data_list,column_names):
     cost_count = 0
@@ -583,9 +786,11 @@ def adding_dollar (strd_data_list,column_names):
             if dt_key in column_names:
                 #import pdb;pdb.set_trace()
                 if dt_value == None:
-                    accuracy_agg = 0
+                    accuracy_agg = 0.00
+                    accuracy_agg = float('%.2f' % round(float(accuracy_agg), 0))
+                    accuracy_agg = format(accuracy_agg, '0,.0f')
                 else:
-                    accuracy_agg = float('%.2f' % round(float(dt_value), 2))
+                    accuracy_agg = float('%.2f' % round(float(dt_value), 0))
                     accuracy_agg = format(accuracy_agg, '0,.0f')
                 local_dict[dt_key] = '$' + str(accuracy_agg)
             else:
@@ -598,6 +803,7 @@ def adding_dollar (strd_data_list,column_names):
 
 def procedure_pricing_episode(request):
     """@StartDate,@EndDate ,@ProcedureID,@NetworkID,@CompanyID,@FacilityNPI,@PatientID,@FirstDateOfService,@ProcedureCode"""
+    file_type = request.GET.get('file_type', '')
     start_date,end_date,company_id,patient_id,first_data_service,procedure_code = '','','','','',''
     try :
         procedure_id = request.GET['ProcedureID']
@@ -613,10 +819,9 @@ def procedure_pricing_episode(request):
         #facility_npi = 1013995521
         facility_npi = 1861447179
     params = [start_date,end_date,procedure_id,network_id,company_id,facility_npi,patient_id,first_data_service,procedure_code]
-    #strd_data_list = stored_procedure_calling('rptEpisodeDetails', params)
-    #import pdb;pdb.set_trace()
     strd_data_list = stored_procedure_calling_list('rptEpisodeDetails', params)
     epi_name = {}
+    final_epi_details = []
     for epi_dict in strd_data_list:
         epi_code = epi_dict['col_6']
         if epi_name.has_key(epi_code):
@@ -642,13 +847,13 @@ def procedure_pricing_episode(request):
                 for csct_dict in cc_values:
                     if ',' in str(csct_dict['col_7']):
                         csct_dict['col_7'] = str(csct_dict['col_7']).replace(',','')
-                    rt_amt = float('%.2f' % round(float(csct_dict['col_7']), 2))
+                    rt_amt = float('%.2f' % round(float(csct_dict['col_7']), 0))
                     csct_dict['col_7'] = str(rt_amt)
                     if ',' not in str(rt_amt):
                         csct_dict['col_7'] = str(format(rt_amt, '0,.0f'))
                     if ',' in str(csct_dict['col_8']):
                         csct_dict['col_8'] = str(csct_dict['col_8']).replace(',','')
-                    allowd_amt = float('%.2f' % round(float(csct_dict['col_8']), 2))
+                    allowd_amt = float('%.2f' % round(float(csct_dict['col_8']), 0))
                     csct_dict['col_8'] = str(allowd_amt)
                     if ',' not in str(allowd_amt):
                         csct_dict['col_8'] = str(format(allowd_amt, '0,.0f'))
@@ -668,7 +873,28 @@ def procedure_pricing_episode(request):
             ep_cc_dict['epi_allowed_total'] = str(format(ep_cc_allowed_total, '0,.0f'))
             final_epi_details.append(ep_cc_dict)
 
+    final_epi_details = sorted(final_epi_details, key=lambda k: k['epi_key'],reverse=True)
     data = json.dumps(final_epi_details)
+    if file_type == 'excel':
+        header = ['NPI','Provider','ProviderType','Network','ProcdureCode','Modifier1','Modifier2',
+                  'RevenueCode','Mapping','Units','RetailAmount','AllowedAmount']
+        column_mapping_dict = {'NPI':'col_12','Provider':'col_1','ProviderType':'col_2','Network':'col_4','ProcdureCode':'col_13',
+                               'Modifier1':'col_15','Modifier2':'col_16','RevenueCode':'col_14','Mapping':'col_20',
+                               'Units':'col_9','RetailAmount':'col_7','AllowedAmount':'col_8'}
+        #procedure_name = 'Procedure Provider Episode Details'
+        procedure_name = 'Episode Details'
+        excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_epi_details)
+        return excel_download
+    elif file_type == 'pdf':
+        header = ['NPI','Provider','ProviderType','Network','ProcdureCode','Modifier1','Modifier2',
+                  'RevenueCode','Mapping','Units','RetailAmount','AllowedAmount']
+        column_mapping_dict = {'NPI':'col_12','Provider':'col_1','ProviderType':'col_2','Network':'col_4','ProcdureCode':'col_13',
+                               'Modifier1':'col_15','Modifier2':'col_16','RevenueCode':'col_14','Mapping':'col_20',
+                               'Units':'col_9','RetailAmount':'col_7','AllowedAmount':'col_8'}
+        #procedure_name = 'Procedure Provider Episode Details'
+        procedure_name = 'Episode Details'
+        excel_download = render_pdf('alithias/episode_details.html', {'json_data': final_epi_details}, procedure_name)
+        return excel_download
     return HttpResponse(data, content_type='application/json')
     #for costcat_key,costcat_values in epi_name.iteritems():
     #return HttpResponse(strd_data_list)
@@ -708,6 +934,7 @@ def company_network_by_state(request):
     #return HttpResponse(strd_data_list)
 
 def company_network_by_state_new(request):
+    file_type = request.GET.get('file_type', '')
     """CompanyID,State"""
     try:
         company_id = request.GET['CompanyID']
@@ -715,8 +942,6 @@ def company_network_by_state_new(request):
         company_id =301
     state = ''
     params = [company_id,state]
-
-    #strd_data_list = stored_procedure_calling('rptCompanyNetworksByState', params)
     strd_data_list = stored_procedure_calling_list('rptCompanyNetworksByState', params)
     state_name = {}
     for dict in strd_data_list:
@@ -731,21 +956,35 @@ def company_network_by_state_new(request):
         state_dict = {}
         for st_value in st_values:
             claim_count = claim_count+int(st_value['col_6'])
+            st_value['col_6'] = int(st_value['col_6'])
         final_claim_data[st_name] = st_values
         final_claim_data[st_name+'_total'] = claim_count
-        state_dict['state_name'] = st_name
-        state_dict['state_data'] = st_values
-        state_dict['state_total'] = claim_count
+        if us_states.has_key(st_name):
+            state_dict['state_name'] = us_states[st_name]
+        else:
+            state_dict['state_name'] = st_name
+        state_dict['state_data'] = sorted(st_values, key=lambda k: k['col_6'],reverse=True)
+        state_dict['state_total'] = format(claim_count, '0,.0f')
         final_claim_list.append(state_dict)
-
+    final_claim_list = sorted(final_claim_list, key=lambda k: k['state_name'])
+    selected_param = {}
+    selected_param['Company'] = request.GET.get('companyName', '')
+    if file_type == 'excel':
+        header = ['Network','ClaimCount']
+        column_mapping_dict = {'Network':'col_4','ClaimCount':'col_6'}
+        procedure_name = 'Comany Network By State'
+        excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_claim_list,selected_param)
+        return excel_download
+    if file_type == 'pdf':
+        procedure_name = 'Comany Network By State'
+        excel_download = render_pdf('alithias/company_network_by_state.html',{'json_data':final_claim_list,'selected_param' : selected_param},procedure_name)
+        return excel_download
     data = json.dumps(final_claim_list)
-
-    #return final_api_list
     return HttpResponse(data, content_type='application/json')
-    # return final_api_data
-    #return HttpResponse(strd_data_list)
+
 
 def pr_code_summary(request):
+    file_type = request.GET.get('file_type', '')
     """ProcedureID,CompanyID,ProviderTypeCode"""
     """try:
         company_id = request.GET['CompanyID']
@@ -755,19 +994,43 @@ def pr_code_summary(request):
         procedure_id = request.GET['ProcedureID']
     except:
         procedure_id = 2604
-        #procedure_id = 1901
-        #procedure_id = 2901
     try:
         pr_type_code = request.GET['ProviderTypeCode']
     except:
         pr_type_code = ''
     state = ''
     params = [procedure_id,0,pr_type_code]
-    strd_data_list = stored_procedure_calling('rptProcedureCodeSummaryForProcedure', params)
-    return HttpResponse(strd_data_list)
+    strd_data_list = stored_procedure_calling_list('rptProcedureCodeSummaryForProcedure', params)
+    final_data_list = []
+    for pr_dict in strd_data_list:
+        avg_amt = float('%.2f' % round(float(pr_dict['col_10']), 0))
+        min_amt = float('%.2f' % round(float(pr_dict['col_8']), 0))
+        max_amt = float('%.2f' % round(float(pr_dict['col_9']), 0))
+        pr_dict['col_8'] = '$' + str(format(min_amt, '0,.0f'))
+        pr_dict['col_9'] = '$' + str(format(max_amt, '0,.0f'))
+        pr_dict['col_10'] = '$' + str(format(avg_amt, '0,.0f'))
+        per_col = float(pr_dict['col_6']) * 100
+        per_col = float('%.2f' % round(per_col, 0))
+        pr_dict['col_6'] = str(format(per_col, '0,.0f'))+'%'
+        final_data_list.append(pr_dict)
+    data = json.dumps(final_data_list)
+    if file_type== 'excel':
+        header = ['Code', 'ProcedureName', 'Claims', 'Episodes', '%OfEpisodes', 'MinAmount', 'MaxAmount', 'AvgAmount','Mapping']
+        column_mapping_dict = {'Code':'col_3', 'ProcedureName':'col_4', 'Claims':'col_7', 'Episodes':'col_5', '%OfEpisodes':'col_6',
+                                'MinAmount':'col_8', 'MaxAmount':'col_9', 'AvgAmount':'col_10', 'Mapping':'col_12'}
+        procedure_name = 'Procedure Code Summary'
+        excel_download = common_excel_generation(header,column_mapping_dict,procedure_name,final_data_list)
+        return excel_download
+    elif file_type == 'pdf':
+        procedure_name = 'Procedure Code Summary For Procedure'
+        excel_download = render_pdf('alithias/procedure_code_summary.html', {'json_data': final_data_list}, procedure_name)
+        return excel_download
+    return HttpResponse(data, content_type='application/json')
+    #return HttpResponse(strd_data_list)
 
 def cost_comparison_summary(request):
     """CompanyID,SourceZIP,MilesRadius,UserID,Year,MemberPopulation"""
+    file_type = request.GET.get('file_type', '')
     try:
         company_id = request.GET['CompanyID']
     except:
@@ -798,7 +1061,6 @@ def cost_comparison_summary(request):
         member_population = request.GET['MemberPopulation']
     except:
         member_population = 1000
-        #member_population = 1000
     params = [company_id,source_zip,miles_radius,user_id,year,member_population]
     #strd_data_list = stored_procedure_calling('rptProcedureCostComparisonSummaryProjection2', params)
     #strd_data_list = stored_procedure_calling('rptProcedureCostComparisonSummaryProjection3', params)
@@ -809,16 +1071,21 @@ def cost_comparison_summary(request):
     cmp_total_cost = 0
     cmp_pt_saving = 0
     for cst_dict in strd_data_list:
-        avg_total = float('%.2f' % round(float(cst_dict['col_8']), 2))
+        avg_total = float('%.2f' % round(float(cst_dict['col_8']), 0))
         cst_dict['col_8'] = str(format(avg_total, '0,.0f'))
         cst_dict['col_7'] = int(float(cst_dict['col_7']))
-        est_total = float('%.2f' % round(float(cst_dict['col_18']), 2))
+        est_total = float('%.2f' % round(float(cst_dict['col_18']), 0))
         cst_dict['col_18'] = str(format(est_total, '0,.0f'))
+        """import pdb;pdb.set_trace()
+        if ',' not in str(cst_dict['col_17']):
+            low_total = float('%.2f' % round(float(cst_dict['col_17']), 0))
+            cst_dict['col_17'] = str(format(low_total, '0,.0f'))"""
+        cst_dict['col_17'] = str(cst_dict['col_17'].split('.')[0] + '.00')
         cmp_estimated = cmp_estimated + est_total
-        tl_cost = float('%.2f' % round(float(cst_dict['col_19']), 2))
+        tl_cost = float('%.2f' % round(float(cst_dict['col_19']), 0))
         cst_dict['col_19'] = str(format(tl_cost, '0,.0f'))
         cmp_total_cost = cmp_total_cost + tl_cost
-        pt_cost = float('%.2f' % round(float(cst_dict['col_21']), 2))
+        pt_cost = float('%.2f' % round(float(cst_dict['col_21']), 0))
         cst_dict['col_21'] = str(format(tl_cost, '0,.0f'))
         cmp_pt_saving = cmp_pt_saving + pt_cost
         #claim_count = claim_count + int(cst_dict['col_6'])
@@ -828,6 +1095,24 @@ def cost_comparison_summary(request):
     final_cmp_data['cmp_pt_saving'] = str(format(cmp_pt_saving, '0,.0f'))
     final_cmp_list.append(final_cmp_data)
     data = json.dumps(final_cmp_list)
+    if file_type == 'excel':
+        header = ['Procedure','Episodes','AverageCharge(30 Miles)','EstimatedTotalCost','LowCost(30 Miles)'
+                ,'TotalCost(30 Miles)','PotentialSavings(30 Miles)','LowCostProvider(30 Miles)','Network']
+        column_mapping_dict = {'Procedure':'col_5','Episodes':'col_7','AverageCharge(30 Miles)':'col_8','EstimatedTotalCost':'col_18',
+                               'LowCost(30 Miles)':'col_17','TotalCost(30 Miles)':'col_19','PotentialSavings(30 Miles)':'col_21',
+                               'LowCostProvider(30 Miles)':'col_13', 'Network':'col_14'}
+        procedure_name = 'Cost Comparison Summary'
+        excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_cmp_list)
+        return excel_download
+    elif file_type == 'pdf':
+        header = ['Procedure','Episodes','AverageCharge(30 Miles)','EstimatedTotalCost','LowCost(30 Miles)'
+                ,'TotalCost(30 Miles)','PotentialSavings(30 Miles)','LowCostProvider(30 Miles)','Network']
+        column_mapping_dict = {'Procedure':'col_5','Episodes':'col_7','AverageCharge(30 Miles)':'col_8','EstimatedTotalCost':'col_18',
+                               'LowCost(30 Miles)':'col_17','TotalCost(30 Miles)':'col_19','PotentialSavings(30 Miles)':'col_21',
+                               'LowCostProvider(30 Miles)':'col_13', 'Network':'col_14'}
+        procedure_name = 'Cost Comparison Summary'
+        excel_download = render_pdf('alithias/cost_comparison_summary.html', {'json_data': final_cmp_list}, procedure_name)
+        return excel_download
     # return final_api_list
     return HttpResponse(data, content_type='application/json')
 
@@ -846,13 +1131,13 @@ def Procedure_Maintenance(request):
             procedure_id = '888888'
         params = [procedure_id]
         sp = 'Procedure_Delete'
-    elif db_action_type in ['update','insert']:
+    elif db_action_type in ['update','create']:
         """ProcedureID,ProcedureName,IsOutpatient,Enabled,RequireFacility,RequirePhysician
         ,RequireAnesthesia,RequireLab,RequireRadiology"""
         try:
             procedure_id = request.GET['ProcedureID']
         except:
-            procedure_id ='888888'
+            procedure_id ='45454545'
         try:
             procedure_name = request.GET['ProcedureName']
         except:
@@ -860,11 +1145,11 @@ def Procedure_Maintenance(request):
         try:
             is_outpatient = request.GET['IsOutpatient']
         except:
-            is_outpatient = 1
+            is_outpatient = 0
         try:
             enabled = request.GET['Enabled']
         except:
-            enabled = 1
+            enabled = 0
         try:
             require_facility = request.GET['RequireFacility']
         except:
@@ -876,7 +1161,7 @@ def Procedure_Maintenance(request):
         try:
             require_anesthesia = request.GET['RequireAnesthesia']
         except:
-            require_anesthesia = 1
+            require_anesthesia = 0
         try:
             require_lab = request.GET['RequireLab']
         except:
@@ -913,7 +1198,7 @@ def Procedure_Mapping_Maintenance(request):
             mapping_id = '4513'
         params = [mapping_id]
         sp = 'ProcedureMapping_Delete'
-    elif db_action_type in ['update','insert']:
+    elif db_action_type in ['update','create']:
         """ProcedureID,ProcedureCode,IsPrimary,IsSecondary"""
         try:
             procedure_id = request.GET['ProcedureID']
@@ -930,7 +1215,7 @@ def Procedure_Mapping_Maintenance(request):
         try:
             is_secondary = request.GET['IsSecondary']
         except:
-            is_secondary = 'true'
+            is_secondary = 'false'
         try:
             mapping_id = request.GET['MappingID']
         except:
@@ -975,8 +1260,8 @@ def Provider_Maintenance(request):
     return HttpResponse(strd_data_list)
 
 def epi_rev_code(request):
+    file_type = request.GET.get('file_type', '')
     """CompanyID,SourceZIP,MilesRadius,UserID,Year,MemberPopulation"""
-    #import pdb;pdb.set_trace()
     try :
         procedure_id = request.GET['ProcedureID']
     except:
@@ -1002,11 +1287,7 @@ def epi_rev_code(request):
             first_date = datetime.datetime.strftime(yy, "%m/%d/%Y")
     except:
         first_date = '2/19/2010'
-
-
     params = [procedure_id,facility_npi,patient_id,first_date]
-    #strd_data_list = stored_procedure_calling('rptProcedureCostComparisonSummaryProjection2', params)
-    #strd_data_list = stored_procedure_calling('rptProcedureCostComparisonSummaryProjection3', params)
     strd_data_list = stored_procedure_calling_list('rptEpisodeDetailsRevCode', params)
     final_rev_list = []
     final_rev_data = {}
@@ -1014,104 +1295,229 @@ def epi_rev_code(request):
     allowed_amt = 0
     for rev_code in strd_data_list:
         bill_amt = float('%.2f' % round(float(rev_code['col_10']), 2))
-        rev_code['col_10'] = str(bill_amt)
+        rev_code['col_10'] = str(format(bill_amt, '0,.0f'))
         billed_amt = billed_amt + bill_amt
         alw_amt = float('%.2f' % round(float(rev_code['col_11']), 2))
-        rev_code['col_11'] = str(alw_amt)
+        rev_code['col_11'] = str(format(alw_amt, '0,.0f'))
         allowed_amt = allowed_amt + alw_amt
 
         # claim_count = claim_count + int(cst_dict['col_6'])
     final_rev_data['revenue_data'] = strd_data_list
-    final_rev_data['total_ald_amount'] = str(billed_amt)
-    final_rev_data['total_bil_amount'] = str(allowed_amt)
+    final_rev_data['total_ald_amount'] = str(format(billed_amt, '0,.0f'))
+    final_rev_data['total_bil_amount'] = str(format(allowed_amt, '0,.0f'))
     final_rev_list.append(final_rev_data)
 
+    if file_type == 'excel':
+        header = ['RevCode','Description','Modifier1','Modifier2','CostCategory','BilledAmt','AllowedAmt']
+        column_mapping_dict = {'RevCode':'col_12','Description':'col_13','Modifier1':'col_8','Modifier2':'col_9',
+                               'CostCategory':'col_14','BilledAmt':'col_10','AllowedAmt':'col_11'}
+        procedure_name = 'Episode Revenue Code Details'
+        excel_download = common_excel_generation(header, column_mapping_dict, procedure_name, final_rev_list)
+        return excel_download
+    elif file_type == 'pdf':
+        procedure_name = 'Episode Revenue Code Details'
+        excel_download = render_pdf('alithias/episode_revenue_code.html', {'json_data': final_rev_list}, procedure_name)
+        return excel_download
     data = json.dumps(final_rev_list)
     # return final_api_list
     return HttpResponse(data, content_type='application/json')
 
-def procedure_excel(request):
-    url = requests.get(
-        "http://dcubeapi.alithias.com:8082/api/procedure_pricing/?ProcedureID=10306&NetworkID=2046&EnforceRequirements=false&state=WI")
-    data_list = json.loads(url.text)
-    # header = ['NPI','hello']
-    header = ['NPI', 'Facility', 'City', 'FacilityType', 'MinTotal', 'LikelyTotal', 'MaxTotal', 'MinFacility',
-              'LikelyFacility', 'MaxFacility',
-              'MinPhysician', 'LikelyPhysician', 'MaxPhysician', 'MinAnesthesia', 'LikelyAnesthesia', 'MaxAnesthesia',
-              'MinRadiology',
-              'LikelyRadiology', 'MaxRadiology', 'MinLab', 'LikelyLab', 'MaxLab']
+def common_excel_generation(header,column_mapping_dict,procedure_name,json_data,selected_param = {}):
+    data_list = json_data
+    import xlwt
+    from xlwt import Workbook, Style
+    from xlwt import Workbook, Formula
+    output = StringIO.StringIO()
+    todays_excel_file = xlwt.Workbook(encoding="utf-8")
+    todays_excel_sheet1 = todays_excel_file.add_sheet(procedure_name)
+    excel_file_name = output
+    # todays_excel_sheet1.write(0, 1, 'Procedure pricing')
+    todays_excel_sheet1.write_merge(0, 0, 0, len(header) - 1, procedure_name, Style.easyxf('font: bold on'))
+    row_id = 2
+    if selected_param:
+        selected_values = ""
+        for sel_key,sel_value in selected_param.iteritems():
+            selected_values = "%s : %s " % (sel_key,sel_value)
+            todays_excel_sheet1.write_merge(row_id, row_id, 0, len(header) - 1, selected_values, Style.easyxf('font: bold on'))
+            row_id = row_id +1
 
-    column_mapping_dict = {'NPI': 'col_5', 'Facility': 'col_1', 'City': 'col_2', 'FacilityType': 'col_4',
-                           'MinTotal': 'col_24', 'LikelyTotal': 'col_25', 'MaxTotal': 'col_26', 'MinFacility': 'col_6',
-                           'LikelyFacility': 'col_7', 'MaxFacility': 'col_8', 'MinPhysician': 'col_9',
-                           'LikelyPhysician': 'col_10', 'MaxPhysician': 'col_11',
-                           'MinAnesthesia': 'col_12', 'LikelyAnesthesia': 'col_13', 'MaxAnesthesia': 'col_14',
-                           'MinRadiology': 'col_15',
-                           'LikelyRadiology': 'col_16', 'MaxRadiology': 'col_17', 'MinLab': 'col_18',
-                           'LikelyLab': 'col_19', 'MaxLab': 'col_20'}
+    todays_excel_sheet1.write_merge(row_id, row_id, 0, len(header) - 1, '', Style.easyxf('font: bold on'))
+    row_id = row_id+1
+
+    if procedure_name in ['Procedure Pricing','Procedure Code Summary']:
+        excel_insert = procedure_pricing_excel_insertion(data_list, header, column_mapping_dict, todays_excel_sheet1,row_id)
+    elif procedure_name == 'Comany Network By State':
+        excel_insert = cmp_network_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
+    elif procedure_name == 'Episode Details':
+        excel_insert = episode_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
+    elif procedure_name == 'Cost Comparison Summary':
+        excel_insert = cost_comparison_summary_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
+    elif procedure_name == 'Procedure Pricing Details':
+        excel_insert = procedure_pricing_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
+    elif procedure_name == 'Provider Pricing details':
+        excel_insert = provider_pricing_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id)
+    elif procedure_name == 'Episode Revenue Code Details':
+        excel_insert = episode_revenue_excel_gen(data_list, header, column_mapping_dict, todays_excel_sheet1,row_id)
+
+    todays_excel_file.save(excel_file_name)
+
+    output.seek(0)
+    response = HttpResponse(excel_file_name.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=%s.xls" % procedure_name
+    return response
+
+def procedure_pricing_excel_insertion(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id):
+    for i, row in enumerate(header):
+        todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+    row_id = row_id + 1
+    for data in data_list:
+        for col_count, header_name in enumerate(header):
+            todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
+        row_id = row_id + 1
+    return todays_excel_sheet1
+
+def cmp_network_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id):
+    for data in data_list:
+        todays_excel_sheet1.write_merge(row_id, row_id, 0, len(header) - 1, "State : " + data['state_name'],Style.easyxf('font: bold on'))
+        row_id = row_id + 1
+        for i, row in enumerate(header):
+            todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+        row_id = row_id + 1
+        for st_rec in data['state_data']:
+            for col_count, header_name in enumerate(header):
+                todays_excel_sheet1.write(row_id, col_count, st_rec[column_mapping_dict[header_name]])
+            row_id = row_id + 1
+        todays_excel_sheet1.write(row_id, 0, "Total")
+        todays_excel_sheet1.write(row_id, len(header) - 1, data['state_total'])
+        row_id = row_id + 2
+    return todays_excel_sheet1
+
+def episode_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id):
+    for data in data_list:
+        todays_excel_sheet1.write_merge(row_id, row_id, 0, len(header) - 1, "Episode Key :" + data['epi_key'],
+                                        Style.easyxf('font: bold on'))
+        row_id = row_id + 1
+        for cst_ct in data['epi_data']:
+            todays_excel_sheet1.write_merge(row_id, row_id, 0, len(header) - 1,
+                                            "Cost Category : " + cst_ct['csct_type'], Style.easyxf('font: bold on'))
+            row_id = row_id + 1
+            for i, row in enumerate(header):
+                todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+            row_id = row_id + 1
+            for csct_data in cst_ct['csct_data']:
+                for col_count, header_name in enumerate(header):
+                    todays_excel_sheet1.write(row_id, col_count, csct_data[column_mapping_dict[header_name]])
+                row_id = row_id + 1
+            todays_excel_sheet1.write(row_id, 0, 'Cost Category Total')
+            todays_excel_sheet1.write(row_id, len(header) - 1, cst_ct['csct_allowed_total'])
+            todays_excel_sheet1.write(row_id, len(header) - 2, cst_ct['csct_retail_total'])
+            row_id = row_id + 1
+        todays_excel_sheet1.write(row_id, 0, 'Episode Total')
+        todays_excel_sheet1.write(row_id, len(header) - 1, data['epi_allowed_total'])
+        todays_excel_sheet1.write(row_id, len(header) - 2, data['epi_retail_total'])
+        row_id = row_id + 1
+    return todays_excel_sheet1
+
+def cost_comparison_summary_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id):
+    for i, row in enumerate(header):
+        todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+    row_id = row_id + 1
+
+    for data in data_list[0]['cmp_data']:
+        for col_count, header_name in enumerate(header):
+            todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
+        row_id = row_id + 1
+    todays_excel_sheet1.write(row_id, 0 , 'Grand Total')
+    todays_excel_sheet1.write(row_id, len(header) - 6, data_list[0]['cmp_estimated'])
+    todays_excel_sheet1.write(row_id, len(header) - 4, data_list[0]['cmp_total_cost'])
+    todays_excel_sheet1.write(row_id, len(header) - 3, data_list[0]['cmp_pt_saving'])
+    return todays_excel_sheet1
+
+def procedure_pricing_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id):
+    for data in data_list:
+        todays_excel_sheet1.write_merge(row_id, row_id, 0, len(header) - 1, data['category_name'],Style.easyxf('font: bold on'))
+        row_id = row_id + 1
+        for i, row in enumerate(header):
+            todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+        row_id = row_id + 1
+
+        for r_data in data['category_data']:
+            for col_count, header_name in enumerate(header):
+                todays_excel_sheet1.write(row_id, col_count, r_data[column_mapping_dict[header_name]])
+            row_id = row_id + 1
+    return todays_excel_sheet1
+
+def provider_pricing_details_excel_gen(data_list,header,column_mapping_dict,todays_excel_sheet1,row_id):
+    for i, row in enumerate(header):
+        todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+    row_id = row_id + 1
+
+    for data in data_list['data']:
+        for col_count, header_name in enumerate(header):
+            todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
+        row_id = row_id + 1
+    todays_excel_sheet1.write(row_id, len(header) - 2, 'Typical Provider Episode Cost:')
+    todays_excel_sheet1.write(row_id, len(header)-1, data_list['factor_total'])
+    return todays_excel_sheet1
+
+def episode_revenue_excel_gen(data_list, header, column_mapping_dict, todays_excel_sheet1,row_id):
+    for i, row in enumerate(header):
+        todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
+    row_id = row_id + 1
+    if len(data_list) > 0:
+        for data in data_list:
+            for rev_data in data['revenue_data']:
+                for col_count, header_name in enumerate(header):
+                    todays_excel_sheet1.write(row_id, col_count, rev_data[column_mapping_dict[header_name]])
+                row_id = row_id + 1
+            todays_excel_sheet1.write(row_id, 0, 'Grand Total')
+            todays_excel_sheet1.write(row_id, len(header)-1, data['total_bil_amount'])
+            todays_excel_sheet1.write(row_id, len(header) - 2, data['total_ald_amount'])
+    return todays_excel_sheet1
+
+def common_excel_generation_old(header,column_mapping_dict,procedure_name,json_data):
+    data_list = json_data
+    import xlwt
+    from xlwt import Workbook, Style
+    from xlwt import Workbook, Formula
+    output = StringIO.StringIO()
+
 
     todays_excel_file = xlwt.Workbook(encoding="utf-8")
     todays_excel_sheet1 = todays_excel_file.add_sheet("sheet1")
-    excel_file_name = 'clinical.xls'
+    excel_file_name = output
     # todays_excel_sheet1.write(0, 1, 'Procedure pricing')
-    todays_excel_sheet1.write_merge(0, 0, 0, len(header) - 1, 'Procedure Pricing', Style.easyxf('font: bold on'))
+    todays_excel_sheet1.write_merge(0, 0, 0, len(header) - 1, procedure_name, Style.easyxf('font: bold on'))
     row_id = 1
     for i, row in enumerate(header):
         todays_excel_sheet1.write(row_id, i, row, Style.easyxf('font: bold on'))
     row_id = row_id + 1
-    todays_excel_file.save(excel_file_name)
 
     for data in data_list:
         for col_count, header_name in enumerate(header):
             todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
         row_id = row_id + 1
     todays_excel_file.save(excel_file_name)
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=clinical.xls'
+
+    output.seek(0)
+    response = HttpResponse(excel_file_name.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=%s.xls" % procedure_name
     return response
-    #return HttpResponse('C:\Users\dcube\Desktop\alithias_dev_setup\alithias_dev\backend' + str(todays_excel_file))
 
-def common_excel_generation(json_data):
-    data_list = json_data
-    header = ['NPI', 'Facility', 'City', 'FacilityType', 'MinTotal', 'LikelyTotal', 'MaxTotal', 'MinFacility','LikelyFacility', 'MaxFacility',
-              'MinPhysician', 'LikelyPhysician', 'MaxPhysician', 'MinAnesthesia', 'LikelyAnesthesia', 'MaxAnesthesia',
-              'MinRadiology','LikelyRadiology', 'MaxRadiology', 'MinLab', 'LikelyLab', 'MaxLab']
+def excel_trail(request):
+    output = StringIO.StringIO()
 
-    column_mapping_dict = {'NPI': 'col_5', 'Facility': 'col_1', 'City': 'col_2', 'FacilityType': 'col_4',
-                           'MinTotal': 'col_24', 'LikelyTotal': 'col_25', 'MaxTotal': 'col_26', 'MinFacility': 'col_6',
-                           'LikelyFacility': 'col_7', 'MaxFacility': 'col_8', 'MinPhysician': 'col_9',
-                           'LikelyPhysician': 'col_10', 'MaxPhysician': 'col_11',
-                           'MinAnesthesia': 'col_12', 'LikelyAnesthesia': 'col_13', 'MaxAnesthesia': 'col_14',
-                           'MinRadiology': 'col_15',
-                           'LikelyRadiology': 'col_16', 'MaxRadiology': 'col_17', 'MinLab': 'col_18',
-                           'LikelyLab': 'col_19', 'MaxLab': 'col_20'}
+    book = Workbook(output)
+    sheet = book.add_worksheet('test')
+    sheet.write(0, 0, 'Hello, thias alithias trail')
+    book.close()
 
-    #todays_excel_file = xlwt.Workbook(encoding="utf-8")
-    #todays_excel_sheet1 = todays_excel_file.add_sheet("sheet1")
-    excel_file_name = 'clinical.xls'
-    todays_excel_file = xlsxwriter.Workbook(excel_file_name)
-    todays_excel_sheet1 = todays_excel_file.add_worksheet("pricing")
-    bold = todays_excel_file.add_format({'bold': True})
+    # construct response
+    output.seek(0)
+    response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=test.xlsx"
 
-    # todays_excel_sheet1.write(0, 1, 'Procedure pricing')
-    #todays_excel_sheet1.write_merge(0, 0, 0, len(header) - 1, 'Procedure Pricing', Style.easyxf('font: bold on'))
-    row_id = 1
-    for i, row in enumerate(header):
-        todays_excel_sheet1.write(row_id, i, row)
-    row_id = row_id + 1
-    #todays_excel_file.save(excel_file_name)
-
-    for data in data_list:
-        for col_count, header_name in enumerate(header):
-            todays_excel_sheet1.write(row_id, col_count, data[column_mapping_dict[header_name]])
-        row_id = row_id + 1
-    todays_excel_file.close()
-    #todays_excel_file.save(excel_file_name)
-    response = HttpResponse(content_type='content_type=application/vnd.ms-excel') #content_type='application/vnd.ms-excel'
-    response['Content-Disposition'] = 'attachment; filename=clinical.xls'
     return response
-    #return HttpResponse('C:\Users\dcube\Desktop\alithias_dev_setup\alithias_dev\backend' + str(todays_excel_file))
-
 
 def common_xlsxwriter(json_data):
     workbook = xlsxwriter.Workbook('new_trail.xls')

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}*/
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Company Network By State</h3>
+    {% for key, value in selected_param.items %}
+        <p>{{ key }}  :  {{ value }}</p><br>
+    {% endfor %}
+
+
+  {% for data in json_data %}
+      <div class="row">
+         <div class="col-md-2"></div>
+         <div class="col-md-3" style="width: 220px; padding: 7px; border: 1px solid #ccc; font-size: 13px; background: #3587A5; color: #fff;">
+             <strong>State Name</strong> : {{data.state_name}}
+         </div>
+         <div class="col-md-5" style="padding-left: 0px;" >
+             <table class="table table-bordered table-striped" style="width: 500px">
+                 <thead>
+                   <tr>
+                     <th style="text-align: left">Network</th>
+                     <th style="text-align:center">Claim Count</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   {% for body_data in data.state_data %}
+                   <tr>
+                     <td style="text-align: left">{{body_data.col_4}}</td>
+                     <td style="text-align:center">{{body_data.col_6}}</td>
+                   </tr>
+                   {% endfor %}
+                   <tr class="success">
+                     <td style="text-align: left"> <strong>Total</strong></td>
+                     <td style="text-align:center">{{data.state_total}}</td>
+                   </tr>
+
+                 </tbody>
+             </table>
+         </div>
+         <div class="col-md-2"></div>
+     </div>
+    <br>
+  {% endfor %}
+
+</div>
+</body>
+</html>

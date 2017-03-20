@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Cost Comparison Summary</h3>
+
+
+    <div class="col-md-12">
+            <table class="table table-striped" style="table-layout: fixed; border-collapse: collapse;">
+                <thead>
+                  <tr class="responseTable" style="display: block; position: relative;">
+                    <th width="15%">Procedure</th>
+                    <th width="10%" style="text-align: center;">Episodes</th>
+                    <th width="10%" style="text-align: center;">Average Charge(30 Miles)</th>
+                    <th width="10%" style="text-align: center;">Estimated Total Cost</th>
+                    <th width="10%" style="text-align: center;">Low Cost(30 Miles)</th>
+                    <th width="10%" style="text-align: center;">Total Cost(30 Miles)</th>
+                    <th width="10%" style="text-align: center;">Potential Savings(30 Miles)</th>
+                    <th width="15%">Low Cost Provider (30 Miles)</th>
+                    <th width="10%">Network</th>
+                  </tr>
+                </thead>
+                {% for data in json_data %}
+                <tbody style="display: block; overflow: auto; width: 100%;">
+                    {% for body_data in data.cmp_data %}
+                  <tr ng-repeat="body_data in $ctrl.costData.cmp_data">
+                    <td width="15%">{{body_data.col_5}}</td>
+                    <td style="text-align: center;" width="10%">{{body_data.col_7}}</td>
+                    <td width="10%" style="text-align: center;">${{body_data.col_8}}</td>
+                    <td width="10%" style="text-align: center;">${{body_data.col_18}}</td>
+                    <td width="10%" style="text-align: center;">{{body_data.col_17}}</td>
+                    <td width="10%" style="text-align: center;">${{body_data.col_19}}</td>
+                    <td width="10%" style="text-align: center;">${{body_data.col_21}}</td>
+                    <td width="15%">{{body_data.col_13}}</td>
+                    <td width="10%" style="text-align: center;">{{body_data.col_14}}</td>
+                  </tr>
+                    {% endfor %}
+                    <tr class="success">
+                      <td colspan="3"><strong>Grand Total</strong></td>
+                      <td colspan="2"><strong>{{data.cmp_estimated}}</strong></td>
+                      <td><strong>{{data.cmp_total_cost}}</strong></td>
+                      <td colspan="3"><strong>{{data.cmp_pt_saving}}</strong></td>
+                  </tr>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+
+  <!--<table border="1">
+    <th>Header 0</th>
+    <th>Header 1</th>
+    {% for event in trail %}
+    <tr>
+    <td>{{ event.a }}</td>
+    <td>{{ event.b }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<table>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+
+</table> -->
+</div>
+</body>
+</html>

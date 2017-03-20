@@ -102,14 +102,14 @@
                     vm.authenticated = true;
                     vm.dtColumns = [
                           DTColumnBuilder.newColumn('col_5').withTitle('NPI'),
-                          DTColumnBuilder.newColumn('col_2').withTitle('Facility'),
-                          DTColumnBuilder.newColumn('col_1').withTitle('CIty'),
+                          DTColumnBuilder.newColumn('col_1').withTitle('Facility'),
+                          DTColumnBuilder.newColumn('col_2').withTitle('CIty'),
                           DTColumnBuilder.newColumn('col_4').withTitle('Facility Type'),
-                          DTColumnBuilder.newColumn('col_31').withTitle('Breakdown').renderWith(function(data, type, full, meta) {
-                                return '<a href="#!/ppepisodedetails?data=%7B%20%22ProcedureID%22%20:%20'+ that.procedureID +',%20%22NetworkID%22%20:%20'+ that.networkId +',%20%22FacilityNPI%22%20:%20'+ full.col_5 +'%7D" target="_blank"> '+full.col_30+'</a>'; 
+                          DTColumnBuilder.newColumn('col_30').withTitle('Breakdown').renderWith(function(data, type, full, meta) {
+                                return '<a href="#!/procedurepricingdetail?data=%7B%20%22ProcedureID%22%20:%20'+ that.procedureID +',%20%22NetworkID%22%20:%20'+that.networkId+',%20%22FacilityNPI%22%20:%20'+full.col_5+'%7D" target="_blank">'+full.col_30+'</a>';
                             }),
-                          DTColumnBuilder.newColumn('col_30').withTitle('Episode').renderWith(function(data, type, full, meta) {
-                                return '<a href="#!/procedurepricingdetail?data=%7B%20%22ProcedureID%22%20:%20'+ that.procedureID +',%20%22NetworkID%22%20:%20'+that.networkId+',%20%22FacilityNPI%22%20:%20'+full.col_5+'%7D" target="_blank">'+full.col_31+'</a>';
+                          DTColumnBuilder.newColumn('col_31').withTitle('Episode').renderWith(function(data, type, full, meta) {
+                                return '<a href="#!/ppepisodedetails?data=%7B%20%22ProcedureID%22%20:%20'+ that.procedureID +',%20%22NetworkID%22%20:%20'+ that.networkId +',%20%22FacilityNPI%22%20:%20'+ full.col_5 +'%7D" target="_blank"> '+full.col_31+'</a>';
                             }),
                           DTColumnBuilder.newColumn('col_24').withTitle('Min Total'),
                           DTColumnBuilder.newColumn('col_25').withTitle('Likely Total'),
