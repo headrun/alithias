@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Procedure Pricing</h3>
+  <ul style="list-style-type:none ; padding:8px;">
+        {% for key, value in selected_param.items %}
+            <li style="padding : 3px;">{{ key }} : {{ value }} </li>
+        {% endfor %}
+    </ul>
+
+    <div class="col-md-12"  style="page-break-before:avoid;">
+            <table class="table table-striped" id="contentTable">
+                <thead >
+                  <tr >
+                    <th>NPI</th>
+                    <th>Facility</th>
+                    <th>City</th>
+                    <th>Facility Type</th>
+                    <th>Breakdown</th>
+                    <th>Episode</th>
+                    <th>Min Total</th>
+                    <th>Likely Total</th>
+                    <th>Max Total</th>
+                    <th>Min Facility</th>
+                    <th>Likely Facility</th>
+                    <th>Max Facility</th>
+                    <th>Min Physician</th>
+                    <th>Likely Physician</th>
+                    <th>Max Physician</th>
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for resp in json_data %}
+                  <tr >
+                    <td>{{resp.col_5}}</td>
+                    <td>{{resp.col_1}}</td>
+                    <td>{{resp.col_2}}</td>
+                    <td>{{resp.col_4}}</td>
+                    <td>{{resp.col_30}}</td>
+                    <td>{{resp.col_31}}</td>
+                    <td>{{resp.col_24}}</td>
+                    <td>{{resp.col_25}}</td>
+                    <td>{{resp.col_26}}</td>
+                    <td>{{resp.col_6}}</td>
+                    <td>{{resp.col_7}}</td>
+                    <td>{{resp.col_8}}</td>
+                    <td>{{resp.col_9}}</td>
+                    <td>{{resp.col_10}}</td>
+                    <td>{{resp.col_11}}</td>
+
+
+                  </tr>
+                    {% endfor %}
+                </tbody>
+            </table><br><br><br>
+            <table class="table table-striped" id="contentTable">
+                <thead >
+                  <tr >
+                    <th>NPI</th>
+                    <th>Facility</th>
+                    <th>City</th>
+                    <th>Facility Type</th>
+
+                    <th>Min Anesthesia</th>
+                    <th>Likely Anesthesia</th>
+                    <th>Max Anesthesia</th>
+                    <th>Min Radiology</th>
+                    <th>Likely Radiology</th>
+                    <th>Max Radiology</th>
+                    <th>Min Lab</th>
+                    <th>Likely Lab</th>
+                    <th>Max lab</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for resp in json_data %}
+                  <tr >
+                    <td>{{resp.col_5}}</td>
+                    <td>{{resp.col_1}}</td>
+                    <td>{{resp.col_2}}</td>
+                    <td>{{resp.col_4}}</td>
+
+                    <td>{{ resp.col_12 }}</td>
+                    <td >{{ resp.col_13 }}</td>
+                    <td >{{ resp.col_14 }}</td>
+                    <td >{{resp.col_15}}</td>
+                    <td >{{resp.col_16}}</td>
+                    <td >{{resp.col_17}}</td>
+                    <td >{{ resp.col_18 }}</td>
+                    <td >{{ resp.col_19 }}</td>
+                    <td >{{ resp.col_20 }}</td>
+                  </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+    </div>
+
+
+</div>
+</body>
+</html>

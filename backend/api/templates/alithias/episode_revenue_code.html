@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style text="text/css" media="print">
+
+  @page {
+          size: landscape;
+      }
+  body {
+      writing-mode: tb-rl;
+  }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, th {
+    font-size: 9px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="basic_details1">
+  <h3>Episode Revenue Code Details</h3>
+    <ul style="list-style-type:none ; padding:8px;">
+        {% for key, value in selected_param.items %}
+            <li style="padding : 3px;">{{ key }} : {{ value }} </li>
+        {% endfor %}
+    </ul>
+    <div class="col-md-12">
+            <table class="table table-striped" id="revTable">
+                <thead>
+                  <tr class="responseTable">
+                    <th style="text-align: center;">Rev Code</th>
+                    <th>Description</th>
+                    <th>Modifier1</th>
+                    <th>Modifier2</th>
+                    <th>Cost Category</th>
+                    <th style="text-align: center;">Billed Amount</th>
+                    <th style="text-align: center;">Allowed Amount</th>
+                  </tr>
+                </thead>
+                {% for data in json_data %}
+                <tbody>
+                    {% for body_data in data.revenue_data %}
+                  <tr ng-repeat="body_data in $ctrl.revData.revenue_data">
+                    <td style="text-align: center;">{{body_data.col_12}}</td>
+                    <td>{{body_data.col_13}}</td>
+                    <td>{{body_data.col_8}}</td>
+                    <td>{{body_data.col_9}}</td>
+                    <td>{{body_data.col_14}}</td>
+                    <td style="text-align: center;">${{body_data.col_10}}</td>
+                    <td style="text-align: center;">${{body_data.col_11}}</td>
+                  </tr>
+                    {% endfor %}
+                  <tr class="success">
+                      <td colspan="5"><strong>Grand Total</strong></td>
+                      <td style="text-align: center;"><strong>${{data.total_ald_amount}}</strong></td>
+                      <td style="text-align: center;"><strong>${{data.total_bil_amount}}</strong></td>
+                  </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
+  <!--<table border="1">
+    <th>Header 0</th>
+    <th>Header 1</th>
+    {% for event in trail %}
+    <tr>
+    <td>{{ event.a }}</td>
+    <td>{{ event.b }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<table>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+     <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+
+</table> -->
+</div>
+</body>
+</html>

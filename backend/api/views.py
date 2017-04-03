@@ -219,21 +219,23 @@ def get_pdf_parameters(data):
 def procedure_pricing_dropdowns_old(request):
     dropdown_info = {}
     dropdown_info['Procedures']="ProcedureName"
-    dropdown_info['Networks'] = "NetworkName"
+    dropdown_info['NetworksAdminTool'] = "NetworkName"
 
     us_states = ["WI","Boston"]
     dd_data = dropdown_queries(dropdown_info)
     dd_data[0]['states'] = us_states
+    dd_data[0]['table_Networks'] = dd_data[0]['table_NetworksAdminTool']
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
 def procedure_pricing_dropdowns(request):
     dropdown_info = {}
     dropdown_info['Procedures']=["ProcedureName","ProcedureID"]
-    dropdown_info['Networks'] = ["NetworkName","NetworkID"]
+    dropdown_info['NetworksAdminTool'] = ["NetworkName","NetworkID"]
     #us_states = {"WI":"Wisconsin","Ut":"Utah"}
     dd_data = dropdown_queries_new(dropdown_info)
     #dd_data[0]['states'] = us_states
+    dd_data[0]['table_Networks'] = dd_data[0]['table_NetworksAdminTool']
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
@@ -247,7 +249,7 @@ def proc_pricing_breakdown_dropdowns(request):
 
 def proc_pricing_episode_dropdowns(request):
     dropdown_info = {}
-    dropdown_info['Networks'] = ["NetworkName","NetworkID"]
+    dropdown_info['NetworksAdminTool'] = ["NetworkName","NetworkID"]
     dropdown_info['Procedures'] = ["ProcedureName", "ProcedureID"]
     dropdown_info['Providers'] = ["ProviderName", "ProviderNPI"]
 
@@ -259,6 +261,7 @@ def proc_pricing_episode_dropdowns(request):
         us_state_dropdown['name'] = state_name
         us_state_list.append(us_state_dropdown)
     dd_data[0]['states'] = us_state_list
+    dd_data[0]['table_Networks'] = dd_data[0]['table_NetworksAdminTool']
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
 
@@ -674,7 +677,7 @@ def procedure_pricing_breakdown(request):
     selected_param['Procedure'] = procedure_name
     network_name = request.GET.get('networkName', '')
     if not network_name :
-        network_name = get_pdf_parameters(['NetworkName','Networks','NetworkID',network_id])
+        network_name = get_pdf_parameters(['NetworkName','NetworksAdminTool','NetworkID',network_id])
     selected_param['Network'] = network_name
     selected_param['FacilityNPI'] = request.GET.get('FacilityNPI', '')
     #selected_param['ProcedureCodeFilter'] = request.GET.get('ProcedureCodeFilter', '')
@@ -773,7 +776,7 @@ def provider_pricing_breakdown_cpt(request):
     selected_param['Procedure'] = procedure_name
     network_name = request.GET.get('networkName', '')
     if not network_name:
-        network_name = get_pdf_parameters(['NetworkName', 'Networks', 'NetworkID', network_id])
+        network_name = get_pdf_parameters(['NetworkName', 'NetworksAdminTool', 'NetworkID', network_id])
     selected_param['Network'] = network_name
     selected_param['Facility Provider NPI'] = request.GET.get('FacilityProviderNPI', '')
     selected_param['Cost Category Code'] = request.GET.get('CostCategoryCode', '')
@@ -902,7 +905,7 @@ def procedure_pricing_episode(request):
     selected_param['Procedure'] = procedure_name
     network_name = request.GET.get('networkName', '')
     if not network_name:
-        network_name = get_pdf_parameters(['NetworkName', 'Networks', 'NetworkID', network_id])
+        network_name = get_pdf_parameters(['NetworkName', 'NetworksAdminTool', 'NetworkID', network_id])
     selected_param['Network'] = network_name
     selected_param['Facility NPI'] = request.GET.get('FacilityNPI', '')
 
