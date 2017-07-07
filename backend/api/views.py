@@ -178,6 +178,7 @@ def dropdown_queries_for_selected(table_info):
             else:
                 sql = "SELECT {0},{1} FROM {2} where {3}='{4}' and {5}='{6}'".format(table_val[0], table_val[1], table_name,table_val[2], table_val[3],table_val[4], table_val[5])
             #sql = 'select top 1000.ProviderName,ProviderNPI from providers'
+        print sql
         cursor.execute(sql)
         try:
             rows = cursor.fetchall()
@@ -227,6 +228,7 @@ def procedure_pricing_dropdowns_old(request):
     dd_data[0]['table_Networks'] = dd_data[0]['table_NetworksAdminTool']
     data = json.dumps(dd_data)
     return HttpResponse(data, content_type='application/json')
+
 
 def procedure_pricing_dropdowns(request):
     dropdown_info = {}
@@ -453,8 +455,10 @@ def stored_procedure_calling_list (st_procedure_name,params):
         else:
             st_query = st_query + " '%s',"
 
+    print "stored procedure starting at :  " + str(datetime.datetime.today()) + "\n"
     sql = st_query % tuple(stored_procedure_parameters)
     cursor.execute(noCount+sql)
+    print "stored procedure executed at :  " + str(datetime.datetime.today()) + "\n"
     try:
         tables = cursor.fetchall()
     except:
@@ -552,7 +556,7 @@ def procedure_pricing(request):
         procedure_code_filter = request.GET['ProcedureCodeFilter']
     except:
         procedure_code_filter = ''
-    enforce_req = request.GET['EnforceRequirements']
+    enforce_req = request.GET.get('EnforceRequirements', '')
     if enforce_req == 'true':
         enforce_req = 1
     else:
@@ -570,7 +574,9 @@ def procedure_pricing(request):
     except:
         user_id = 184
     params = [procedure_id,network_id, procedure_code_filter, enforce_req, in_network, state, user_id]
-    strd_data_list = stored_procedure_calling_list('rptProcedurePricing', params)
+    print "stored procedure calling"+ str(datetime.datetime.today()) + "\n"
+    strd_data_list = stored_procedure_calling_list('rptProcedurePricing_temp', params)
+    #strd_data_list = stored_procedure_calling_list('rptProcedurePricing', params)
     column_names = ['col_6','col_7','col_8','col_9','col_10','col_12','col_13','col_14','col_15','col_16',
                     'col_17','col_18','col_19','col_20','col_11','col_24','col_25','col_26']
     new_data_list = adding_dollar(strd_data_list, column_names)
@@ -579,7 +585,6 @@ def procedure_pricing(request):
         pr_dict['col_30'] = 'Breakdown'
         pr_dict['col_31'] = 'Episode'
         final_data_list.append(pr_dict)
-    data = json.dumps(final_data_list)
 
     selected_param  = {}
     selected_param['State'] = request.GET.get('stateName', '')
@@ -604,7 +609,7 @@ def procedure_pricing(request):
         procedure_name = 'Procedure Pricing'
         excel_download = render_pdf('alithias/procedure_pricing.html', {'json_data': final_data_list, 'selected_param':selected_param},procedure_name)
         return excel_download
-
+    data = json.dumps(final_data_list)
     return HttpResponse(data, content_type='application/json')
 
 def procedure_pricing_breakdown_old(request):
@@ -840,12 +845,23 @@ def procedure_pricing_episode(request):
         facility_npi = request.GET['FacilityNPI']
     except:
         facility_npi = 1861447179
+    try:
+        patient_id = request.GET['PatienID']
+    except:
+        patient_id = ''
+    try:
+        first_data_service = request.GET['FirstDateOfService']
+    except:
+        first_data_service = ''
+    #patient_id = 'd8a697b04ce7424fae4e351585675b8e'
+    #first_data_service = '12/23/2015'
     params = [start_date,end_date,procedure_id,network_id,company_id,facility_npi,patient_id,first_data_service,procedure_code]
     strd_data_list = stored_procedure_calling_list('rptEpisodeDetails', params)
     epi_name = {}
     final_epi_details = []
     for epi_dict in strd_data_list:
-        epi_code = epi_dict['col_6']
+        epi_code = epi_dict['col_6'] + str(epi_dict['col_10'])
+        #epi_code = epi_dict['col_6']
         if epi_name.has_key(epi_code):
             if epi_name[epi_code].has_key(epi_dict['col_19']):
                 epi_name[epi_code][epi_dict['col_19']].append(epi_dict)
@@ -854,6 +870,15 @@ def procedure_pricing_episode(request):
         else:
             epi_name[epi_code] = {}
             epi_name[epi_code][epi_dict['col_19']] = [epi_dict]
+
+        """if epi_name.has_key(epi_code):
+            if epi_name[epi_code].has_key(epi_dict['col_19']):
+                epi_name[epi_code][epi_dict['col_19']].append(epi_dict)
+            else:
+                epi_name[epi_code][epi_dict['col_19']] = [epi_dict]
+        else:
+            epi_name[epi_code] = {}
+            epi_name[epi_code][epi_dict['col_19']] = [epi_dict]"""
 
         final_epi_details = []
         for ep_cc_key, ep_cc_value in epi_name.iteritems():
@@ -1030,9 +1055,15 @@ def pr_code_summary(request):
     strd_data_list = stored_procedure_calling_list('rptProcedureCodeSummaryForProcedure', params)
     final_data_list = []
     for pr_dict in strd_data_list:
-        avg_amt = float('%.2f' % round(float(pr_dict['col_10']), 0))
-        min_amt = float('%.2f' % round(float(pr_dict['col_8']), 0))
-        max_amt = float('%.2f' % round(float(pr_dict['col_9']), 0))
+        avg_amt = 0
+        if pr_dict['col_10']!=None:
+            avg_amt = float('%.2f' % round(float(pr_dict['col_10']), 0))
+        min_amt = 0
+        if pr_dict['col_8']!=None:
+            min_amt = float('%.2f' % round(float(pr_dict['col_8']), 0))
+        max_amt = 0
+        if pr_dict['col_9']!=None:
+            max_amt = float('%.2f' % round(float(pr_dict['col_9']), 0))
         pr_dict['col_8'] = '$' + str(format(min_amt, '0,.0f'))
         pr_dict['col_9'] = '$' + str(format(max_amt, '0,.0f'))
         pr_dict['col_10'] = '$' + str(format(avg_amt, '0,.0f'))
